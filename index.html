@@ -1,0 +1,2102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#2563eb">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="生活费">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+  <title>生活费管家</title>
+  <style>
+    /* ---------- 基础样式：手机优先、简洁、无动画 ---------- */
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --blue: #2563eb;
+      --blue-dark: #1d4ed8;
+      --blue-soft: #dbeafe;
+      --red: #b91c1c;
+      --text: #18202f;
+      --muted: #667085;
+      --line: #e4e7ec;
+      --page: #f3f5f9;
+      --card: #ffffff;
+    }
+
+    html {
+      background: var(--page);
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      background: var(--page);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    /* 主内容区域为手机宽度，并给底部导航留出安全空间 */
+    .app {
+      width: 100%;
+      max-width: 560px;
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: max(18px, env(safe-area-inset-top)) 16px
+        calc(96px + env(safe-area-inset-bottom));
+    }
+
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow {
+      margin: 0 0 4px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    h1,
+    h2,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 0;
+      font-size: 24px;
+      line-height: 1.2;
+    }
+
+    h2 {
+      margin-bottom: 0;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .install-button {
+      display: none;
+      min-height: 38px;
+      padding: 0 12px;
+      border: 1px solid var(--blue);
+      border-radius: 9px;
+      background: #ffffff;
+      color: var(--blue-dark);
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    /* ---------- 首页 ---------- */
+    .hero {
+      margin-bottom: 14px;
+      padding: 22px;
+      border-radius: 18px;
+      background: var(--blue-dark);
+      color: #ffffff;
+    }
+
+    .hero.negative {
+      background: var(--red);
+    }
+
+    .hero-label {
+      display: block;
+      margin-bottom: 8px;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 15px;
+    }
+
+    .hero-amount {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 42px;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      font-variant-numeric: tabular-nums;
+      overflow-wrap: anywhere;
+    }
+
+    .hero-note {
+      margin-bottom: 0;
+      color: rgba(255, 255, 255, 0.86);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .hero-warning {
+      margin: 8px 0 0;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .hero-warning:empty {
+      display: none;
+    }
+
+    .hero.warning-yellow {
+      background: #d97706;
+    }
+
+    .hero.warning-orange {
+      background: #ea580c;
+    }
+
+    .hero.warning-red {
+      background: #b91c1c;
+    }
+
+    .budget-alert {
+      margin: 0 0 14px;
+      padding: 11px 14px;
+      border: 1px solid #fcd34d;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .budget-alert.yellow {
+      border-color: #fcd34d;
+      background: #fffbeb;
+      color: #92400e;
+    }
+
+    .budget-alert.orange {
+      border-color: #fdba74;
+      background: #fff7ed;
+      color: #9a3412;
+    }
+
+    .budget-alert.red {
+      border-color: #fca5a5;
+      background: #fef2f2;
+      color: #b91c1c;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .stat-card {
+      min-width: 0;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--card);
+    }
+
+    .stat-card-wide {
+      grid-column: 1 / -1;
+    }
+
+    .stat-label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .stat-value {
+      display: block;
+      font-size: 21px;
+      line-height: 1.25;
+      font-variant-numeric: tabular-nums;
+      overflow-wrap: anywhere;
+    }
+
+    .stat-note {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .unexpected-alert {
+      margin: 10px 0 0;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .unexpected-alert.yellow {
+      background: #fffbeb;
+      color: #92400e;
+    }
+
+    .unexpected-alert.orange {
+      background: #fff7ed;
+      color: #9a3412;
+    }
+
+    .unexpected-alert.red {
+      background: #fef2f2;
+      color: #b91c1c;
+    }
+
+    .card {
+      margin-top: 14px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--card);
+    }
+
+    .card-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .badge {
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: var(--blue-dark);
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .formula {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+      overflow-wrap: anywhere;
+    }
+
+    /* ---------- 记账和预算表单 ---------- */
+    .page-title {
+      margin-bottom: 16px;
+    }
+
+    .page-title p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label,
+    legend {
+      display: block;
+      margin-bottom: 8px;
+      color: #344054;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .amount-input {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      min-height: 56px;
+      padding: 0 14px;
+      border: 1px solid #cfd4dc;
+      border-radius: 12px;
+      background: #ffffff;
+    }
+
+    .amount-input:focus-within {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .amount-input .currency {
+      color: #475467;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .amount-input input {
+      width: 100%;
+      min-width: 0;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--text);
+      font-size: 24px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* 隐藏浏览器数字输入框的上下按钮，保持手机界面简洁 */
+    .amount-input input::-webkit-outer-spin-button,
+    .amount-input input::-webkit-inner-spin-button {
+      margin: 0;
+      -webkit-appearance: none;
+    }
+
+    .amount-input input[type="number"] {
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+
+    fieldset {
+      min-width: 0;
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .category-button {
+      min-height: 50px;
+      padding: 8px 6px;
+      border: 1px solid #d0d5dd;
+      border-radius: 10px;
+      background: #ffffff;
+      color: #344054;
+      font-size: 14px;
+    }
+
+    .category-button.selected {
+      border-color: var(--blue);
+      background: var(--blue-soft);
+      color: var(--blue-dark);
+      font-weight: 700;
+    }
+
+    .primary-button {
+      width: 100%;
+      min-height: 52px;
+      border: 0;
+      border-radius: 12px;
+      background: var(--blue);
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .primary-button:active {
+      background: var(--blue-dark);
+    }
+
+    .hint {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .text-input {
+      width: 100%;
+      min-height: 50px;
+      padding: 0 14px;
+      border: 1px solid #cfd4dc;
+      border-radius: 12px;
+      background: #ffffff;
+      color: var(--text);
+      font-size: 16px;
+    }
+
+    .text-input:focus {
+      outline: 0;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .record-list {
+      display: block;
+    }
+
+    .record-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .record-item:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .record-info {
+      display: flex;
+      min-width: 0;
+      flex: 1;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .record-category {
+      font-size: 15px;
+      overflow-wrap: anywhere;
+    }
+
+    .record-date {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .record-side {
+      display: flex;
+      flex-shrink: 0;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+
+    .record-amount {
+      font-size: 15px;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .delete-button {
+      min-height: 30px;
+      padding: 0 9px;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #b42318;
+      font-size: 12px;
+    }
+
+    .empty-records {
+      margin: 0;
+      padding: 14px 0;
+      color: var(--muted);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .ranking-list {
+      display: block;
+    }
+
+    .ranking-item {
+      margin-bottom: 14px;
+    }
+
+    .ranking-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .ranking-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .ranking-name {
+      min-width: 0;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .ranking-value {
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .ranking-bar {
+      width: 100%;
+      height: 8px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e5e7eb;
+    }
+
+    .ranking-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: var(--blue);
+    }
+
+    .chart-canvas {
+      display: block;
+      width: 100%;
+      min-height: 220px;
+    }
+
+    .forecast-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .forecast-item {
+      min-width: 0;
+      padding: 12px;
+      border-radius: 12px;
+      background: #f8fafc;
+    }
+
+    .forecast-label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .forecast-value {
+      display: block;
+      font-size: 18px;
+      font-variant-numeric: tabular-nums;
+      overflow-wrap: anywhere;
+    }
+
+    .forecast-alert {
+      margin: 12px 0 0;
+      padding: 10px 12px;
+      border: 1px solid #fca5a5;
+      border-radius: 10px;
+      background: #fef2f2;
+      color: #b91c1c;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .budget-current {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .budget-current span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .budget-current strong {
+      font-size: 24px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ---------- 底部导航：只保留三个页面入口 ---------- */
+    .bottom-nav {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 10;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      width: 100%;
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
+      border-top: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.98);
+    }
+
+    .nav-button {
+      min-height: 50px;
+      border: 0;
+      border-radius: 10px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .nav-button.active {
+      background: #eff6ff;
+      color: var(--blue-dark);
+      font-weight: 700;
+    }
+
+    /* 简短提示条，不使用动画 */
+    .toast {
+      position: fixed;
+      right: 20px;
+      bottom: calc(82px + env(safe-area-inset-bottom));
+      left: 20px;
+      z-index: 20;
+      display: none;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 11px 14px;
+      border-radius: 999px;
+      background: #111827;
+      color: #ffffff;
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.4;
+      overflow-wrap: anywhere;
+    }
+
+    .toast.show {
+      display: block;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* 小屏幕下适当缩小金额字号，避免金额换行 */
+    @media (max-width: 360px) {
+      .hero-amount {
+        font-size: 36px;
+      }
+
+      .category-button {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <div>
+        <p class="eyebrow" id="monthLabel">本月</p>
+        <h1>生活费管家</h1>
+      </div>
+      <button class="install-button" id="installButton" type="button">添加到桌面</button>
+    </header>
+
+    <main>
+      <!-- 首页：第一眼展示今天还能花多少钱 -->
+      <section class="page active" id="homePage" aria-labelledby="homeTitle">
+        <h2 class="sr-only" id="homeTitle">首页</h2>
+
+        <div class="hero" id="heroCard">
+          <span class="hero-label">今日建议消费</span>
+          <strong class="hero-amount" id="todayAmount">¥0.00</strong>
+          <p class="hero-note" id="todayNote">正在计算本月预算。</p>
+          <p class="hero-warning" id="safeWarning"></p>
+        </div>
+
+        <p class="budget-alert" id="budgetAlert" hidden></p>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <span class="stat-label">本月剩余金额</span>
+            <strong class="stat-value" id="remainingAmount">¥0.00</strong>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">本月已消费金额</span>
+            <strong class="stat-value" id="spentAmount">¥0.00</strong>
+          </article>
+          <article class="stat-card stat-card-wide">
+            <span class="stat-label">可消费预算</span>
+            <strong class="stat-value" id="consumableBudget">¥0.00</strong>
+          </article>
+          <article class="stat-card stat-card-wide">
+            <span class="stat-label">意外支出剩余</span>
+            <strong class="stat-value" id="unexpectedRemaining">¥200.00 / ¥200.00</strong>
+            <span class="stat-note" id="unexpectedUsed">已使用 ¥0.00</span>
+            <p class="unexpected-alert" id="unexpectedAlert" hidden></p>
+          </article>
+        </div>
+
+        <section class="card" aria-labelledby="formulaTitle">
+          <div class="card-title-row">
+            <h2 id="formulaTitle">动态预算</h2>
+            <span class="badge">实时计算</span>
+          </div>
+          <p class="formula" id="formulaText">（可消费预算 − 已消费金额）÷ 剩余天数</p>
+        </section>
+      </section>
+
+      <!-- 记账页：输入金额、分类、日期和备注 -->
+      <section class="page" id="recordPage" aria-labelledby="recordTitle">
+        <div class="page-title">
+          <h2 id="recordTitle">记一笔</h2>
+          <p>填写金额、分类和日期，保存后首页金额会立即更新。</p>
+        </div>
+
+        <form id="expenseForm" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="amountInput">消费金额</label>
+            <div class="amount-input">
+              <span class="currency" aria-hidden="true">¥</span>
+              <input
+                id="amountInput"
+                name="amount"
+                type="number"
+                inputmode="decimal"
+                min="0.01"
+                step="0.01"
+                placeholder="0.00"
+                autocomplete="off"
+              >
+            </div>
+          </div>
+
+          <fieldset class="form-group">
+            <legend>消费分类</legend>
+            <div class="category-grid" id="categoryGrid">
+              <button class="category-button" type="button" data-category="早餐" aria-pressed="false">早餐</button>
+              <button class="category-button" type="button" data-category="午餐" aria-pressed="false">午餐</button>
+              <button class="category-button" type="button" data-category="晚餐" aria-pressed="false">晚餐</button>
+              <button class="category-button" type="button" data-category="水果零食" aria-pressed="false">水果零食</button>
+              <button class="category-button" type="button" data-category="水电热水" aria-pressed="false">水电热水</button>
+              <button class="category-button" type="button" data-category="话费" aria-pressed="false">话费</button>
+              <button class="category-button" type="button" data-category="学习" aria-pressed="false">学习</button>
+              <button class="category-button" type="button" data-category="娱乐" aria-pressed="false">娱乐</button>
+              <button class="category-button" type="button" data-category="交通" aria-pressed="false">交通</button>
+              <button class="category-button" type="button" data-category="意外支出" aria-pressed="false">意外支出</button>
+              <button class="category-button" type="button" data-category="其他" aria-pressed="false">其他</button>
+            </div>
+          </fieldset>
+
+          <div class="form-group">
+            <label class="form-label" for="expenseDate">消费日期</label>
+            <input
+              class="text-input"
+              id="expenseDate"
+              name="date"
+              type="date"
+              autocomplete="off"
+            >
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="expenseNote">备注（可选）</label>
+            <input
+              class="text-input"
+              id="expenseNote"
+              name="note"
+              type="text"
+              maxlength="60"
+              placeholder="例如：和朋友聚餐"
+              autocomplete="off"
+            >
+          </div>
+
+          <button class="primary-button" type="submit">保存记录</button>
+        </form>
+
+        <p class="hint">数据只保存在当前手机浏览器中，不需要登录，也不会上传到服务器。</p>
+
+        <section class="card" aria-labelledby="recentRecordsTitle">
+          <div class="card-title-row">
+            <h2 id="recentRecordsTitle">最近20条消费记录</h2>
+          </div>
+          <div class="record-list" id="expenseList"></div>
+        </section>
+      </section>
+
+      <!-- 预算页：修改每月生活费预算 -->
+      <section class="page" id="budgetPage" aria-labelledby="budgetTitle">
+        <div class="page-title">
+          <h2 id="budgetTitle">月预算设置</h2>
+          <p>预算修改后会自动保存，刷新页面后仍会保留。</p>
+        </div>
+
+        <section class="card">
+          <div class="budget-current">
+            <span>当前可消费预算</span>
+            <strong id="currentConsumableBudget">¥1080.00</strong>
+          </div>
+
+          <form id="budgetForm" novalidate>
+            <div class="form-group">
+              <label class="form-label" for="livingBudgetInput">月生活费</label>
+              <div class="amount-input">
+                <span class="currency" aria-hidden="true">¥</span>
+                <input
+                  id="livingBudgetInput"
+                  name="living"
+                  data-setting="living"
+                  type="number"
+                  inputmode="decimal"
+                  min="0.01"
+                  step="0.01"
+                  placeholder="2000.00"
+                  autocomplete="off"
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="savingsGoalInput">储蓄目标</label>
+              <div class="amount-input">
+                <span class="currency" aria-hidden="true">¥</span>
+                <input
+                  id="savingsGoalInput"
+                  name="savings"
+                  data-setting="savings"
+                  type="number"
+                  inputmode="decimal"
+                  min="0"
+                  step="0.01"
+                  placeholder="600.00"
+                  autocomplete="off"
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="studyBudgetInput">学习预算</label>
+              <div class="amount-input">
+                <span class="currency" aria-hidden="true">¥</span>
+                <input
+                  id="studyBudgetInput"
+                  name="study"
+                  data-setting="study"
+                  type="number"
+                  inputmode="decimal"
+                  min="0"
+                  step="0.01"
+                  placeholder="200.00"
+                  autocomplete="off"
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="fixedExpenseInput">固定支出</label>
+              <div class="amount-input">
+                <span class="currency" aria-hidden="true">¥</span>
+                <input
+                  id="fixedExpenseInput"
+                  name="fixed"
+                  data-setting="fixed"
+                  type="number"
+                  inputmode="decimal"
+                  min="0"
+                  step="0.01"
+                  placeholder="120.00"
+                  autocomplete="off"
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="entertainmentBudgetInput">娱乐预算</label>
+              <div class="amount-input">
+                <span class="currency" aria-hidden="true">¥</span>
+                <input
+                  id="entertainmentBudgetInput"
+                  name="entertainment"
+                  data-setting="entertainment"
+                  type="number"
+                  inputmode="decimal"
+                  min="0"
+                  step="0.01"
+                  placeholder="80.00"
+                  autocomplete="off"
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="unexpectedBudgetInput">意外支出预算</label>
+              <div class="amount-input">
+                <span class="currency" aria-hidden="true">¥</span>
+                <input
+                  id="unexpectedBudgetInput"
+                  name="unexpected"
+                  data-setting="unexpected"
+                  type="number"
+                  inputmode="decimal"
+                  min="0"
+                  step="0.01"
+                  placeholder="200.00"
+                  autocomplete="off"
+                >
+              </div>
+            </div>
+          </form>
+
+          <p class="hint">修改后自动保存。意外支出预算单独统计，不参与可消费预算公式。</p>
+        </section>
+      </section>
+
+      <!-- 统计页：本月汇总、分类排行、图表和月底预测 -->
+      <section class="page" id="statsPage" aria-labelledby="statsTitle">
+        <div class="page-title">
+          <h2 id="statsTitle">统计</h2>
+          <p>根据当前月消费记录自动统计。</p>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <span class="stat-label">今日消费</span>
+            <strong class="stat-value" id="statsTodaySpent">¥0.00</strong>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">本周消费</span>
+            <strong class="stat-value" id="statsWeekSpent">¥0.00</strong>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">本月消费</span>
+            <strong class="stat-value" id="statsMonthSpent">¥0.00</strong>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">本月剩余预算</span>
+            <strong class="stat-value" id="statsRemainingBudget">¥0.00</strong>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">本月已消费金额</span>
+            <strong class="stat-value" id="statsSpentAmount">¥0.00</strong>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">本月预算使用率</span>
+            <strong class="stat-value" id="statsUsageRate">0%</strong>
+          </article>
+        </div>
+
+        <section class="card" aria-labelledby="rankingTitle">
+          <div class="card-title-row">
+            <h2 id="rankingTitle">分类消费排行榜</h2>
+          </div>
+          <div class="ranking-list" id="categoryRanking"></div>
+        </section>
+
+        <section class="card" aria-labelledby="pieChartTitle">
+          <div class="card-title-row">
+            <h2 id="pieChartTitle">分类占比</h2>
+          </div>
+          <canvas class="chart-canvas" id="categoryPieChart" aria-label="分类消费占比饼图"></canvas>
+        </section>
+
+        <section class="card" aria-labelledby="barChartTitle">
+          <div class="card-title-row">
+            <h2 id="barChartTitle">分类金额</h2>
+          </div>
+          <canvas class="chart-canvas" id="categoryBarChart" aria-label="分类消费金额柱状图"></canvas>
+        </section>
+
+        <section class="card" aria-labelledby="forecastTitle">
+          <div class="card-title-row">
+            <h2 id="forecastTitle">月底预测</h2>
+          </div>
+          <div class="forecast-grid">
+            <div class="forecast-item">
+              <span class="forecast-label">预计月底总消费</span>
+              <strong class="forecast-value" id="forecastSpent">¥0.00</strong>
+            </div>
+            <div class="forecast-item">
+              <span class="forecast-label">预计月底剩余</span>
+              <strong class="forecast-value" id="forecastRemaining">¥0.00</strong>
+            </div>
+          </div>
+          <p class="forecast-alert" id="forecastAlert" hidden></p>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <nav class="bottom-nav" aria-label="主要功能">
+    <button class="nav-button active" type="button" data-page="homePage" aria-current="page">首页</button>
+    <button class="nav-button" type="button" data-page="recordPage">记账</button>
+    <button class="nav-button" type="button" data-page="budgetPage">预算</button>
+    <button class="nav-button" type="button" data-page="statsPage">统计</button>
+  </nav>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      /* ---------- 固定配置和本地存储键名 ---------- */
+      var DEFAULT_BUDGET_SETTINGS = {
+        living: 2000,
+        savings: 600,
+        study: 200,
+        fixed: 120,
+        entertainment: 80,
+        unexpected: 200
+      };
+      var LEGACY_BUDGET_KEY = "collegeLifeBudgetV1";
+      var BUDGET_SETTINGS_KEY = "collegeLifeBudgetSettingsV2";
+      var EXPENSES_KEY = "collegeLifeExpensesV1";
+      var UNEXPECTED_CATEGORY = "意外支出";
+      var CATEGORY_NAMES = [
+        "早餐", "午餐", "晚餐", "水果零食", "水电热水",
+        "话费", "学习", "娱乐", "交通", "意外支出", "其他"
+      ];
+      var CHART_COLORS = [
+        "#2563eb", "#3b82f6", "#60a5fa", "#93c5fd",
+        "#1d4ed8", "#0ea5e9", "#7dd3fc", "#38bdf8",
+        "#6366f1", "#a5b4fc", "#818cf8"
+      ];
+
+      /* ---------- 页面元素 ---------- */
+      var elements = {
+        monthLabel: document.getElementById("monthLabel"),
+        todayAmount: document.getElementById("todayAmount"),
+        todayNote: document.getElementById("todayNote"),
+        remainingAmount: document.getElementById("remainingAmount"),
+        spentAmount: document.getElementById("spentAmount"),
+        formulaText: document.getElementById("formulaText"),
+        heroCard: document.getElementById("heroCard"),
+        safeWarning: document.getElementById("safeWarning"),
+        budgetAlert: document.getElementById("budgetAlert"),
+        unexpectedRemaining: document.getElementById("unexpectedRemaining"),
+        unexpectedUsed: document.getElementById("unexpectedUsed"),
+        unexpectedAlert: document.getElementById("unexpectedAlert"),
+        consumableBudget: document.getElementById("consumableBudget"),
+        currentConsumableBudget: document.getElementById("currentConsumableBudget"),
+        budgetForm: document.getElementById("budgetForm"),
+        budgetInputs: Array.prototype.slice.call(
+          document.querySelectorAll("[data-setting]")
+        ),
+        amountInput: document.getElementById("amountInput"),
+        expenseForm: document.getElementById("expenseForm"),
+        expenseDate: document.getElementById("expenseDate"),
+        expenseNote: document.getElementById("expenseNote"),
+        expenseList: document.getElementById("expenseList"),
+        categoryGrid: document.getElementById("categoryGrid"),
+        statsPage: document.getElementById("statsPage"),
+        statsTodaySpent: document.getElementById("statsTodaySpent"),
+        statsWeekSpent: document.getElementById("statsWeekSpent"),
+        statsMonthSpent: document.getElementById("statsMonthSpent"),
+        statsRemainingBudget: document.getElementById("statsRemainingBudget"),
+        statsSpentAmount: document.getElementById("statsSpentAmount"),
+        statsUsageRate: document.getElementById("statsUsageRate"),
+        categoryRanking: document.getElementById("categoryRanking"),
+        categoryPieChart: document.getElementById("categoryPieChart"),
+        categoryBarChart: document.getElementById("categoryBarChart"),
+        forecastSpent: document.getElementById("forecastSpent"),
+        forecastRemaining: document.getElementById("forecastRemaining"),
+        forecastAlert: document.getElementById("forecastAlert"),
+        installButton: document.getElementById("installButton"),
+        toast: document.getElementById("toast"),
+        navButtons: Array.prototype.slice.call(
+          document.querySelectorAll(".nav-button")
+        ),
+        pages: Array.prototype.slice.call(document.querySelectorAll(".page")),
+        categoryButtons: Array.prototype.slice.call(
+          document.querySelectorAll(".category-button")
+        )
+      };
+
+      /* ---------- 应用状态 ---------- */
+      var state = {
+        settings: Object.assign({}, DEFAULT_BUDGET_SETTINGS),
+        expenses: [],
+        selectedCategory: ""
+      };
+
+      var toastTimer = null;
+      var deferredInstallPrompt = null;
+
+      /* ---------- 通用工具函数 ---------- */
+      function roundMoney(value) {
+        return Math.round((Number(value) + Number.EPSILON) * 100) / 100;
+      }
+
+      function formatMoney(value) {
+        var normalized = Math.abs(Number(value) || 0);
+        return normalized.toFixed(2);
+      }
+
+      function formatSignedMoney(value) {
+        return (Number(value) < 0 ? "-¥" : "¥") + formatMoney(value);
+      }
+
+      function parseBudgetValue(value, fallback, allowZero) {
+        var number = Number(value);
+        var isValid = Number.isFinite(number) && (allowZero ? number >= 0 : number > 0);
+        return isValid ? roundMoney(number) : fallback;
+      }
+
+      function createId() {
+        if (window.crypto && typeof window.crypto.randomUUID === "function") {
+          return window.crypto.randomUUID();
+        }
+        return String(Date.now()) + "-" + Math.random().toString(16).slice(2);
+      }
+
+      function toDateKey(date) {
+        var year = date.getFullYear();
+        var month = String(date.getMonth() + 1).padStart(2, "0");
+        var day = String(date.getDate()).padStart(2, "0");
+        return year + "-" + month + "-" + day;
+      }
+
+      function toMonthKey(date) {
+        var year = date.getFullYear();
+        var month = String(date.getMonth() + 1).padStart(2, "0");
+        return year + "-" + month;
+      }
+
+      /* 剩余天数包含今天：例如月底当天返回 1。 */
+      function getRemainingDays(date) {
+        var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+        return Math.max(1, lastDay - date.getDate() + 1);
+      }
+
+      function getMonthLabel(date) {
+        return date.getFullYear() + "年" + (date.getMonth() + 1) + "月";
+      }
+
+      function showToast(message) {
+        elements.toast.textContent = message;
+        elements.toast.classList.add("show");
+
+        if (toastTimer) {
+          window.clearTimeout(toastTimer);
+        }
+
+        toastTimer = window.setTimeout(function () {
+          elements.toast.classList.remove("show");
+        }, 2200);
+      }
+
+      /* ---------- localStorage 读取和保存 ---------- */
+      function parseBudgetSettings(raw) {
+        var parsed = {};
+
+        try {
+          parsed = JSON.parse(raw || "{}");
+        } catch (error) {
+          parsed = {};
+        }
+
+        return {
+          living: parseBudgetValue(parsed.living, DEFAULT_BUDGET_SETTINGS.living, false),
+          savings: parseBudgetValue(parsed.savings, DEFAULT_BUDGET_SETTINGS.savings, true),
+          study: parseBudgetValue(parsed.study, DEFAULT_BUDGET_SETTINGS.study, true),
+          fixed: parseBudgetValue(parsed.fixed, DEFAULT_BUDGET_SETTINGS.fixed, true),
+          entertainment: parseBudgetValue(
+            parsed.entertainment,
+            DEFAULT_BUDGET_SETTINGS.entertainment,
+            true
+          ),
+          unexpected: parseBudgetValue(
+            parsed.unexpected,
+            DEFAULT_BUDGET_SETTINGS.unexpected,
+            true
+          )
+        };
+      }
+
+      function loadBudgetSettings() {
+        var settings = Object.assign({}, DEFAULT_BUDGET_SETTINGS);
+
+        try {
+          var raw = window.localStorage.getItem(BUDGET_SETTINGS_KEY);
+          if (raw !== null) {
+            return parseBudgetSettings(raw);
+          }
+
+          // 兼容旧版本只有一个“月预算”的存储数据。
+          var legacyBudget = window.localStorage.getItem(LEGACY_BUDGET_KEY);
+          if (legacyBudget !== null) {
+            settings.living = parseBudgetValue(
+              legacyBudget,
+              DEFAULT_BUDGET_SETTINGS.living,
+              false
+            );
+          }
+        } catch (error) {
+          return settings;
+        }
+
+        return settings;
+      }
+
+      function saveBudgetSettings() {
+        try {
+          window.localStorage.setItem(BUDGET_SETTINGS_KEY, JSON.stringify(state.settings));
+          return true;
+        } catch (error) {
+          showToast("浏览器存储不可用，本次修改只在当前页面有效");
+          return false;
+        }
+      }
+
+      function isValidDateKey(value) {
+        return typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value);
+      }
+
+      function loadExpenses() {
+        try {
+          var parsed = JSON.parse(window.localStorage.getItem(EXPENSES_KEY) || "[]");
+          if (!Array.isArray(parsed)) {
+            return [];
+          }
+
+          // 对本地数据做一次清理，避免错误数据影响计算。
+          return parsed
+            .filter(function (item) {
+              return item &&
+                Number.isFinite(Number(item.amount)) &&
+                Number(item.amount) > 0 &&
+                typeof item.category === "string" &&
+                isValidDateKey(item.date);
+            })
+            .map(function (item) {
+              return {
+                id: item.id || createId(),
+                amount: roundMoney(Number(item.amount)),
+                category: item.category,
+                date: item.date,
+                note: typeof item.note === "string" ? item.note : "",
+                createdAt: item.createdAt || ""
+              };
+            });
+        } catch (error) {
+          return [];
+        }
+      }
+
+      function saveExpenses() {
+        try {
+          window.localStorage.setItem(EXPENSES_KEY, JSON.stringify(state.expenses));
+          return true;
+        } catch (error) {
+          showToast("浏览器存储不可用，本次记录只在当前页面有效");
+          return false;
+        }
+      }
+
+      /* ---------- 预算计算 ---------- */
+      function calculateMonthData() {
+        var now = new Date();
+        var monthKey = toMonthKey(now);
+        var spent = state.expenses.reduce(function (total, item) {
+          return item.date.indexOf(monthKey) === 0 ? total + Number(item.amount) : total;
+        }, 0);
+        var unexpectedSpent = state.expenses.reduce(function (total, item) {
+          var isCurrentMonth = item.date.indexOf(monthKey) === 0;
+          var isUnexpected = item.category === UNEXPECTED_CATEGORY;
+          return isCurrentMonth && isUnexpected ? total + Number(item.amount) : total;
+        }, 0);
+        var unexpectedBudget = state.settings.unexpected;
+        var unexpectedRemaining = unexpectedBudget - unexpectedSpent;
+        var unexpectedUsageRate = unexpectedBudget > 0
+          ? (unexpectedSpent / unexpectedBudget) * 100
+          : (unexpectedSpent > 0 ? 100 : 0);
+
+        // 可消费预算 = 月生活费 - 储蓄目标 - 学习预算 - 固定支出。
+        // 娱乐预算和意外支出预算按当前规则只保存，不参与这个公式。
+        var consumableBudget = state.settings.living -
+          state.settings.savings -
+          state.settings.study -
+          state.settings.fixed;
+        var remaining = consumableBudget - spent;
+        var remainingDays = getRemainingDays(now);
+        var todayAvailable = remaining / remainingDays;
+
+        return {
+          date: now,
+          monthLabel: getMonthLabel(now),
+          remainingDays: remainingDays,
+          spent: roundMoney(spent),
+          unexpectedSpent: roundMoney(unexpectedSpent),
+          unexpectedBudget: roundMoney(unexpectedBudget),
+          unexpectedRemaining: roundMoney(unexpectedRemaining),
+          unexpectedUsageRate: unexpectedUsageRate,
+          consumableBudget: roundMoney(consumableBudget),
+          remaining: roundMoney(remaining),
+          todayAvailable: roundMoney(todayAvailable)
+        };
+      }
+
+      /* ---------- 渲染首页数据 ---------- */
+      function renderHome() {
+        var data = calculateMonthData();
+        var todayIsNegative = data.todayAvailable < 0;
+        var consumableIsNegative = data.consumableBudget < 0;
+
+        elements.monthLabel.textContent = data.monthLabel;
+        elements.todayAmount.textContent = todayIsNegative
+          ? "-¥" + formatMoney(data.todayAvailable)
+          : "¥" + formatMoney(data.todayAvailable);
+        elements.remainingAmount.textContent = data.remaining < 0
+          ? "-¥" + formatMoney(data.remaining)
+          : "¥" + formatMoney(data.remaining);
+        elements.spentAmount.textContent = "¥" + formatMoney(data.spent);
+        elements.consumableBudget.textContent = consumableIsNegative
+          ? "-¥" + formatMoney(data.consumableBudget)
+          : "¥" + formatMoney(data.consumableBudget);
+        elements.currentConsumableBudget.textContent = consumableIsNegative
+          ? "-¥" + formatMoney(data.consumableBudget)
+          : "¥" + formatMoney(data.consumableBudget);
+
+        elements.heroCard.classList.remove(
+          "negative",
+          "warning-yellow",
+          "warning-orange",
+          "warning-red"
+        );
+
+        var todayWarning = getTodayWarning(data.todayAvailable);
+        if (todayWarning) {
+          elements.heroCard.classList.add(todayWarning.className);
+          elements.safeWarning.textContent = todayWarning.text;
+        } else {
+          elements.safeWarning.textContent = "";
+        }
+
+        var budgetWarning = getBudgetWarning(data);
+        if (budgetWarning) {
+          elements.budgetAlert.hidden = false;
+          elements.budgetAlert.className = "budget-alert " + budgetWarning.className;
+          elements.budgetAlert.textContent = budgetWarning.text;
+        } else {
+          elements.budgetAlert.hidden = true;
+          elements.budgetAlert.className = "budget-alert";
+          elements.budgetAlert.textContent = "";
+        }
+
+        elements.unexpectedRemaining.textContent =
+          (data.unexpectedRemaining < 0 ? "-¥" : "¥") +
+          formatMoney(data.unexpectedRemaining) +
+          " / ¥" + formatMoney(data.unexpectedBudget);
+        elements.unexpectedUsed.textContent = "已使用 ¥" + formatMoney(data.unexpectedSpent);
+
+        var unexpectedWarning = getUnexpectedWarning(data.unexpectedUsageRate);
+        if (unexpectedWarning) {
+          elements.unexpectedAlert.hidden = false;
+          elements.unexpectedAlert.className = "unexpected-alert " + unexpectedWarning.className;
+          elements.unexpectedAlert.textContent = unexpectedWarning.text;
+        } else {
+          elements.unexpectedAlert.hidden = true;
+          elements.unexpectedAlert.className = "unexpected-alert";
+          elements.unexpectedAlert.textContent = "";
+        }
+
+        if (data.remaining < 0) {
+          elements.todayNote.textContent =
+            "本月已超支 ¥" + formatMoney(data.remaining) +
+            "，剩余 " + data.remainingDays + " 天。";
+        } else if (data.remaining === 0) {
+          elements.todayNote.textContent =
+            "可消费预算刚好用完，剩余 " + data.remainingDays + " 天。";
+        } else {
+          elements.todayNote.textContent =
+            "按剩余 " + data.remainingDays + " 天平均计算。";
+        }
+
+        elements.formulaText.textContent =
+          "（" + formatSignedMoney(data.consumableBudget) +
+          " − ¥" + formatMoney(data.spent) +
+          "）÷ " + data.remainingDays + " 天 = " +
+          formatSignedMoney(data.todayAvailable);
+      }
+
+      /* ---------- 渲染预算输入框 ---------- */
+      function renderBudgetInputs() {
+        // 用户正在输入时不要覆盖输入内容。
+        elements.budgetInputs.forEach(function (input) {
+          if (document.activeElement !== input) {
+            var settingKey = input.getAttribute("data-setting");
+            input.value = formatMoney(state.settings[settingKey]);
+          }
+        });
+      }
+
+      function getRecentExpenses(limit) {
+        return state.expenses
+          .slice()
+          .sort(function (first, second) {
+            var dateCompare = String(second.date).localeCompare(String(first.date));
+            if (dateCompare !== 0) {
+              return dateCompare;
+            }
+            return String(second.createdAt || "").localeCompare(String(first.createdAt || ""));
+          })
+          .slice(0, limit);
+      }
+
+      function renderExpenseList() {
+        elements.expenseList.textContent = "";
+        var recentExpenses = getRecentExpenses(20);
+
+        if (recentExpenses.length === 0) {
+          var empty = document.createElement("p");
+          empty.className = "empty-records";
+          empty.textContent = "暂无消费记录";
+          elements.expenseList.appendChild(empty);
+          return;
+        }
+
+        var fragment = document.createDocumentFragment();
+
+        recentExpenses.forEach(function (item) {
+          var row = document.createElement("article");
+          row.className = "record-item";
+
+          var info = document.createElement("div");
+          info.className = "record-info";
+
+          var category = document.createElement("strong");
+          category.className = "record-category";
+          category.textContent = item.category;
+
+          var date = document.createElement("span");
+          date.className = "record-date";
+          date.textContent = item.date;
+
+          info.appendChild(category);
+          info.appendChild(date);
+
+          var side = document.createElement("div");
+          side.className = "record-side";
+
+          var amount = document.createElement("strong");
+          amount.className = "record-amount";
+          amount.textContent = "¥" + formatMoney(item.amount);
+
+          var deleteButton = document.createElement("button");
+          deleteButton.type = "button";
+          deleteButton.className = "delete-button";
+          deleteButton.setAttribute("data-delete-id", item.id);
+          deleteButton.setAttribute(
+            "aria-label",
+            "删除" + item.date + " " + item.category + "消费记录"
+          );
+          deleteButton.textContent = "删除";
+
+          side.appendChild(amount);
+          side.appendChild(deleteButton);
+          row.appendChild(info);
+          row.appendChild(side);
+          fragment.appendChild(row);
+        });
+
+        elements.expenseList.appendChild(fragment);
+      }
+
+      function getWeekStartKey(date) {
+        var weekDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        var dayOffset = (weekDate.getDay() + 6) % 7;
+        weekDate.setDate(weekDate.getDate() - dayOffset);
+        return toDateKey(weekDate);
+      }
+
+      function getMonthExpenses(date) {
+        var monthKey = toMonthKey(date);
+        return state.expenses.filter(function (item) {
+          return item.date.slice(0, 7) === monthKey;
+        });
+      }
+
+      function sumExpenses(items) {
+        return roundMoney(items.reduce(function (total, item) {
+          return total + Number(item.amount);
+        }, 0));
+      }
+
+      function buildCategoryData(monthExpenses) {
+        var total = sumExpenses(monthExpenses);
+        var categoryTotals = {};
+
+        CATEGORY_NAMES.forEach(function (category) {
+          categoryTotals[category] = 0;
+        });
+
+        monthExpenses.forEach(function (item) {
+          if (typeof categoryTotals[item.category] !== "number") {
+            categoryTotals[item.category] = 0;
+          }
+          categoryTotals[item.category] += Number(item.amount);
+        });
+
+        return Object.keys(categoryTotals)
+          .map(function (category) {
+            var amount = roundMoney(categoryTotals[category]);
+            return {
+              category: category,
+              amount: amount,
+              percent: total > 0 ? (amount / total) * 100 : 0
+            };
+          })
+          .filter(function (item) {
+            return item.amount > 0;
+          })
+          .sort(function (first, second) {
+            return second.amount - first.amount;
+          });
+      }
+
+      function formatPercent(value) {
+        var rounded = Math.round(Number(value || 0) * 10) / 10;
+        return rounded.toFixed(rounded % 1 === 0 ? 0 : 1) + "%";
+      }
+
+      function getBudgetWarning(data) {
+        var usageRate = data.consumableBudget > 0
+          ? (data.spent / data.consumableBudget) * 100
+          : (data.spent > 0 ? 100 : 0);
+
+        if (usageRate >= 100) {
+          return { className: "red", text: "⚠ 已超出本月预算" };
+        }
+        if (usageRate >= 85) {
+          return { className: "orange", text: "⚠ 预算紧张，请控制消费" };
+        }
+        if (usageRate >= 70) {
+          return { className: "yellow", text: "⚠ 请注意，本月预算已使用70%" };
+        }
+        return null;
+      }
+
+      function getTodayWarning(amount) {
+        if (amount < 20) {
+          return { className: "warning-red", text: "🚨 资金告急模式" };
+        }
+        if (amount < 30) {
+          return { className: "warning-orange", text: "🔴 非常紧张，请减少非必要消费" };
+        }
+        if (amount < 50) {
+          return { className: "warning-yellow", text: "🔴 预算紧张" };
+        }
+        return null;
+      }
+
+      function getUnexpectedWarning(usageRate) {
+        if (usageRate >= 100) {
+          return { className: "red", text: "⚠ 已超出意外支出预算" };
+        }
+        if (usageRate >= 85) {
+          return { className: "orange", text: "⚠ 意外支出预算紧张" };
+        }
+        if (usageRate >= 70) {
+          return { className: "yellow", text: "⚠ 本月意外支出较高" };
+        }
+        return null;
+      }
+
+      function calculateStatistics() {
+        var now = new Date();
+        var todayKey = toDateKey(now);
+        var weekStartKey = getWeekStartKey(now);
+        var monthExpenses = getMonthExpenses(now);
+        var monthSpent = sumExpenses(monthExpenses);
+        var todaySpent = sumExpenses(monthExpenses.filter(function (item) {
+          return item.date === todayKey;
+        }));
+        var weekSpent = sumExpenses(state.expenses.filter(function (item) {
+          return item.date >= weekStartKey && item.date <= todayKey;
+        }));
+        var consumableBudget = roundMoney(
+          state.settings.living -
+          state.settings.savings -
+          state.settings.study -
+          state.settings.fixed
+        );
+        var remaining = roundMoney(consumableBudget - monthSpent);
+        var usageRate = consumableBudget > 0
+          ? (monthSpent / consumableBudget) * 100
+          : (monthSpent > 0 ? 100 : 0);
+        var daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+        var elapsedDays = Math.max(1, now.getDate());
+        var forecastTotal = roundMoney((monthSpent / elapsedDays) * daysInMonth);
+        var forecastRemaining = roundMoney(consumableBudget - forecastTotal);
+
+        return {
+          todaySpent: todaySpent,
+          weekSpent: weekSpent,
+          monthSpent: monthSpent,
+          remaining: remaining,
+          usageRate: usageRate,
+          categoryData: buildCategoryData(monthExpenses),
+          forecastTotal: forecastTotal,
+          forecastRemaining: forecastRemaining,
+          willExceed: forecastTotal > consumableBudget
+        };
+      }
+
+      function renderCategoryRanking(categoryData) {
+        elements.categoryRanking.textContent = "";
+
+        if (categoryData.length === 0) {
+          var empty = document.createElement("p");
+          empty.className = "empty-records";
+          empty.textContent = "本月暂无消费记录";
+          elements.categoryRanking.appendChild(empty);
+          return;
+        }
+
+        var fragment = document.createDocumentFragment();
+
+        categoryData.forEach(function (item, index) {
+          var row = document.createElement("div");
+          row.className = "ranking-item";
+
+          var head = document.createElement("div");
+          head.className = "ranking-head";
+
+          var name = document.createElement("span");
+          name.className = "ranking-name";
+          name.textContent = item.category;
+
+          var value = document.createElement("span");
+          value.className = "ranking-value";
+          value.textContent = "¥" + formatMoney(item.amount) + " · " + formatPercent(item.percent);
+
+          head.appendChild(name);
+          head.appendChild(value);
+
+          var bar = document.createElement("div");
+          bar.className = "ranking-bar";
+
+          var fill = document.createElement("div");
+          fill.className = "ranking-bar-fill";
+          fill.style.width = Math.max(0, Math.min(100, item.percent)) + "%";
+          fill.style.background = CHART_COLORS[index % CHART_COLORS.length];
+
+          bar.appendChild(fill);
+          row.appendChild(head);
+          row.appendChild(bar);
+          fragment.appendChild(row);
+        });
+
+        elements.categoryRanking.appendChild(fragment);
+      }
+
+      function prepareCanvas(canvas, height) {
+        var width = Math.max(240, canvas.parentElement.clientWidth || 0);
+        var pixelRatio = window.devicePixelRatio || 1;
+
+        canvas.style.width = "100%";
+        canvas.style.height = height + "px";
+        canvas.width = Math.round(width * pixelRatio);
+        canvas.height = Math.round(height * pixelRatio);
+
+        var context = canvas.getContext("2d");
+        context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+        context.clearRect(0, 0, width, height);
+
+        return {
+          context: context,
+          width: width,
+          height: height
+        };
+      }
+
+      function drawPieChart(canvas, categoryData) {
+        var chart = prepareCanvas(canvas, 230);
+        var context = chart.context;
+
+        if (categoryData.length === 0) {
+          context.fillStyle = "#e5e7eb";
+          context.beginPath();
+          context.arc(chart.width / 2, chart.height / 2, 72, 0, Math.PI * 2);
+          context.fill();
+          context.fillStyle = "#667085";
+          context.font = "14px sans-serif";
+          context.textAlign = "center";
+          context.textBaseline = "middle";
+          context.fillText("暂无消费数据", chart.width / 2, chart.height / 2);
+          return;
+        }
+
+        var total = categoryData.reduce(function (sum, item) {
+          return sum + item.amount;
+        }, 0);
+        var centerX = chart.width / 2;
+        var centerY = chart.height / 2;
+        var radius = Math.min(chart.width, chart.height) * 0.38;
+        var startAngle = -Math.PI / 2;
+
+        categoryData.forEach(function (item, index) {
+          var sliceAngle = (item.amount / total) * Math.PI * 2;
+          context.beginPath();
+          context.moveTo(centerX, centerY);
+          context.arc(centerX, centerY, radius, startAngle, startAngle + sliceAngle);
+          context.closePath();
+          context.fillStyle = CHART_COLORS[index % CHART_COLORS.length];
+          context.fill();
+          context.lineWidth = 2;
+          context.strokeStyle = "#ffffff";
+          context.stroke();
+          startAngle += sliceAngle;
+        });
+      }
+
+      function drawBarChart(canvas, categoryData) {
+        var chartHeight = Math.max(230, categoryData.length * 24 + 20);
+        var chart = prepareCanvas(canvas, chartHeight);
+        var context = chart.context;
+
+        if (categoryData.length === 0) {
+          context.fillStyle = "#667085";
+          context.font = "14px sans-serif";
+          context.textAlign = "center";
+          context.textBaseline = "middle";
+          context.fillText("暂无消费数据", chart.width / 2, chart.height / 2);
+          return;
+        }
+
+        var maximum = Math.max.apply(null, categoryData.map(function (item) {
+          return item.amount;
+        }));
+        var labelWidth = Math.min(82, chart.width * 0.28);
+        var valueWidth = 68;
+        var chartLeft = labelWidth + 8;
+        var chartWidth = Math.max(40, chart.width - chartLeft - valueWidth - 4);
+        var rowHeight = (chart.height - 16) / categoryData.length;
+
+        categoryData.forEach(function (item, index) {
+          var centerY = 8 + rowHeight * index + rowHeight / 2;
+          var barY = centerY - 5;
+          var barWidth = maximum > 0 ? chartWidth * (item.amount / maximum) : 0;
+
+          context.fillStyle = "#344054";
+          context.font = "12px sans-serif";
+          context.textAlign = "left";
+          context.textBaseline = "middle";
+          context.fillText(item.category, 0, centerY);
+
+          context.fillStyle = "#e5e7eb";
+          context.fillRect(chartLeft, barY, chartWidth, 10);
+
+          context.fillStyle = CHART_COLORS[index % CHART_COLORS.length];
+          context.fillRect(chartLeft, barY, barWidth, 10);
+
+          context.fillStyle = "#344054";
+          context.textAlign = "right";
+          context.fillText("¥" + formatMoney(item.amount), chart.width, centerY);
+        });
+      }
+
+      function renderStats() {
+        var statistics = calculateStatistics();
+
+        elements.statsTodaySpent.textContent = "¥" + formatMoney(statistics.todaySpent);
+        elements.statsWeekSpent.textContent = "¥" + formatMoney(statistics.weekSpent);
+        elements.statsMonthSpent.textContent = "¥" + formatMoney(statistics.monthSpent);
+        elements.statsSpentAmount.textContent = "¥" + formatMoney(statistics.monthSpent);
+        elements.statsRemainingBudget.textContent = statistics.remaining < 0
+          ? "-¥" + formatMoney(statistics.remaining)
+          : "¥" + formatMoney(statistics.remaining);
+        elements.statsUsageRate.textContent = formatPercent(statistics.usageRate);
+
+        elements.forecastSpent.textContent = "¥" + formatMoney(statistics.forecastTotal);
+        elements.forecastRemaining.textContent = statistics.forecastRemaining < 0
+          ? "-¥" + formatMoney(statistics.forecastRemaining)
+          : "¥" + formatMoney(statistics.forecastRemaining);
+        elements.forecastAlert.hidden = !statistics.willExceed;
+        elements.forecastAlert.textContent = statistics.willExceed
+          ? "⚠ 按当前消费速度，本月可能超支"
+          : "";
+
+        renderCategoryRanking(statistics.categoryData);
+
+        if (elements.statsPage.classList.contains("active")) {
+          drawPieChart(elements.categoryPieChart, statistics.categoryData);
+          drawBarChart(elements.categoryBarChart, statistics.categoryData);
+        }
+      }
+
+      function render() {
+        renderHome();
+        renderBudgetInputs();
+        renderExpenseList();
+        renderStats();
+      }
+
+      /* ---------- 页面切换 ---------- */
+      function openPage(pageId) {
+        elements.pages.forEach(function (page) {
+          page.classList.toggle("active", page.id === pageId);
+        });
+
+        elements.navButtons.forEach(function (button) {
+          var isActive = button.getAttribute("data-page") === pageId;
+          button.classList.toggle("active", isActive);
+          if (isActive) {
+            button.setAttribute("aria-current", "page");
+          } else {
+            button.removeAttribute("aria-current");
+          }
+        });
+
+        if (pageId === "statsPage") {
+          renderStats();
+        }
+
+        window.scrollTo(0, 0);
+      }
+
+      /* ---------- 记账事件 ---------- */
+      function selectCategory(category) {
+        state.selectedCategory = category;
+        elements.categoryButtons.forEach(function (button) {
+          var isSelected = button.getAttribute("data-category") === category;
+          button.classList.toggle("selected", isSelected);
+          button.setAttribute("aria-pressed", isSelected ? "true" : "false");
+        });
+      }
+
+      function handleExpenseSubmit(event) {
+        event.preventDefault();
+
+        var amount = Number(elements.amountInput.value);
+        if (!Number.isFinite(amount) || amount <= 0) {
+          showToast("请输入大于 0 的消费金额");
+          elements.amountInput.focus();
+          return;
+        }
+
+        if (!state.selectedCategory) {
+          showToast("请先选择消费分类");
+          return;
+        }
+
+        var expenseDate = elements.expenseDate.value;
+        if (!isValidDateKey(expenseDate)) {
+          showToast("请选择有效的消费日期");
+          elements.expenseDate.focus();
+          return;
+        }
+
+        var now = new Date();
+        state.expenses.push({
+          id: createId(),
+          amount: roundMoney(amount),
+          category: state.selectedCategory,
+          date: expenseDate,
+          note: elements.expenseNote.value.trim(),
+          createdAt: now.toISOString()
+        });
+
+        saveExpenses();
+        elements.amountInput.value = "";
+        elements.expenseNote.value = "";
+        render();
+        showToast("已保存：" + state.selectedCategory + " ¥" + formatMoney(amount));
+      }
+
+      /* ---------- 删除消费记录 ---------- */
+      function handleExpenseListClick(event) {
+        var deleteButton = event.target.closest("[data-delete-id]");
+        if (!deleteButton) {
+          return;
+        }
+
+        var expenseId = deleteButton.getAttribute("data-delete-id");
+        var recordExists = state.expenses.some(function (item) {
+          return item.id === expenseId;
+        });
+
+        if (!recordExists || !window.confirm("确定删除这条消费记录吗？")) {
+          return;
+        }
+
+        state.expenses = state.expenses.filter(function (item) {
+          return item.id !== expenseId;
+        });
+
+        saveExpenses();
+        render();
+        showToast("消费记录已删除");
+      }
+
+      /* ---------- 预算事件：输入有效值后自动保存 ---------- */
+      function getBudgetInputValue(input) {
+        var settingKey = input.getAttribute("data-setting");
+        var value = Number(input.value);
+        var minimum = settingKey === "living" ? 0.01 : 0;
+
+        if (input.value.trim() === "" || !Number.isFinite(value) || value < minimum) {
+          return null;
+        }
+
+        return roundMoney(value);
+      }
+
+      function handleBudgetInput(event) {
+        var input = event.target;
+        var settingKey = input.getAttribute("data-setting");
+        var value = getBudgetInputValue(input);
+
+        if (!settingKey || value === null) {
+          return;
+        }
+
+        state.settings[settingKey] = value;
+        saveBudgetSettings();
+        renderHome();
+      }
+
+      function handleBudgetChange(event) {
+        var input = event.target;
+        var settingKey = input.getAttribute("data-setting");
+        var value = getBudgetInputValue(input);
+
+        if (!settingKey) {
+          return;
+        }
+
+        if (value === null) {
+          input.value = formatMoney(state.settings[settingKey]);
+          showToast("请输入有效的预算金额");
+          return;
+        }
+
+        state.settings[settingKey] = value;
+        saveBudgetSettings();
+        render();
+        showToast("预算已自动保存");
+      }
+
+      /* ---------- PWA：注册独立 Service Worker ---------- */
+      function registerServiceWorker() {
+        if (!("serviceWorker" in navigator) || window.location.protocol === "file:") {
+          return;
+        }
+
+        var register = function () {
+          navigator.serviceWorker.register("./service-worker.js").catch(function () {
+            // file:// 或非 HTTPS 环境无法注册，部署到 HTTPS 后即可自动缓存。
+          });
+        };
+
+        if (document.readyState === "complete") {
+          register();
+        } else {
+          window.addEventListener("load", register);
+        }
+      }
+
+      function setupInstallPrompt() {
+        var isIos = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+        // iOS 没有 beforeinstallprompt，直接提供操作提示。
+        if (isIos) {
+          elements.installButton.style.display = "block";
+        }
+
+        window.addEventListener("beforeinstallprompt", function (event) {
+          event.preventDefault();
+          deferredInstallPrompt = event;
+          elements.installButton.style.display = "block";
+        });
+
+        elements.installButton.addEventListener("click", function () {
+          if (deferredInstallPrompt) {
+            deferredInstallPrompt.prompt();
+            deferredInstallPrompt.userChoice.then(function () {
+              deferredInstallPrompt = null;
+              elements.installButton.style.display = "none";
+            });
+            return;
+          }
+
+          showToast("请点击浏览器分享按钮，再选择“添加到主屏幕”。");
+        });
+
+        window.addEventListener("appinstalled", function () {
+          deferredInstallPrompt = null;
+          elements.installButton.style.display = "none";
+          showToast("已添加到桌面");
+        });
+      }
+
+      /* ---------- 事件绑定和初始化 ---------- */
+      elements.categoryButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          selectCategory(button.getAttribute("data-category"));
+        });
+      });
+
+      elements.expenseForm.addEventListener("submit", handleExpenseSubmit);
+      elements.expenseList.addEventListener("click", handleExpenseListClick);
+
+      // 预算表单不需要提交按钮，阻止回车提交，输入事件负责自动保存。
+      elements.budgetForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+      });
+
+      elements.budgetInputs.forEach(function (input) {
+        input.addEventListener("input", handleBudgetInput);
+        input.addEventListener("change", handleBudgetChange);
+      });
+
+      elements.navButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          openPage(button.getAttribute("data-page"));
+        });
+      });
+
+      // 页面重新获得焦点或跨天时，重新计算剩余天数和今日可花金额。
+      document.addEventListener("visibilitychange", function () {
+        if (!document.hidden) {
+          render();
+        }
+      });
+
+      // 每分钟检查一次日期，跨月时会自动切换到新月份。
+      window.setInterval(render, 60000);
+
+      // 如果同一浏览器打开了多个页面，保持数据同步。
+      window.addEventListener("storage", function () {
+        state.settings = loadBudgetSettings();
+        state.expenses = loadExpenses();
+        render();
+      });
+
+      window.addEventListener("resize", renderStats);
+
+      registerServiceWorker();
+      setupInstallPrompt();
+
+      elements.expenseDate.value = toDateKey(new Date());
+      state.settings = loadBudgetSettings();
+      state.expenses = loadExpenses();
+      render();
+    })();
+  </script>
+</body>
+</html>
