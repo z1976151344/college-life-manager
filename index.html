@@ -155,6 +155,37 @@
       line-height: 1.55;
     }
 
+    .hero-summary {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 10px;
+    }
+
+    .hero-summary .hero-amount {
+      margin-bottom: 0;
+    }
+
+    .hero-suggested {
+      flex-shrink: 0;
+      text-align: right;
+    }
+
+    .hero-suggested-label {
+      display: block;
+      margin-bottom: 4px;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 13px;
+    }
+
+    .hero-suggested-value {
+      display: block;
+      font-size: 22px;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
     .hero-warning {
       margin: 8px 0 0;
       color: #ffffff;
@@ -513,6 +544,185 @@
       font-size: 14px;
     }
 
+    .budget-card-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .budget-card {
+      min-width: 0;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--card);
+    }
+
+    .budget-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .budget-card-head h3 {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.35;
+    }
+
+    .budget-card-status {
+      flex-shrink: 0;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .budget-card-status.green {
+      background: #f0fdf4;
+      color: #15803d;
+    }
+
+    .budget-card-status.yellow {
+      background: #fffbeb;
+      color: #92400e;
+    }
+
+    .budget-card-status.red {
+      background: #fef2f2;
+      color: #b91c1c;
+    }
+
+    .budget-card-status.over {
+      background: #fee2e2;
+      color: #7f1d1d;
+    }
+
+    .budget-card-remaining {
+      display: block;
+      font-size: 22px;
+      line-height: 1.25;
+      font-variant-numeric: tabular-nums;
+      overflow-wrap: anywhere;
+    }
+
+    .budget-card-used {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .budget-card-usage {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 13px 0 6px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .budget-card-usage strong {
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .budget-progress {
+      width: 100%;
+      height: 10px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e5e7eb;
+    }
+
+    .budget-progress-fill {
+      display: block;
+      width: 0;
+      height: 100%;
+      border-radius: 999px;
+    }
+
+    .budget-progress-fill.green {
+      background: #22c55e;
+    }
+
+    .budget-progress-fill.yellow {
+      background: #f59e0b;
+    }
+
+    .budget-progress-fill.red {
+      background: #ef4444;
+    }
+
+    .budget-progress-fill.over {
+      background: #7f1d1d;
+    }
+
+    .health-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .health-item {
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: #f8fafc;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .health-item.green {
+      background: #f0fdf4;
+      color: #15803d;
+    }
+
+    .health-item.yellow {
+      background: #fffbeb;
+      color: #92400e;
+    }
+
+    .health-item.red {
+      background: #fef2f2;
+      color: #b91c1c;
+    }
+
+    .health-item.over {
+      background: #fee2e2;
+      color: #7f1d1d;
+    }
+
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .overview-item {
+      min-width: 0;
+      padding: 12px 10px;
+      border-radius: 12px;
+      background: #f8fafc;
+    }
+
+    .overview-label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .overview-value {
+      display: block;
+      font-size: 17px;
+      font-variant-numeric: tabular-nums;
+      overflow-wrap: anywhere;
+    }
+
     .ranking-list {
       display: block;
     }
@@ -694,9 +904,31 @@
     }
 
     /* 小屏幕下适当缩小金额字号，避免金额换行 */
+    @media (min-width: 760px) {
+      .app {
+        max-width: 960px;
+      }
+
+      .bottom-nav {
+        max-width: 960px;
+      }
+
+      .budget-card-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .budget-card-grid .budget-card:last-child {
+        grid-column: 1 / -1;
+      }
+    }
+
     @media (max-width: 360px) {
       .hero-amount {
         font-size: 36px;
+      }
+
+      .hero-suggested-value {
+        font-size: 19px;
       }
 
       .category-button {
@@ -716,46 +948,102 @@
     </header>
 
     <main>
-      <!-- 首页：第一眼展示今天还能花多少钱 -->
+      <!-- 首页：今日额度、分类预算、健康度和今日概览 -->
       <section class="page active" id="homePage" aria-labelledby="homeTitle">
         <h2 class="sr-only" id="homeTitle">首页</h2>
 
         <div class="hero" id="heroCard">
-          <span class="hero-label">今日建议消费</span>
-          <strong class="hero-amount" id="todayAmount">¥0.00</strong>
+          <div class="hero-summary">
+            <div>
+              <span class="hero-label">今日还能花</span>
+              <strong class="hero-amount" id="todayAmount">¥0.00</strong>
+            </div>
+            <div class="hero-suggested">
+              <span class="hero-suggested-label">建议消费</span>
+              <strong class="hero-suggested-value" id="suggestedAmount">¥0.00</strong>
+            </div>
+          </div>
           <p class="hero-note" id="todayNote">正在计算本月预算。</p>
           <p class="hero-warning" id="safeWarning"></p>
         </div>
 
         <p class="budget-alert" id="budgetAlert" hidden></p>
 
-        <div class="stats-grid">
-          <article class="stat-card">
-            <span class="stat-label">本月剩余金额</span>
-            <strong class="stat-value" id="remainingAmount">¥0.00</strong>
+        <div class="budget-card-grid">
+          <article class="budget-card">
+            <div class="budget-card-head">
+              <h3>📚 学习预算</h3>
+              <span class="budget-card-status green" id="studyBudgetStatus">正常</span>
+            </div>
+            <strong class="budget-card-remaining" id="studyBudgetRemaining">¥200.00 / ¥200.00</strong>
+            <span class="budget-card-used" id="studyBudgetUsed">已消费 ¥0.00</span>
+            <div class="budget-card-usage">
+              <span>使用率</span>
+              <strong id="studyBudgetUsage">0%</strong>
+            </div>
+            <div class="budget-progress">
+              <span class="budget-progress-fill green" id="studyBudgetProgress"></span>
+            </div>
           </article>
-          <article class="stat-card">
-            <span class="stat-label">本月已消费金额</span>
-            <strong class="stat-value" id="spentAmount">¥0.00</strong>
+
+          <article class="budget-card">
+            <div class="budget-card-head">
+              <h3>🎮 娱乐预算</h3>
+              <span class="budget-card-status green" id="entertainmentBudgetStatus">正常</span>
+            </div>
+            <strong class="budget-card-remaining" id="entertainmentBudgetRemaining">¥80.00 / ¥80.00</strong>
+            <span class="budget-card-used" id="entertainmentBudgetUsed">已消费 ¥0.00</span>
+            <div class="budget-card-usage">
+              <span>使用率</span>
+              <strong id="entertainmentBudgetUsage">0%</strong>
+            </div>
+            <div class="budget-progress">
+              <span class="budget-progress-fill green" id="entertainmentBudgetProgress"></span>
+            </div>
           </article>
-          <article class="stat-card stat-card-wide">
-            <span class="stat-label">可消费预算</span>
-            <strong class="stat-value" id="consumableBudget">¥0.00</strong>
-          </article>
-          <article class="stat-card stat-card-wide">
-            <span class="stat-label">意外支出剩余</span>
-            <strong class="stat-value" id="unexpectedRemaining">¥200.00 / ¥200.00</strong>
-            <span class="stat-note" id="unexpectedUsed">已使用 ¥0.00</span>
-            <p class="unexpected-alert" id="unexpectedAlert" hidden></p>
+
+          <article class="budget-card">
+            <div class="budget-card-head">
+              <h3>⚠️ 意外支出</h3>
+              <span class="budget-card-status green" id="unexpectedBudgetStatus">正常</span>
+            </div>
+            <strong class="budget-card-remaining" id="unexpectedBudgetRemaining">¥200.00 / ¥200.00</strong>
+            <span class="budget-card-used" id="unexpectedBudgetUsed">已消费 ¥0.00</span>
+            <div class="budget-card-usage">
+              <span>使用率</span>
+              <strong id="unexpectedBudgetUsage">0%</strong>
+            </div>
+            <div class="budget-progress">
+              <span class="budget-progress-fill green" id="unexpectedBudgetProgress"></span>
+            </div>
           </article>
         </div>
 
-        <section class="card" aria-labelledby="formulaTitle">
+        <section class="card" aria-labelledby="healthTitle">
           <div class="card-title-row">
-            <h2 id="formulaTitle">动态预算</h2>
-            <span class="badge">实时计算</span>
+            <h2 id="healthTitle">预算健康度</h2>
           </div>
-          <p class="formula" id="formulaText">（可消费预算 − 已消费金额）÷ 剩余天数</p>
+          <div class="health-list" id="budgetHealthList"></div>
+        </section>
+
+        <section class="card" aria-labelledby="overviewTitle">
+          <div class="card-title-row">
+            <h2 id="overviewTitle">今日概览</h2>
+          </div>
+          <div class="overview-grid">
+            <div class="overview-item">
+              <span class="overview-label">今日消费</span>
+              <strong class="overview-value" id="homeTodaySpent">¥0.00</strong>
+            </div>
+            <div class="overview-item">
+              <span class="overview-label">本周消费</span>
+              <strong class="overview-value" id="homeWeekSpent">¥0.00</strong>
+            </div>
+            <div class="overview-item">
+              <span class="overview-label">本月消费</span>
+              <strong class="overview-value" id="homeMonthSpent">¥0.00</strong>
+            </div>
+          </div>
         </section>
       </section>
 
@@ -1080,18 +1368,16 @@
       var elements = {
         monthLabel: document.getElementById("monthLabel"),
         todayAmount: document.getElementById("todayAmount"),
+        suggestedAmount: document.getElementById("suggestedAmount"),
         todayNote: document.getElementById("todayNote"),
-        remainingAmount: document.getElementById("remainingAmount"),
-        spentAmount: document.getElementById("spentAmount"),
-        formulaText: document.getElementById("formulaText"),
         heroCard: document.getElementById("heroCard"),
         safeWarning: document.getElementById("safeWarning"),
         budgetAlert: document.getElementById("budgetAlert"),
-        unexpectedRemaining: document.getElementById("unexpectedRemaining"),
-        unexpectedUsed: document.getElementById("unexpectedUsed"),
-        unexpectedAlert: document.getElementById("unexpectedAlert"),
-        consumableBudget: document.getElementById("consumableBudget"),
         currentConsumableBudget: document.getElementById("currentConsumableBudget"),
+        budgetHealthList: document.getElementById("budgetHealthList"),
+        homeTodaySpent: document.getElementById("homeTodaySpent"),
+        homeWeekSpent: document.getElementById("homeWeekSpent"),
+        homeMonthSpent: document.getElementById("homeMonthSpent"),
         budgetForm: document.getElementById("budgetForm"),
         budgetInputs: Array.prototype.slice.call(
           document.querySelectorAll("[data-setting]")
@@ -1351,22 +1637,102 @@
       }
 
       /* ---------- 渲染首页数据 ---------- */
+      function getBudgetHealthStatus(total, spent) {
+        var remaining = total - spent;
+        var remainingRatio;
+
+        if (remaining < 0 || (total <= 0 && spent > 0)) {
+          return { key: "over", emoji: "🚨", text: "已超支" };
+        }
+
+        remainingRatio = total > 0 ? (remaining / total) * 100 : 100;
+
+        if (remainingRatio > 50) {
+          return { key: "green", emoji: "🟢", text: "正常" };
+        }
+        if (remainingRatio >= 20) {
+          return { key: "yellow", emoji: "🟡", text: "注意控制" };
+        }
+        return { key: "red", emoji: "🔴", text: "预算紧张" };
+      }
+
+      function getCategoryBudgetData(categoryName, total, monthExpenses) {
+        var spent = sumExpenses(monthExpenses.filter(function (item) {
+          return item.category === categoryName;
+        }));
+        var remaining = roundMoney(total - spent);
+        var usageRate = total > 0
+          ? (spent / total) * 100
+          : (spent > 0 ? 100 : 0);
+
+        return {
+          category: categoryName,
+          total: roundMoney(total),
+          spent: spent,
+          remaining: remaining,
+          usageRate: usageRate
+        };
+      }
+
+      function renderHomeBudgetCard(prefix, data) {
+        var status = getBudgetHealthStatus(data.total, data.spent);
+        var remainingElement = document.getElementById(prefix + "BudgetRemaining");
+        var usedElement = document.getElementById(prefix + "BudgetUsed");
+        var usageElement = document.getElementById(prefix + "BudgetUsage");
+        var statusElement = document.getElementById(prefix + "BudgetStatus");
+        var progressElement = document.getElementById(prefix + "BudgetProgress");
+
+        remainingElement.textContent =
+          (data.remaining < 0 ? "-¥" : "¥") +
+          formatMoney(data.remaining) +
+          " / ¥" + formatMoney(data.total);
+        usedElement.textContent = "已消费 ¥" + formatMoney(data.spent);
+        usageElement.textContent = formatPercent(data.usageRate);
+        statusElement.textContent = status.text;
+        statusElement.className = "budget-card-status " + status.key;
+        progressElement.className = "budget-progress-fill " + status.key;
+        progressElement.style.width = Math.max(0, Math.min(100, data.usageRate)) + "%";
+      }
+
+      function renderHomeHealth(items) {
+        elements.budgetHealthList.textContent = "";
+
+        var fragment = document.createDocumentFragment();
+        items.forEach(function (item) {
+          var status = getBudgetHealthStatus(item.total, item.spent);
+          var healthText = status.text === "注意控制" ? "偏高" : (status.text === "预算紧张" ? "紧张" : status.text);
+          var row = document.createElement("div");
+          row.className = "health-item " + status.key;
+          row.textContent = status.emoji + " " + item.name + "预算" + healthText;
+          fragment.appendChild(row);
+        });
+
+        elements.budgetHealthList.appendChild(fragment);
+      }
+
+      function renderHomeOverview() {
+        var statistics = calculateStatistics();
+
+        elements.homeTodaySpent.textContent = "¥" + formatMoney(statistics.todaySpent);
+        elements.homeWeekSpent.textContent = "¥" + formatMoney(statistics.weekSpent);
+        elements.homeMonthSpent.textContent = "¥" + formatMoney(statistics.monthSpent);
+      }
+
       function renderHome() {
         var data = calculateMonthData();
+        var monthExpenses = getMonthExpenses(new Date());
         var todayIsNegative = data.todayAvailable < 0;
         var consumableIsNegative = data.consumableBudget < 0;
+        var suggestedAmount = Math.max(0, Math.round(data.todayAvailable * 0.95));
+        var studyBudget = getCategoryBudgetData("学习", state.settings.study, monthExpenses);
+        var entertainmentBudget = getCategoryBudgetData("娱乐", state.settings.entertainment, monthExpenses);
+        var unexpectedBudget = getCategoryBudgetData(UNEXPECTED_CATEGORY, state.settings.unexpected, monthExpenses);
 
         elements.monthLabel.textContent = data.monthLabel;
         elements.todayAmount.textContent = todayIsNegative
           ? "-¥" + formatMoney(data.todayAvailable)
           : "¥" + formatMoney(data.todayAvailable);
-        elements.remainingAmount.textContent = data.remaining < 0
-          ? "-¥" + formatMoney(data.remaining)
-          : "¥" + formatMoney(data.remaining);
-        elements.spentAmount.textContent = "¥" + formatMoney(data.spent);
-        elements.consumableBudget.textContent = consumableIsNegative
-          ? "-¥" + formatMoney(data.consumableBudget)
-          : "¥" + formatMoney(data.consumableBudget);
+        elements.suggestedAmount.textContent = "¥" + suggestedAmount;
         elements.currentConsumableBudget.textContent = consumableIsNegative
           ? "-¥" + formatMoney(data.consumableBudget)
           : "¥" + formatMoney(data.consumableBudget);
@@ -1397,23 +1763,6 @@
           elements.budgetAlert.textContent = "";
         }
 
-        elements.unexpectedRemaining.textContent =
-          (data.unexpectedRemaining < 0 ? "-¥" : "¥") +
-          formatMoney(data.unexpectedRemaining) +
-          " / ¥" + formatMoney(data.unexpectedBudget);
-        elements.unexpectedUsed.textContent = "已使用 ¥" + formatMoney(data.unexpectedSpent);
-
-        var unexpectedWarning = getUnexpectedWarning(data.unexpectedUsageRate);
-        if (unexpectedWarning) {
-          elements.unexpectedAlert.hidden = false;
-          elements.unexpectedAlert.className = "unexpected-alert " + unexpectedWarning.className;
-          elements.unexpectedAlert.textContent = unexpectedWarning.text;
-        } else {
-          elements.unexpectedAlert.hidden = true;
-          elements.unexpectedAlert.className = "unexpected-alert";
-          elements.unexpectedAlert.textContent = "";
-        }
-
         if (data.remaining < 0) {
           elements.todayNote.textContent =
             "本月已超支 ¥" + formatMoney(data.remaining) +
@@ -1426,11 +1775,15 @@
             "按剩余 " + data.remainingDays + " 天平均计算。";
         }
 
-        elements.formulaText.textContent =
-          "（" + formatSignedMoney(data.consumableBudget) +
-          " − ¥" + formatMoney(data.spent) +
-          "）÷ " + data.remainingDays + " 天 = " +
-          formatSignedMoney(data.todayAvailable);
+        renderHomeBudgetCard("study", studyBudget);
+        renderHomeBudgetCard("entertainment", entertainmentBudget);
+        renderHomeBudgetCard("unexpected", unexpectedBudget);
+        renderHomeHealth([
+          { name: "学习", total: studyBudget.total, spent: studyBudget.spent },
+          { name: "娱乐", total: entertainmentBudget.total, spent: entertainmentBudget.spent },
+          { name: "意外支出", total: unexpectedBudget.total, spent: unexpectedBudget.spent }
+        ]);
+        renderHomeOverview();
       }
 
       /* ---------- 渲染预算输入框 ---------- */
