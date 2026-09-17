@@ -723,6 +723,34 @@
       overflow-wrap: anywhere;
     }
 
+    .analysis-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .analysis-item {
+      min-width: 0;
+      padding: 12px;
+      border-radius: 12px;
+      background: #f8fafc;
+    }
+
+    .analysis-label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .analysis-value {
+      display: block;
+      font-size: 17px;
+      line-height: 1.4;
+      font-variant-numeric: tabular-nums;
+      overflow-wrap: anywhere;
+    }
+
     .ranking-list {
       display: block;
     }
@@ -917,8 +945,8 @@
         grid-template-columns: 1fr 1fr;
       }
 
-      .budget-card-grid .budget-card:last-child {
-        grid-column: 1 / -1;
+      .analysis-grid {
+        grid-template-columns: 1fr 1fr;
       }
     }
 
@@ -1017,6 +1045,22 @@
               <span class="budget-progress-fill green" id="unexpectedBudgetProgress"></span>
             </div>
           </article>
+
+          <article class="budget-card">
+            <div class="budget-card-head">
+              <h3>🏠 固定支出预算</h3>
+              <span class="budget-card-status green" id="fixedBudgetStatus">正常</span>
+            </div>
+            <strong class="budget-card-remaining" id="fixedBudgetRemaining">¥120.00 / ¥120.00</strong>
+            <span class="budget-card-used" id="fixedBudgetUsed">已消费 ¥0.00</span>
+            <div class="budget-card-usage">
+              <span>使用率</span>
+              <strong id="fixedBudgetUsage">0%</strong>
+            </div>
+            <div class="budget-progress">
+              <span class="budget-progress-fill green" id="fixedBudgetProgress"></span>
+            </div>
+          </article>
         </div>
 
         <section class="card" aria-labelledby="healthTitle">
@@ -1085,7 +1129,22 @@
               <button class="category-button" type="button" data-category="娱乐" aria-pressed="false">娱乐</button>
               <button class="category-button" type="button" data-category="交通" aria-pressed="false">交通</button>
               <button class="category-button" type="button" data-category="意外支出" aria-pressed="false">意外支出</button>
+              <button class="category-button" type="button" data-category="固定支出" aria-pressed="false">固定支出</button>
               <button class="category-button" type="button" data-category="其他" aria-pressed="false">其他</button>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-group" id="fixedSubcategoryGroup" hidden>
+            <legend>固定支出子项</legend>
+            <div class="category-grid" id="fixedSubcategoryGrid">
+              <button class="category-button" type="button" data-fixed-subcategory="话费" aria-pressed="false">话费</button>
+              <button class="category-button" type="button" data-fixed-subcategory="校园网" aria-pressed="false">校园网</button>
+              <button class="category-button" type="button" data-fixed-subcategory="水电" aria-pressed="false">水电</button>
+              <button class="category-button" type="button" data-fixed-subcategory="洗衣" aria-pressed="false">洗衣</button>
+              <button class="category-button" type="button" data-fixed-subcategory="打印" aria-pressed="false">打印</button>
+              <button class="category-button" type="button" data-fixed-subcategory="会员" aria-pressed="false">会员</button>
+              <button class="category-button" type="button" data-fixed-subcategory="月卡" aria-pressed="false">月卡</button>
+              <button class="category-button" type="button" data-fixed-subcategory="其他固定支出" aria-pressed="false">其他固定支出</button>
             </div>
           </fieldset>
 
@@ -1195,7 +1254,7 @@
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="fixedExpenseInput">固定支出</label>
+              <label class="form-label" for="fixedExpenseInput">固定支出预算</label>
               <div class="amount-input">
                 <span class="currency" aria-hidden="true">¥</span>
                 <input
@@ -1256,7 +1315,7 @@
       <!-- 统计页：本月汇总、分类排行、图表和月底预测 -->
       <section class="page" id="statsPage" aria-labelledby="statsTitle">
         <div class="page-title">
-          <h2 id="statsTitle">统计</h2>
+          <h2 id="statsTitle">消费统计</h2>
           <p>根据当前月消费记录自动统计。</p>
         </div>
 
@@ -1289,9 +1348,33 @@
 
         <section class="card" aria-labelledby="rankingTitle">
           <div class="card-title-row">
-            <h2 id="rankingTitle">分类消费排行榜</h2>
+            <h2 id="rankingTitle">消费排行榜</h2>
           </div>
           <div class="ranking-list" id="categoryRanking"></div>
+        </section>
+
+        <section class="card" aria-labelledby="analysisTitle">
+          <div class="card-title-row">
+            <h2 id="analysisTitle">统计分析</h2>
+          </div>
+          <div class="analysis-grid">
+            <div class="analysis-item">
+              <span class="analysis-label">本月消费最高分类</span>
+              <strong class="analysis-value" id="highestCategory">暂无</strong>
+            </div>
+            <div class="analysis-item">
+              <span class="analysis-label">本月消费最低分类</span>
+              <strong class="analysis-value" id="lowestCategory">暂无</strong>
+            </div>
+            <div class="analysis-item">
+              <span class="analysis-label">消费最多的一天</span>
+              <strong class="analysis-value" id="highestSpendDay">暂无</strong>
+            </div>
+            <div class="analysis-item">
+              <span class="analysis-label">平均每日消费</span>
+              <strong class="analysis-value" id="averageDailySpent">¥0.00</strong>
+            </div>
+          </div>
         </section>
 
         <section class="card" aria-labelledby="pieChartTitle">
@@ -1354,10 +1437,12 @@
       var BUDGET_SETTINGS_KEY = "collegeLifeBudgetSettingsV2";
       var EXPENSES_KEY = "collegeLifeExpensesV1";
       var UNEXPECTED_CATEGORY = "意外支出";
+      var FIXED_CATEGORY = "固定支出";
       var CATEGORY_NAMES = [
         "早餐", "午餐", "晚餐", "水果零食", "水电热水",
-        "话费", "学习", "娱乐", "交通", "意外支出", "其他"
+        "话费", "学习", "娱乐", "交通", "意外支出", "固定支出", "其他"
       ];
+      var STATS_CATEGORY_NAMES = ["餐饮", "学习", "娱乐", "固定支出", "意外支出", "交通", "其他"];
       var CHART_COLORS = [
         "#2563eb", "#3b82f6", "#60a5fa", "#93c5fd",
         "#1d4ed8", "#0ea5e9", "#7dd3fc", "#38bdf8",
@@ -1388,6 +1473,10 @@
         expenseNote: document.getElementById("expenseNote"),
         expenseList: document.getElementById("expenseList"),
         categoryGrid: document.getElementById("categoryGrid"),
+        fixedSubcategoryGroup: document.getElementById("fixedSubcategoryGroup"),
+        fixedSubcategoryButtons: Array.prototype.slice.call(
+          document.querySelectorAll("[data-fixed-subcategory]")
+        ),
         statsPage: document.getElementById("statsPage"),
         statsTodaySpent: document.getElementById("statsTodaySpent"),
         statsWeekSpent: document.getElementById("statsWeekSpent"),
@@ -1396,6 +1485,10 @@
         statsSpentAmount: document.getElementById("statsSpentAmount"),
         statsUsageRate: document.getElementById("statsUsageRate"),
         categoryRanking: document.getElementById("categoryRanking"),
+        highestCategory: document.getElementById("highestCategory"),
+        lowestCategory: document.getElementById("lowestCategory"),
+        highestSpendDay: document.getElementById("highestSpendDay"),
+        averageDailySpent: document.getElementById("averageDailySpent"),
         categoryPieChart: document.getElementById("categoryPieChart"),
         categoryBarChart: document.getElementById("categoryBarChart"),
         forecastSpent: document.getElementById("forecastSpent"),
@@ -1408,7 +1501,7 @@
         ),
         pages: Array.prototype.slice.call(document.querySelectorAll(".page")),
         categoryButtons: Array.prototype.slice.call(
-          document.querySelectorAll(".category-button")
+          document.querySelectorAll("[data-category]")
         )
       };
 
@@ -1416,7 +1509,8 @@
       var state = {
         settings: Object.assign({}, DEFAULT_BUDGET_SETTINGS),
         expenses: [],
-        selectedCategory: ""
+        selectedCategory: "",
+        selectedFixedSubcategory: ""
       };
 
       var toastTimer = null;
@@ -1573,6 +1667,7 @@
                 id: item.id || createId(),
                 amount: roundMoney(Number(item.amount)),
                 category: item.category,
+                subcategory: typeof item.subcategory === "string" ? item.subcategory : "",
                 date: item.date,
                 note: typeof item.note === "string" ? item.note : "",
                 createdAt: item.createdAt || ""
@@ -1656,6 +1751,28 @@
         return { key: "red", emoji: "🔴", text: "预算紧张" };
       }
 
+      function isFixedExpense(item) {
+        return item.category === FIXED_CATEGORY ||
+          item.category === "话费" ||
+          item.category === "水电热水";
+      }
+
+      function getFixedCategoryBudgetData(total, monthExpenses) {
+        var spent = sumExpenses(monthExpenses.filter(isFixedExpense));
+        var remaining = roundMoney(total - spent);
+        var usageRate = total > 0
+          ? (spent / total) * 100
+          : (spent > 0 ? 100 : 0);
+
+        return {
+          category: FIXED_CATEGORY,
+          total: roundMoney(total),
+          spent: spent,
+          remaining: remaining,
+          usageRate: usageRate
+        };
+      }
+
       function getCategoryBudgetData(categoryName, total, monthExpenses) {
         var spent = sumExpenses(monthExpenses.filter(function (item) {
           return item.category === categoryName;
@@ -1727,6 +1844,7 @@
         var studyBudget = getCategoryBudgetData("学习", state.settings.study, monthExpenses);
         var entertainmentBudget = getCategoryBudgetData("娱乐", state.settings.entertainment, monthExpenses);
         var unexpectedBudget = getCategoryBudgetData(UNEXPECTED_CATEGORY, state.settings.unexpected, monthExpenses);
+        var fixedBudget = getFixedCategoryBudgetData(state.settings.fixed, monthExpenses);
 
         elements.monthLabel.textContent = data.monthLabel;
         elements.todayAmount.textContent = todayIsNegative
@@ -1778,10 +1896,12 @@
         renderHomeBudgetCard("study", studyBudget);
         renderHomeBudgetCard("entertainment", entertainmentBudget);
         renderHomeBudgetCard("unexpected", unexpectedBudget);
+        renderHomeBudgetCard("fixed", fixedBudget);
         renderHomeHealth([
           { name: "学习", total: studyBudget.total, spent: studyBudget.spent },
           { name: "娱乐", total: entertainmentBudget.total, spent: entertainmentBudget.spent },
-          { name: "意外支出", total: unexpectedBudget.total, spent: unexpectedBudget.spent }
+          { name: "意外支出", total: unexpectedBudget.total, spent: unexpectedBudget.spent },
+          { name: "固定支出", total: fixedBudget.total, spent: fixedBudget.spent }
         ]);
         renderHomeOverview();
       }
@@ -1833,7 +1953,9 @@
 
           var category = document.createElement("strong");
           category.className = "record-category";
-          category.textContent = item.category;
+          category.textContent = item.subcategory
+            ? item.category + " · " + item.subcategory
+            : item.category;
 
           var date = document.createElement("span");
           date.className = "record-date";
@@ -1889,19 +2011,33 @@
         }, 0));
       }
 
+      function getStatisticsCategory(item) {
+        if (isFixedExpense(item)) {
+          return "固定支出";
+        }
+        if (item.category === "早餐" ||
+            item.category === "午餐" ||
+            item.category === "晚餐" ||
+            item.category === "水果零食") {
+          return "餐饮";
+        }
+        if (STATS_CATEGORY_NAMES.indexOf(item.category) !== -1) {
+          return item.category;
+        }
+        return "其他";
+      }
+
       function buildCategoryData(monthExpenses) {
         var total = sumExpenses(monthExpenses);
         var categoryTotals = {};
 
-        CATEGORY_NAMES.forEach(function (category) {
+        STATS_CATEGORY_NAMES.forEach(function (category) {
           categoryTotals[category] = 0;
         });
 
         monthExpenses.forEach(function (item) {
-          if (typeof categoryTotals[item.category] !== "number") {
-            categoryTotals[item.category] = 0;
-          }
-          categoryTotals[item.category] += Number(item.amount);
+          var category = getStatisticsCategory(item);
+          categoryTotals[category] += Number(item.amount);
         });
 
         return Object.keys(categoryTotals)
@@ -1995,6 +2131,21 @@
         var elapsedDays = Math.max(1, now.getDate());
         var forecastTotal = roundMoney((monthSpent / elapsedDays) * daysInMonth);
         var forecastRemaining = roundMoney(consumableBudget - forecastTotal);
+        var categoryData = buildCategoryData(monthExpenses);
+        var highestCategory = categoryData.length > 0 ? categoryData[0] : null;
+        var lowestCategory = categoryData.length > 0 ? categoryData[categoryData.length - 1] : null;
+        var dayTotals = {};
+
+        monthExpenses.forEach(function (item) {
+          dayTotals[item.date] = roundMoney((dayTotals[item.date] || 0) + Number(item.amount));
+        });
+
+        var highestSpendDay = null;
+        Object.keys(dayTotals).forEach(function (date) {
+          if (!highestSpendDay || dayTotals[date] > highestSpendDay.amount) {
+            highestSpendDay = { date: date, amount: dayTotals[date] };
+          }
+        });
 
         return {
           todaySpent: todaySpent,
@@ -2002,7 +2153,11 @@
           monthSpent: monthSpent,
           remaining: remaining,
           usageRate: usageRate,
-          categoryData: buildCategoryData(monthExpenses),
+          categoryData: categoryData,
+          highestCategory: highestCategory,
+          lowestCategory: lowestCategory,
+          highestSpendDay: highestSpendDay,
+          averageDailySpent: roundMoney(monthSpent / elapsedDays),
           forecastTotal: forecastTotal,
           forecastRemaining: forecastRemaining,
           willExceed: forecastTotal > consumableBudget
@@ -2031,7 +2186,7 @@
 
           var name = document.createElement("span");
           name.className = "ranking-name";
-          name.textContent = item.category;
+          name.textContent = (index + 1) + ". " + item.category;
 
           var value = document.createElement("span");
           value.className = "ranking-value";
@@ -2163,6 +2318,19 @@
         });
       }
 
+      function renderStatisticsAnalysis(statistics) {
+        elements.highestCategory.textContent = statistics.highestCategory
+          ? statistics.highestCategory.category + " ¥" + formatMoney(statistics.highestCategory.amount)
+          : "暂无";
+        elements.lowestCategory.textContent = statistics.lowestCategory
+          ? statistics.lowestCategory.category + " ¥" + formatMoney(statistics.lowestCategory.amount)
+          : "暂无";
+        elements.highestSpendDay.textContent = statistics.highestSpendDay
+          ? statistics.highestSpendDay.date + " ¥" + formatMoney(statistics.highestSpendDay.amount)
+          : "暂无";
+        elements.averageDailySpent.textContent = "¥" + formatMoney(statistics.averageDailySpent);
+      }
+
       function renderStats() {
         var statistics = calculateStatistics();
 
@@ -2185,6 +2353,7 @@
           : "";
 
         renderCategoryRanking(statistics.categoryData);
+        renderStatisticsAnalysis(statistics);
 
         if (elements.statsPage.classList.contains("active")) {
           drawPieChart(elements.categoryPieChart, statistics.categoryData);
@@ -2230,6 +2399,26 @@
           button.classList.toggle("selected", isSelected);
           button.setAttribute("aria-pressed", isSelected ? "true" : "false");
         });
+
+        if (category === FIXED_CATEGORY) {
+          elements.fixedSubcategoryGroup.hidden = false;
+        } else {
+          elements.fixedSubcategoryGroup.hidden = true;
+          state.selectedFixedSubcategory = "";
+          elements.fixedSubcategoryButtons.forEach(function (button) {
+            button.classList.remove("selected");
+            button.setAttribute("aria-pressed", "false");
+          });
+        }
+      }
+
+      function selectFixedSubcategory(subcategory) {
+        state.selectedFixedSubcategory = subcategory;
+        elements.fixedSubcategoryButtons.forEach(function (button) {
+          var isSelected = button.getAttribute("data-fixed-subcategory") === subcategory;
+          button.classList.toggle("selected", isSelected);
+          button.setAttribute("aria-pressed", isSelected ? "true" : "false");
+        });
       }
 
       function handleExpenseSubmit(event) {
@@ -2247,6 +2436,11 @@
           return;
         }
 
+        if (state.selectedCategory === FIXED_CATEGORY && !state.selectedFixedSubcategory) {
+          showToast("请选择固定支出子项");
+          return;
+        }
+
         var expenseDate = elements.expenseDate.value;
         if (!isValidDateKey(expenseDate)) {
           showToast("请选择有效的消费日期");
@@ -2259,6 +2453,7 @@
           id: createId(),
           amount: roundMoney(amount),
           category: state.selectedCategory,
+          subcategory: state.selectedCategory === FIXED_CATEGORY ? state.selectedFixedSubcategory : "",
           date: expenseDate,
           note: elements.expenseNote.value.trim(),
           createdAt: now.toISOString()
@@ -2268,7 +2463,11 @@
         elements.amountInput.value = "";
         elements.expenseNote.value = "";
         render();
-        showToast("已保存：" + state.selectedCategory + " ¥" + formatMoney(amount));
+
+        var savedLabel = state.selectedCategory === FIXED_CATEGORY
+          ? FIXED_CATEGORY + " · " + state.selectedFixedSubcategory
+          : state.selectedCategory;
+        showToast("已保存：" + savedLabel + " ¥" + formatMoney(amount));
       }
 
       /* ---------- 删除消费记录 ---------- */
@@ -2401,6 +2600,12 @@
       elements.categoryButtons.forEach(function (button) {
         button.addEventListener("click", function () {
           selectCategory(button.getAttribute("data-category"));
+        });
+      });
+
+      elements.fixedSubcategoryButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          selectFixedSubcategory(button.getAttribute("data-fixed-subcategory"));
         });
       });
 
