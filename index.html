@@ -2687,8 +2687,19 @@
         return "█".repeat(filled) + "░".repeat(10 - filled) + " " + formatPercent(normalized);
       }
 
+      function getEmergencyHealthStatus(total, spent) {
+        var remaining = total - spent;
+        var ratio = total > 0 ? (remaining / total) * 100 : 0;
+        if (remaining < 0) return { key: "over", text: "已超支" };
+        if (ratio >= 80) return { key: "green", text: "安全" };
+        if (ratio >= 50) return { key: "yellow", text: "注意" };
+        return { key: "red", text: "偏低" };
+      }
+
       function renderHomeBudgetCard(prefix, data) {
-        var status = getBudgetHealthStatus(data.total, data.spent);
+        var status = prefix === "unexpected"
+          ? getEmergencyHealthStatus(data.total, data.spent)
+          : getBudgetHealthStatus(data.total, data.spent);
         var remainingElement = document.getElementById(prefix + "BudgetRemaining");
         var usedElement = document.getElementById(prefix + "BudgetUsed");
         var usageElement = document.getElementById(prefix + "BudgetUsage");
@@ -2802,11 +2813,15 @@
 
         var fragment = document.createDocumentFragment();
         items.forEach(function (item) {
-          var status = getBudgetHealthStatus(item.total, item.spent);
+          var status = item.name === "应急储备"
+            ? getEmergencyHealthStatus(item.total, item.spent)
+            : getBudgetHealthStatus(item.total, item.spent);
+          var emoji = status.key === "green" ? "🟢" : (status.key === "yellow" ? "🟡" : (status.key === "over" ? "🚨" : "🔴"));
           var healthText = status.text === "注意控制" ? "偏高" : (status.text === "预算紧张" ? "紧张" : status.text);
           var row = document.createElement("div");
           row.className = "health-item " + status.key;
-          row.textContent = status.emoji + " " + item.name + "预算" + healthText;
+          row.textContent = emoji + " " + item.name + "预算" + healthText;
+          row.addEventListener("click", function () { openPage("budgetPage"); });
           fragment.appendChild(row);
         });
 
@@ -3094,22 +3109,14 @@
         var study = getCategoryBudgetData("学习", state.settings.study, monthExpenses);
         var entertainment = getCategoryBudgetData("娱乐", state.settings.entertainment, monthExpenses);
         var nonmeal = getNonmealBudgetData(state.settings.nonmeal, monthExpenses);
-
-        if (nonmeal.usageRate >= 80) {
-          return "非正餐控制月";
-        }
-        if (entertainment.usageRate >= 80) {
-          return "娱乐偏高月";
-        }
-        if (study.usageRate > 50) {
-          return "学习投入月";
-        }
-        if (statistics.forecastRemaining > 0 && statistics.monthSpent < statistics.remaining + statistics.monthSpent) {
-          return "储蓄达标月";
-        }
-        if (statistics.monthSpent > 0 && statistics.monthSpent < statistics.remaining) {
-          return "预算大师月";
-        }
+        var milkTeaCount = monthExpenses.filter(function (item) { return item.subcategory === "奶茶" || item.category === "奶茶"; }).length;
+        if (milkTeaCount === 0 && countMilkFreeDays() >= 7) return "奶茶克星月";
+        if (nonmeal.usageRate >= 80) return "非正餐控制月";
+        if (entertainment.usageRate >= 80) return "娱乐达人月";
+        if (study.usageRate > 50) return "学习投入月";
+        if (statistics.forecastRemaining > 0 && statistics.monthSpent < state.settings.living - state.settings.savings) return "储蓄达标月";
+        if (statistics.monthSpent > 0 && statistics.monthSpent < statistics.remaining) return "预算大师月";
+        if (statistics.monthSpent > 0 && statistics.monthSpent < statistics.consumableBudget * 0.5) return "节俭达人月";
         return "稳健消费月";
       }
 
@@ -3178,11 +3185,23 @@
           holidayElement.hidden = !holiday;
           holidayElement.textContent = holiday;
         }
-        if (summaryElement) {
-          summaryElement.textContent = summary;
-        }
+        if (summaryElement) summaryElement.textContent = summary;
         if (elements.smartReminder) {
-          elements.smartReminder.textContent = summary;
+          var statistics = calculateStatistics();
+          var monthExpenses = getMonthExpenses(new Date());
+          var nonmeal = getNonmealBudgetData(state.settings.nonmeal, monthExpenses);
+          var entertainment = getCategoryBudgetData("娱乐", state.settings.entertainment, monthExpenses);
+          var emergency = getEmergencyBudgetData(state.settings.unexpected, monthExpenses);
+          var streak = calculateStreak();
+          var reminder = summary;
+          if (nonmeal.usageRate >= 100) reminder = "本月非正餐消费已超预算。";
+          else if (nonmeal.usageRate >= 80) reminder = "本月非正餐消费接近预算。";
+          else if (entertainment.usageRate >= 100) reminder = "本月娱乐消费已超预算，建议控制。";
+          else if (emergency.total > 0 && emergency.remaining / emergency.total < 0.2) reminder = "应急储备偏低，建议及时补充。";
+          else if (streak > 0 && streak % 7 === 0) reminder = "连续记账 " + streak + " 天，继续保持。";
+          else if (statistics.forecastRemaining < 0) reminder = "按当前消费速度，月底可能超支。";
+          else if (statistics.forecastRemaining > 0 && statistics.monthSpent < state.settings.living - state.settings.savings) reminder = "储蓄目标有希望完成，预计结余 " + formatSignedMoney(statistics.forecastRemaining) + "。";
+          elements.smartReminder.textContent = reminder;
         }
       }
 
