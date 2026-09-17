@@ -512,6 +512,44 @@
       font-size: 12px;
     }
 
+    .record-note {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .quick-notes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .quick-note-button {
+      min-height: 34px;
+      padding: 0 10px;
+      border: 1px solid #d0d5dd;
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .detail-meta {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    html[data-theme="dark"] .quick-note-button {
+      border-color: #475569;
+      background: #111827;
+      color: var(--text);
+    }
+
     .record-side {
       display: flex;
       flex-shrink: 0;
@@ -871,7 +909,7 @@
       left: 0;
       z-index: 10;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(7, 1fr);
       width: 100%;
       max-width: 560px;
       margin: 0 auto;
@@ -963,8 +1001,470 @@
         font-size: 13px;
       }
     }
-  </style>
-</head>
+    .budget-card-alert {
+      margin: 10px 0 0;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .budget-card-alert.yellow {
+      background: #fffbeb;
+      color: #92400e;
+    }
+
+    .budget-card-alert.red {
+      background: #fef2f2;
+      color: #b91c1c;
+    }
+
+    .dining-alert {
+      margin: 10px 0 0;
+      padding: 9px 11px;
+      border-radius: 9px;
+      background: #fffbeb;
+      color: #92400e;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .achievement-home-card {
+      margin-bottom: 14px;
+    }
+
+    .achievement-summary {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .achievement-summary span,
+    .achievement-progress-row span {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .achievement-summary strong {
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .achievement-progress-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 7px;
+      font-size: 13px;
+    }
+
+    .achievement-progress-row strong {
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .achievement-progress {
+      width: 100%;
+      height: 9px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e5e7eb;
+    }
+
+    .achievement-progress-fill {
+      display: block;
+      width: 0;
+      height: 100%;
+      border-radius: 999px;
+      background: var(--blue);
+    }
+
+    .achievement-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .achievement-item {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: #ffffff;
+    }
+
+    .achievement-item.unlocked {
+      border-color: #86efac;
+      background: #f0fdf4;
+    }
+
+    .achievement-item-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .achievement-item-title {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .achievement-item-desc {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .achievement-item-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .achievement-mini-progress {
+      width: 100%;
+      height: 7px;
+      margin-top: 9px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e5e7eb;
+    }
+
+    .achievement-mini-progress span {
+      display: block;
+      height: 100%;
+      width: 0;
+      border-radius: 999px;
+      background: var(--blue);
+    }
+
+    .insight-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .smart-reminder {
+      margin: 0;
+      color: #1e3a8a;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .monthly-keyword {
+      margin: 10px 0 0;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .holiday-reminder {
+      margin: 8px 0 0;
+      color: #9a3412;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .monthly-summary {
+      margin: 0 0 14px;
+      padding: 11px 13px;
+      border-radius: 10px;
+      background: #f0fdf4;
+      color: #166534;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.55;
+    }
+
+    .record-food { border-left: 4px solid #22c55e; }
+    .record-study { border-left: 4px solid #2563eb; }
+    .record-fun { border-left: 4px solid #8b5cf6; }
+    .record-nonmeal { border-left: 4px solid #f97316; }
+    .record-unexpected { border-left: 4px solid #ef4444; }
+    .record-fixed { border-left: 4px solid #64748b; }
+    .record-traffic { border-left: 4px solid #06b6d4; }
+    .record-other { border-left: 4px solid #94a3b8; }
+
+    .achievement-toast {
+      position: fixed;
+      top: 22px;
+      right: 18px;
+      left: 18px;
+      z-index: 40;
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 16px;
+      border: 1px solid #86efac;
+      border-radius: 14px;
+      background: #f0fdf4;
+      color: #166534;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.55;
+      box-shadow: 0 14px 35px rgba(15, 23, 42, 0.18);
+      animation: achievementPop 2s ease;
+    }
+
+    @keyframes achievementPop {
+      0% { opacity: 0; transform: translateY(-12px) scale(0.96); }
+      20% { opacity: 1; transform: translateY(0) scale(1); }
+      80% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-8px) scale(0.98); }
+    }
+
+    html[data-theme="dark"] .monthly-keyword {
+      background: #1e3a8a;
+      color: #bfdbfe;
+    }
+
+    html[data-theme="dark"] .monthly-summary {
+      background: #14532d;
+      color: #bbf7d0;
+    }
+
+    html[data-theme="dark"] .achievement-toast {
+      border-color: #166534;
+      background: #052e16;
+      color: #bbf7d0;
+    }
+
+    .theme-options {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .data-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .data-time {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .suggestion-list,
+    .history-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .suggestion-item,
+    .history-item {
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #f8fafc;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .suggestion-item strong,
+    .history-item strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .suggestion-item p,
+    .history-item p {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .suggestion-action {
+      min-height: 36px;
+      padding: 0 10px;
+      border: 1px solid var(--blue);
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--blue-dark);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    html[data-theme="dark"] .suggestion-item,
+    html[data-theme="dark"] .history-item {
+      background: #111827;
+    }
+
+    @media (min-width: 760px) {
+      .data-actions {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .theme-button {
+      min-height: 48px;
+      padding: 8px 10px;
+      border: 1px solid #d0d5dd;
+      border-radius: 10px;
+      background: #ffffff;
+      color: var(--text);
+      font-size: 14px;
+      text-align: left;
+    }
+
+    .theme-button.active {
+      border-color: var(--blue);
+      background: var(--blue-soft);
+      color: var(--blue-dark);
+      font-weight: 700;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(15, 23, 42, 0.55);
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 420px;
+      padding: 20px;
+      border-radius: 16px;
+      background: #ffffff;
+      color: var(--text);
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.22);
+    }
+
+    .modal-card h2 {
+      margin-bottom: 10px;
+    }
+
+    .modal-card p {
+      margin-bottom: 16px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .modal-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .secondary-button {
+      width: 100%;
+      min-height: 48px;
+      padding: 8px 10px;
+      border: 1px solid #d0d5dd;
+      border-radius: 10px;
+      background: #ffffff;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .secondary-button:disabled {
+      color: var(--muted);
+      background: #f2f4f7;
+    }
+
+    .countdown-note {
+      margin-top: 10px;
+      color: #9a3412;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    @media (min-width: 760px) {
+      .budget-card-grid .budget-card:last-child {
+        grid-column: 1 / -1;
+      }
+
+      .theme-options {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .modal-actions {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    html[data-theme="dark"] {
+      --page: #0f172a;
+      --card: #1e293b;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --line: #334155;
+      --blue-soft: #1e3a8a;
+    }
+
+    html[data-theme="dark"] body {
+      background: var(--page);
+      color: var(--text);
+    }
+
+    html[data-theme="dark"] .amount-input,
+    html[data-theme="dark"] .text-input,
+    html[data-theme="dark"] .category-button,
+    html[data-theme="dark"] .delete-button,
+    html[data-theme="dark"] .install-button,
+    html[data-theme="dark"] .theme-button,
+    html[data-theme="dark"] .secondary-button,
+    html[data-theme="dark"] .modal-card {
+      border-color: #475569;
+      background: #111827;
+      color: var(--text);
+    }
+
+    html[data-theme="dark"] .bottom-nav {
+      border-color: var(--line);
+      background: rgba(15, 23, 42, 0.98);
+    }
+
+    html[data-theme="dark"] .budget-card,
+    html[data-theme="dark"] .stat-card,
+    html[data-theme="dark"] .card,
+    html[data-theme="dark"] .achievement-item {
+      border-color: var(--line);
+      background: var(--card);
+    }
+
+    html[data-theme="dark"] .overview-item,
+    html[data-theme="dark"] .analysis-item,
+    html[data-theme="dark"] .forecast-item,
+    html[data-theme="dark"] .health-item {
+      background: #111827;
+    }
+
+    html[data-theme="dark"] .theme-button.active {
+      border-color: #60a5fa;
+      background: #1e3a8a;
+      color: #ffffff;
+    }
+
+    html[data-theme="dark"] .smart-reminder {
+      color: #bfdbfe;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+</style></head>
 <body>
   <div class="app">
     <header class="app-header">
@@ -979,6 +1479,30 @@
       <!-- 首页：今日额度、分类预算、健康度和今日概览 -->
       <section class="page active" id="homePage" aria-labelledby="homeTitle">
         <h2 class="sr-only" id="homeTitle">首页</h2>
+
+        <section class="card achievement-home-card" aria-labelledby="homeAchievementTitle">
+          <div class="card-title-row">
+            <h2 id="homeAchievementTitle">🏅 成就中心</h2>
+            <span class="badge" id="achievementBadge">连续 0 天</span>
+          </div>
+          <div class="achievement-summary">
+            <div>
+              <span>当前成就</span>
+              <strong id="currentAchievement">尚未解锁</strong>
+            </div>
+            <div>
+              <span>连续记账</span>
+              <strong id="currentStreakText">0 天</strong>
+            </div>
+          </div>
+          <div class="achievement-progress-row">
+            <span id="nextAchievementText">下一目标：连续记账 7 天</span>
+            <strong id="achievementProgressText">0/7</strong>
+          </div>
+          <div class="achievement-progress">
+            <span class="achievement-progress-fill" id="achievementProgressFill"></span>
+          </div>
+        </section>
 
         <div class="hero" id="heroCard">
           <div class="hero-summary">
@@ -1028,6 +1552,23 @@
             <div class="budget-progress">
               <span class="budget-progress-fill green" id="entertainmentBudgetProgress"></span>
             </div>
+          </article>
+
+          <article class="budget-card">
+            <div class="budget-card-head">
+              <h3>🍟 非正餐消费</h3>
+              <span class="budget-card-status green" id="nonmealBudgetStatus">正常</span>
+            </div>
+            <strong class="budget-card-remaining" id="nonmealBudgetRemaining">¥150.00 / ¥150.00</strong>
+            <span class="budget-card-used" id="nonmealBudgetUsed">已消费 ¥0.00</span>
+            <div class="budget-card-usage">
+              <span>使用率</span>
+              <strong id="nonmealBudgetUsage">0%</strong>
+            </div>
+            <div class="budget-progress">
+              <span class="budget-progress-fill green" id="nonmealBudgetProgress"></span>
+            </div>
+            <p class="budget-card-alert" id="nonmealBudgetAlert" hidden></p>
           </article>
 
           <article class="budget-card">
@@ -1089,6 +1630,15 @@
             </div>
           </div>
         </section>
+
+        <section class="card" aria-labelledby="smartReminderTitle">
+          <div class="card-title-row">
+            <h2 id="smartReminderTitle">💡 智能提醒</h2>
+          </div>
+          <p class="smart-reminder" id="smartReminder">正在分析本月消费。</p>
+          <p class="monthly-keyword" id="monthlyKeyword">📌 月度关键词：稳健消费月</p>
+          <p class="holiday-reminder" id="holidayReminder" hidden></p>
+        </section>
       </section>
 
       <!-- 记账页：输入金额、分类、日期和备注 -->
@@ -1148,6 +1698,19 @@
             </div>
           </fieldset>
 
+          <fieldset class="form-group" id="nonmealSubcategoryGroup" hidden>
+            <legend>非正餐消费子项</legend>
+            <div class="category-grid" id="nonmealSubcategoryGrid">
+              <button class="category-button" type="button" data-nonmeal-subcategory="奶茶" aria-pressed="false">奶茶</button>
+              <button class="category-button" type="button" data-nonmeal-subcategory="咖啡" aria-pressed="false">咖啡</button>
+              <button class="category-button" type="button" data-nonmeal-subcategory="零食" aria-pressed="false">零食</button>
+              <button class="category-button" type="button" data-nonmeal-subcategory="水果" aria-pressed="false">水果</button>
+              <button class="category-button" type="button" data-nonmeal-subcategory="其他" aria-pressed="false">其他</button>
+            </div>
+          </fieldset>
+
+          <p class="dining-alert" id="diningAlert" hidden></p>
+
           <div class="form-group">
             <label class="form-label" for="expenseDate">消费日期</label>
             <input
@@ -1166,10 +1729,11 @@
               id="expenseNote"
               name="note"
               type="text"
-              maxlength="60"
+              maxlength="50"
               placeholder="例如：和朋友聚餐"
               autocomplete="off"
             >
+            <div class="quick-notes" id="quickNoteGroup" hidden></div>
           </div>
 
           <button class="primary-button" type="submit">保存记录</button>
@@ -1306,9 +1870,68 @@
                 >
               </div>
             </div>
+
+            <div class="form-group">
+              <label class="form-label" for="nonmealBudgetInput">非正餐消费预算</label>
+              <div class="amount-input">
+                <span class="currency" aria-hidden="true">¥</span>
+                <input
+                  id="nonmealBudgetInput"
+                  name="nonmeal"
+                  data-setting="nonmeal"
+                  type="number"
+                  inputmode="decimal"
+                  min="0"
+                  step="0.01"
+                  placeholder="150.00"
+                  autocomplete="off"
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="dailyDiningInput">每日餐饮预算</label>
+              <div class="amount-input">
+                <span class="currency" aria-hidden="true">¥</span>
+                <input
+                  id="dailyDiningInput"
+                  name="dailyDining"
+                  data-setting="dailyDining"
+                  type="number"
+                  inputmode="decimal"
+                  min="0"
+                  step="0.01"
+                  placeholder="35.00"
+                  autocomplete="off"
+                >
+              </div>
+            </div>
           </form>
 
           <p class="hint">修改后自动保存。意外支出预算单独统计，不参与可消费预算公式。</p>
+        </section>
+
+        <section class="card" aria-labelledby="themeTitle">
+          <div class="card-title-row">
+            <h2 id="themeTitle">主题设置</h2>
+          </div>
+          <div class="theme-options">
+            <button class="theme-button" type="button" data-theme="light">☀️ 浅色模式</button>
+            <button class="theme-button" type="button" data-theme="dark">🌙 深色模式</button>
+            <button class="theme-button" type="button" data-theme="system">📱 跟随系统</button>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="dataTitle">
+          <div class="card-title-row">
+            <h2 id="dataTitle">📦 数据管理</h2>
+          </div>
+          <div class="data-actions">
+            <button class="primary-button" type="button" id="exportBackupButton">导出备份</button>
+            <button class="secondary-button" type="button" id="importBackupButton">恢复备份</button>
+          </div>
+          <p class="data-time" id="lastBackupTime">最近备份时间：暂无</p>
+          <input id="backupFileInput" type="file" accept=".json,application/json" hidden>
         </section>
       </section>
 
@@ -1374,6 +1997,30 @@
               <span class="analysis-label">平均每日消费</span>
               <strong class="analysis-value" id="averageDailySpent">¥0.00</strong>
             </div>
+            <div class="analysis-item">
+              <span class="analysis-label">最大消费备注</span>
+              <strong class="analysis-value" id="maxExpenseNote">暂无</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="regretTitle">
+          <div class="card-title-row">
+            <h2 id="regretTitle">本月后悔消费</h2>
+          </div>
+          <div class="analysis-grid">
+            <div class="analysis-item">
+              <span class="analysis-label">后悔消费总金额</span>
+              <strong class="analysis-value" id="regretAmount">¥0.00</strong>
+            </div>
+            <div class="analysis-item">
+              <span class="analysis-label">后悔消费占比</span>
+              <strong class="analysis-value" id="regretPercent">0%</strong>
+            </div>
+            <div class="analysis-item">
+              <span class="analysis-label">后悔消费次数</span>
+              <strong class="analysis-value" id="regretCount">0 次</strong>
+            </div>
           </div>
         </section>
 
@@ -1408,6 +2055,53 @@
           <p class="forecast-alert" id="forecastAlert" hidden></p>
         </section>
       </section>
+
+      <section class="page" id="achievementPage" aria-labelledby="achievementTitle">
+        <div class="page-title">
+          <h2 id="achievementTitle">🏅 成就中心</h2>
+          <p>查看已解锁成就、完成进度和解锁时间。</p>
+        </div>
+        <div class="achievement-list" id="achievementList"></div>
+      </section>
+
+      <section class="page" id="insightPage" aria-labelledby="insightTitle">
+        <div class="page-title">
+          <h2 id="insightTitle">📊 消费洞察</h2>
+          <p>根据本月账单生成消费洞察。</p>
+        </div>
+        <p class="monthly-summary" id="monthlySummary">正在生成月度总结。</p>
+        <div class="stats-grid">
+          <article class="stat-card"><span class="stat-label">本月总消费</span><strong class="stat-value" id="insightMonthSpent">¥0.00</strong></article>
+          <article class="stat-card"><span class="stat-label">最高消费分类</span><strong class="stat-value" id="insightHighestCategory">暂无</strong></article>
+          <article class="stat-card"><span class="stat-label">最低消费分类</span><strong class="stat-value" id="insightLowestCategory">暂无</strong></article>
+          <article class="stat-card"><span class="stat-label">最大单笔消费</span><strong class="stat-value" id="insightMaxExpense">暂无</strong></article>
+          <article class="stat-card"><span class="stat-label">消费最多的一天</span><strong class="stat-value" id="insightHighestDay">暂无</strong></article>
+          <article class="stat-card"><span class="stat-label">平均每日消费</span><strong class="stat-value" id="insightAverageDaily">¥0.00</strong></article>
+          <article class="stat-card"><span class="stat-label">预计月末结余</span><strong class="stat-value" id="insightForecastBalance">¥0.00</strong></article>
+        </div>
+        <section class="card" aria-labelledby="nonmealInsightTitle">
+          <div class="card-title-row"><h2 id="nonmealInsightTitle">非正餐消费排行</h2></div>
+          <div class="insight-list" id="nonmealInsightRanking"></div>
+        </section>
+      </section>
+
+      <section class="page" id="budgetAssistantPage" aria-labelledby="budgetAssistantTitle">
+        <div class="page-title">
+          <h2 id="budgetAssistantTitle">📈 预算调节助手</h2>
+          <p>仅提供建议，确认后才会修改预算。</p>
+        </div>
+        <button class="primary-button" type="button" id="analyzeBudgetButton">立即分析预算</button>
+        <p class="data-time" id="budgetAnalysisTime">尚未分析</p>
+        <div class="suggestion-list" id="budgetSuggestions"></div>
+        <div class="data-actions">
+          <button class="secondary-button" type="button" id="applyAllSuggestions">全部采用</button>
+          <button class="secondary-button" type="button" id="ignoreSuggestions">暂不调整</button>
+        </div>
+        <section class="card" aria-labelledby="historyTitle">
+          <div class="card-title-row"><h2 id="historyTitle">预算调整历史</h2></div>
+          <div class="history-list" id="budgetHistoryList"></div>
+        </section>
+      </section>
     </main>
   </div>
 
@@ -1416,9 +2110,53 @@
     <button class="nav-button" type="button" data-page="recordPage">记账</button>
     <button class="nav-button" type="button" data-page="budgetPage">预算</button>
     <button class="nav-button" type="button" data-page="statsPage">统计</button>
+    <button class="nav-button" type="button" data-page="achievementPage">成就</button>
+    <button class="nav-button" type="button" data-page="insightPage">洞察</button>
+    <button class="nav-button" type="button" data-page="budgetAssistantPage">调节</button>
   </nav>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <div class="modal-backdrop" id="satisfactionModal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="satisfactionTitle">
+      <h2 id="satisfactionTitle">这笔消费是否满意？</h2>
+      <p id="satisfactionDetails">请选择你的感受。</p>
+      <div class="modal-actions">
+        <button class="secondary-button" type="button" data-satisfaction="worth">😊 值得</button>
+        <button class="secondary-button" type="button" data-satisfaction="neutral">😐 一般</button>
+        <button class="secondary-button" type="button" data-satisfaction="regret">😔 后悔</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="achievement-toast" id="achievementToast" hidden></div>
+
+  <div class="modal-backdrop" id="impulseModal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="impulseTitle">
+      <h2 id="impulseTitle">请确认是否继续</h2>
+      <p id="impulseDetails">单笔消费金额较大，请等待冷静期。</p>
+      <p class="countdown-note" id="impulseCountdown">请等待 3 秒</p>
+      <div class="modal-actions">
+        <button class="secondary-button" type="button" id="impulseCancel">取消</button>
+        <button class="primary-button" type="button" id="impulseConfirm" disabled>确认继续</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="detailModal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+      <h2 id="detailTitle">消费详情</h2>
+      <p class="detail-meta" id="detailMeta">暂无记录</p>
+      <div class="form-group">
+        <label class="form-label" for="detailNoteInput">备注（可选，最多50字）</label>
+        <input class="text-input" id="detailNoteInput" type="text" maxlength="50" autocomplete="off">
+      </div>
+      <div class="modal-actions">
+        <button class="secondary-button" type="button" id="detailCancel">关闭</button>
+        <button class="primary-button" type="button" id="detailSave">保存备注</button>
+      </div>
+    </div>
+  </div>
 
   <script>
     (function () {
@@ -1431,18 +2169,23 @@
         study: 200,
         fixed: 120,
         entertainment: 80,
-        unexpected: 200
+        unexpected: 200,
+        nonmeal: 150,
+        dailyDining: 35
       };
       var LEGACY_BUDGET_KEY = "collegeLifeBudgetV1";
       var BUDGET_SETTINGS_KEY = "collegeLifeBudgetSettingsV2";
       var EXPENSES_KEY = "collegeLifeExpensesV1";
+      var THEME_KEY = "collegeLifeThemeV1";
+      var ACHIEVEMENTS_KEY = "collegeLifeAchievementsV1";
       var UNEXPECTED_CATEGORY = "意外支出";
       var FIXED_CATEGORY = "固定支出";
+      var NONMEAL_CATEGORY = "非正餐消费";
       var CATEGORY_NAMES = [
         "早餐", "午餐", "晚餐", "水果零食", "水电热水",
-        "话费", "学习", "娱乐", "交通", "意外支出", "固定支出", "其他"
+        "话费", "学习", "娱乐", "交通", "意外支出", "固定支出", "非正餐消费", "其他"
       ];
-      var STATS_CATEGORY_NAMES = ["餐饮", "学习", "娱乐", "固定支出", "意外支出", "交通", "其他"];
+      var STATS_CATEGORY_NAMES = ["餐饮", "学习", "娱乐", "固定支出", "意外支出", "非正餐消费", "交通", "其他"];
       var CHART_COLORS = [
         "#2563eb", "#3b82f6", "#60a5fa", "#93c5fd",
         "#1d4ed8", "#0ea5e9", "#7dd3fc", "#38bdf8",
@@ -1463,6 +2206,43 @@
         homeTodaySpent: document.getElementById("homeTodaySpent"),
         homeWeekSpent: document.getElementById("homeWeekSpent"),
         homeMonthSpent: document.getElementById("homeMonthSpent"),
+        achievementBadge: document.getElementById("achievementBadge"),
+        currentAchievement: document.getElementById("currentAchievement"),
+        currentStreakText: document.getElementById("currentStreakText"),
+        nextAchievementText: document.getElementById("nextAchievementText"),
+        achievementProgressText: document.getElementById("achievementProgressText"),
+        achievementProgressFill: document.getElementById("achievementProgressFill"),
+        smartReminder: document.getElementById("smartReminder"),
+        nonmealBudgetAlert: document.getElementById("nonmealBudgetAlert"),
+        nonmealSubcategoryGroup: document.getElementById("nonmealSubcategoryGroup"),
+        nonmealSubcategoryButtons: Array.prototype.slice.call(
+          document.querySelectorAll("[data-nonmeal-subcategory]")
+        ),
+        diningAlert: document.getElementById("diningAlert"),
+        themeButtons: Array.prototype.slice.call(document.querySelectorAll("[data-theme]")),
+        regretAmount: document.getElementById("regretAmount"),
+        regretPercent: document.getElementById("regretPercent"),
+        regretCount: document.getElementById("regretCount"),
+        achievementPage: document.getElementById("achievementPage"),
+        achievementList: document.getElementById("achievementList"),
+        insightMonthSpent: document.getElementById("insightMonthSpent"),
+        insightHighestCategory: document.getElementById("insightHighestCategory"),
+        insightLowestCategory: document.getElementById("insightLowestCategory"),
+        insightMaxExpense: document.getElementById("insightMaxExpense"),
+        insightHighestDay: document.getElementById("insightHighestDay"),
+        insightAverageDaily: document.getElementById("insightAverageDaily"),
+        insightForecastBalance: document.getElementById("insightForecastBalance"),
+        nonmealInsightRanking: document.getElementById("nonmealInsightRanking"),
+        satisfactionModal: document.getElementById("satisfactionModal"),
+        satisfactionDetails: document.getElementById("satisfactionDetails"),
+        satisfactionButtons: Array.prototype.slice.call(
+          document.querySelectorAll("[data-satisfaction]")
+        ),
+        impulseModal: document.getElementById("impulseModal"),
+        impulseDetails: document.getElementById("impulseDetails"),
+        impulseCountdown: document.getElementById("impulseCountdown"),
+        impulseConfirm: document.getElementById("impulseConfirm"),
+        impulseCancel: document.getElementById("impulseCancel"),
         budgetForm: document.getElementById("budgetForm"),
         budgetInputs: Array.prototype.slice.call(
           document.querySelectorAll("[data-setting]")
@@ -1510,7 +2290,11 @@
         settings: Object.assign({}, DEFAULT_BUDGET_SETTINGS),
         expenses: [],
         selectedCategory: "",
-        selectedFixedSubcategory: ""
+        selectedFixedSubcategory: "",
+        selectedNonmealSubcategory: "",
+        theme: "system",
+        pendingExpense: null,
+        impulseTimer: null
       };
 
       var toastTimer = null;
@@ -1603,6 +2387,16 @@
             parsed.unexpected,
             DEFAULT_BUDGET_SETTINGS.unexpected,
             true
+          ),
+          nonmeal: parseBudgetValue(
+            parsed.nonmeal,
+            DEFAULT_BUDGET_SETTINGS.nonmeal,
+            true
+          ),
+          dailyDining: parseBudgetValue(
+            parsed.dailyDining,
+            DEFAULT_BUDGET_SETTINGS.dailyDining,
+            true
           )
         };
       }
@@ -1668,6 +2462,7 @@
                 amount: roundMoney(Number(item.amount)),
                 category: item.category,
                 subcategory: typeof item.subcategory === "string" ? item.subcategory : "",
+                satisfaction: typeof item.satisfaction === "string" ? item.satisfaction : "",
                 date: item.date,
                 note: typeof item.note === "string" ? item.note : "",
                 createdAt: item.createdAt || ""
@@ -1773,6 +2568,26 @@
         };
       }
 
+      function isNonmealExpense(item) {
+        return item.category === NONMEAL_CATEGORY || item.category === "水果零食";
+      }
+
+      function getNonmealBudgetData(total, monthExpenses) {
+        var spent = sumExpenses(monthExpenses.filter(isNonmealExpense));
+        var remaining = roundMoney(total - spent);
+        var usageRate = total > 0
+          ? (spent / total) * 100
+          : (spent > 0 ? 100 : 0);
+
+        return {
+          category: NONMEAL_CATEGORY,
+          total: roundMoney(total),
+          spent: spent,
+          remaining: remaining,
+          usageRate: usageRate
+        };
+      }
+
       function getCategoryBudgetData(categoryName, total, monthExpenses) {
         var spent = sumExpenses(monthExpenses.filter(function (item) {
           return item.category === categoryName;
@@ -1835,6 +2650,886 @@
         elements.homeMonthSpent.textContent = "¥" + formatMoney(statistics.monthSpent);
       }
 
+      var achievementToastTimer = null;
+
+      function dateFromKey(dateKey) {
+        var parts = String(dateKey).split("-");
+        return new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+      }
+
+      function getUniqueExpenseDates() {
+        var seen = {};
+        state.expenses.forEach(function (item) {
+          seen[item.date] = true;
+        });
+        return Object.keys(seen).sort(function (first, second) {
+          return second.localeCompare(first);
+        });
+      }
+
+      function calculateStreak() {
+        var dates = getUniqueExpenseDates();
+        if (dates.length === 0) {
+          return 0;
+        }
+
+        var today = new Date();
+        var todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        var latest = dateFromKey(dates[0]);
+        var gap = Math.round((todayStart - latest) / 86400000);
+
+        if (gap > 1) {
+          return 0;
+        }
+
+        var streak = 1;
+        for (var index = 1; index < dates.length; index += 1) {
+          var previous = dateFromKey(dates[index - 1]);
+          var current = dateFromKey(dates[index]);
+          var dayGap = Math.round((previous - current) / 86400000);
+          if (dayGap !== 1) {
+            break;
+          }
+          streak += 1;
+        }
+        return streak;
+      }
+
+      function loadAchievementData() {
+        try {
+          var raw = window.localStorage.getItem(ACHIEVEMENTS_KEY);
+          var parsed = raw ? JSON.parse(raw) : {};
+          return parsed && typeof parsed === "object" ? parsed : {};
+        } catch (error) {
+          return {};
+        }
+      }
+
+      function saveAchievementData(data) {
+        try {
+          window.localStorage.setItem(ACHIEVEMENTS_KEY, JSON.stringify(data));
+        } catch (error) {
+          // 保持当前页面可用，不阻断成就展示。
+        }
+      }
+
+      function countMilkFreeDays() {
+        var count = 0;
+        var checkDate = new Date();
+
+        for (var offset = 0; offset < 7; offset += 1) {
+          var current = new Date(checkDate.getFullYear(), checkDate.getMonth(), checkDate.getDate() - offset);
+          var key = toDateKey(current);
+          var hasMilkTea = state.expenses.some(function (item) {
+            return item.date === key && (item.subcategory === "奶茶" || item.category === "奶茶");
+          });
+          if (hasMilkTea) {
+            break;
+          }
+          count += 1;
+        }
+        return count;
+      }
+
+      function countZenDays() {
+        var count = 0;
+        var checkDate = new Date();
+
+        for (var offset = 0; offset < 3; offset += 1) {
+          var current = new Date(checkDate.getFullYear(), checkDate.getMonth(), checkDate.getDate() - offset);
+          var key = toDateKey(current);
+          var spent = sumExpenses(state.expenses.filter(function (item) {
+            return item.date === key;
+          }));
+          if (spent >= 10) {
+            break;
+          }
+          count += 1;
+        }
+        return count;
+      }
+
+      function hasZeroSpendDay() {
+        var now = new Date();
+        var lastDay = now.getDate();
+        for (var day = 1; day <= lastDay; day += 1) {
+          var key = toDateKey(new Date(now.getFullYear(), now.getMonth(), day));
+          var spent = sumExpenses(state.expenses.filter(function (item) {
+            return item.date === key;
+          }));
+          if (spent === 0) {
+            return true;
+          }
+        }
+        return false;
+      }
+
+      function getAchievementDefinitions() {
+        var monthExpenses = getMonthExpenses(new Date());
+        var statistics = calculateStatistics();
+        var study = getCategoryBudgetData("学习", state.settings.study, monthExpenses);
+        var entertainment = getCategoryBudgetData("娱乐", state.settings.entertainment, monthExpenses);
+        var nonmeal = getNonmealBudgetData(state.settings.nonmeal, monthExpenses);
+        var unexpected = getCategoryBudgetData(UNEXPECTED_CATEGORY, state.settings.unexpected, monthExpenses);
+        var fixed = getFixedCategoryBudgetData(state.settings.fixed, monthExpenses);
+        var streak = calculateStreak();
+        var milkFreeDays = countMilkFreeDays();
+        var zenDays = countZenDays();
+        var allBudgetSafe = study.spent <= study.total &&
+          entertainment.spent <= entertainment.total &&
+          nonmeal.spent <= nonmeal.total &&
+          unexpected.spent <= unexpected.total &&
+          fixed.spent <= fixed.total;
+        var savingsProgress = state.settings.savings > 0
+          ? Math.max(0, Math.min(1, (state.settings.living - statistics.monthSpent) / state.settings.savings))
+          : 0;
+
+        return [
+          { id: "first_record", title: "初来乍到", desc: "完成第一笔记账", current: Math.min(1, state.expenses.length), target: 1, unlocked: state.expenses.length > 0 },
+          { id: "week_streak", title: "一周坚持", desc: "连续记账7天", current: Math.min(streak, 7), target: 7, unlocked: streak >= 7 },
+          { id: "streak_30", title: "连续记账达人", desc: "连续记账30天", current: Math.min(streak, 30), target: 30, unlocked: streak >= 30 },
+          { id: "budget_master", title: "预算大师", desc: "所有预算均未超支", current: allBudgetSafe ? 1 : 0, target: 1, unlocked: allBudgetSafe },
+          { id: "no_milk_tea_7", title: "奶茶克星", desc: "连续7天无奶茶消费", current: Math.min(milkFreeDays, 7), target: 7, unlocked: milkFreeDays >= 7 },
+          { id: "snack_control", title: "零食克制者", desc: "非正餐消费低于预算50%", current: nonmeal.total > 0 && nonmeal.spent < nonmeal.total * 0.5 ? 1 : 0, target: 1, unlocked: nonmeal.total > 0 && nonmeal.spent < nonmeal.total * 0.5 },
+          { id: "savings_master", title: "储蓄达人", desc: "达成储蓄目标", current: savingsProgress, target: 1, unlocked: savingsProgress >= 1 },
+          { id: "invest_self", title: "投资自己", desc: "学习预算使用率超过50%", current: study.total > 0 ? Math.min(study.spent / study.total, 1) : 0, target: 1, unlocked: study.total > 0 && study.spent / study.total > 0.5 },
+          { id: "penny_pincher", title: "一毛不拔", desc: "一天消费0元", current: hasZeroSpendDay() ? 1 : 0, target: 1, unlocked: hasZeroSpendDay() },
+          { id: "zen_life", title: "佛系生活", desc: "连续3天消费低于10元", current: Math.min(zenDays, 3), target: 3, unlocked: zenDays >= 3 }
+        ];
+      }
+
+      function checkAchievements() {
+        var saved = loadAchievementData();
+        var definitions = getAchievementDefinitions();
+        var unlockedNow = [];
+
+        definitions.forEach(function (achievement) {
+          if (achievement.unlocked && !saved[achievement.id]) {
+            saved[achievement.id] = {
+              title: achievement.title,
+              desc: achievement.desc,
+              unlockedAt: new Date().toISOString()
+            };
+            unlockedNow.push(achievement);
+          }
+        });
+
+        saveAchievementData(saved);
+        return unlockedNow;
+      }
+
+      function showAchievementUnlock(achievement) {
+        var toast = document.getElementById("achievementToast");
+        if (!toast) {
+          return;
+        }
+
+        toast.innerHTML = "🎉 恭喜解锁<br><strong>" + achievement.title + "</strong><br>" + achievement.desc;
+        toast.hidden = false;
+        if (achievementToastTimer) {
+          window.clearTimeout(achievementToastTimer);
+        }
+        achievementToastTimer = window.setTimeout(function () {
+          toast.hidden = true;
+        }, 2000);
+      }
+
+      function renderAchievementHome() {
+        var unlockedNow = checkAchievements();
+        if (unlockedNow.length > 0) {
+          showAchievementUnlock(unlockedNow[0]);
+        }
+
+        var saved = loadAchievementData();
+        var definitions = getAchievementDefinitions();
+        var unlockedDefinitions = definitions.filter(function (achievement) {
+          return saved[achievement.id];
+        });
+        var next = definitions.filter(function (achievement) {
+          return !saved[achievement.id];
+        })[0];
+        var streak = calculateStreak();
+        var latest = unlockedDefinitions.length > 0
+          ? unlockedDefinitions[unlockedDefinitions.length - 1]
+          : null;
+
+        document.getElementById("currentAchievement").textContent = latest ? latest.title : "尚未解锁";
+        document.getElementById("currentStreakText").textContent = streak + " 天";
+        document.getElementById("achievementBadge").textContent = "连续 " + streak + " 天";
+        document.getElementById("nextAchievementText").textContent = next
+          ? "下一目标：" + next.desc
+          : "全部成就已解锁";
+        document.getElementById("achievementProgressText").textContent = next
+          ? next.current + "/" + next.target
+          : "完成";
+        document.getElementById("achievementProgressFill").style.width = next
+          ? Math.max(0, Math.min(100, (next.current / next.target) * 100)) + "%"
+          : "100%";
+      }
+
+      function renderAchievementPage() {
+        var saved = loadAchievementData();
+        var definitions = getAchievementDefinitions();
+        var list = document.getElementById("achievementList");
+        if (!list) {
+          return;
+        }
+        list.textContent = "";
+        var fragment = document.createDocumentFragment();
+
+        definitions.forEach(function (achievement) {
+          var isUnlocked = Boolean(saved[achievement.id]);
+          var item = document.createElement("article");
+          item.className = "achievement-item" + (isUnlocked ? " unlocked" : "");
+
+          var head = document.createElement("div");
+          head.className = "achievement-item-head";
+          var title = document.createElement("strong");
+          title.className = "achievement-item-title";
+          title.textContent = achievement.title;
+          var status = document.createElement("span");
+          status.className = "badge";
+          status.textContent = isUnlocked ? "已解锁" : "未解锁";
+          head.appendChild(title);
+          head.appendChild(status);
+
+          var desc = document.createElement("p");
+          desc.className = "achievement-item-desc";
+          desc.textContent = achievement.desc;
+
+          var meta = document.createElement("div");
+          meta.className = "achievement-item-meta";
+          var progress = document.createElement("span");
+          progress.textContent = achievement.current + "/" + achievement.target;
+          var time = document.createElement("span");
+          time.textContent = isUnlocked && saved[achievement.id].unlockedAt
+            ? "解锁于 " + new Date(saved[achievement.id].unlockedAt).toLocaleDateString("zh-CN")
+            : "继续努力";
+          meta.appendChild(progress);
+          meta.appendChild(time);
+
+          item.appendChild(head);
+          item.appendChild(desc);
+          item.appendChild(meta);
+          fragment.appendChild(item);
+        });
+
+        list.appendChild(fragment);
+      }
+
+      function getMonthlyKeyword() {
+        var monthExpenses = getMonthExpenses(new Date());
+        var statistics = calculateStatistics();
+        var study = getCategoryBudgetData("学习", state.settings.study, monthExpenses);
+        var entertainment = getCategoryBudgetData("娱乐", state.settings.entertainment, monthExpenses);
+        var nonmeal = getNonmealBudgetData(state.settings.nonmeal, monthExpenses);
+
+        if (nonmeal.usageRate >= 80) {
+          return "非正餐控制月";
+        }
+        if (entertainment.usageRate >= 80) {
+          return "娱乐偏高月";
+        }
+        if (study.usageRate > 50) {
+          return "学习投入月";
+        }
+        if (statistics.forecastRemaining > 0 && statistics.monthSpent < statistics.remaining + statistics.monthSpent) {
+          return "储蓄达标月";
+        }
+        if (statistics.monthSpent > 0 && statistics.monthSpent < statistics.remaining) {
+          return "预算大师月";
+        }
+        return "稳健消费月";
+      }
+
+      function getMonthlySummary() {
+        var statistics = calculateStatistics();
+        var monthExpenses = getMonthExpenses(new Date());
+        var study = getCategoryBudgetData("学习", state.settings.study, monthExpenses);
+        var entertainment = getCategoryBudgetData("娱乐", state.settings.entertainment, monthExpenses);
+
+        if (statistics.forecastRemaining > 0) {
+          return "本月消费控制良好，预计结余 ¥" + formatMoney(statistics.forecastRemaining) + "。";
+        }
+        if (entertainment.usageRate >= 80) {
+          return "本月娱乐消费较高，建议下月控制。";
+        }
+        if (study.usageRate > 50) {
+          return "本月学习投入达标，继续保持。";
+        }
+        return "本月预算执行优秀。";
+      }
+
+      function getHolidayReminder() {
+        var now = new Date();
+        var month = now.getMonth() + 1;
+        var day = now.getDate();
+
+        if (month === 1 && day === 1) {
+          return "🎉 元旦期间建议预留活动预算。";
+        }
+        if (month === 2) {
+          return "🎉 春节期间建议预留活动预算。";
+        }
+        if ((month === 3 && day <= 15) || (month === 9 && day <= 15)) {
+          return "📚 开学季建议增加学习预算。";
+        }
+        if (month === 5 && day <= 7) {
+          return "🎉 五一期间建议预留活动预算。";
+        }
+        if (month === 7 || month === 8) {
+          return "🎉 暑假期间建议控制娱乐支出。";
+        }
+        if (month === 10 && day <= 7) {
+          return "🎉 国庆期间建议预留活动预算。";
+        }
+        if (month === 11 && day <= 11) {
+          return "⚠ 双十一期间注意冲动消费。";
+        }
+        if (month === 12 && day <= 12) {
+          return "⚠ 双十二期间注意冲动消费。";
+        }
+        return "";
+      }
+
+      function renderSmartReminder() {
+        var keywordElement = document.getElementById("monthlyKeyword");
+        var holidayElement = document.getElementById("holidayReminder");
+        var summaryElement = document.getElementById("monthlySummary");
+        var keyword = getMonthlyKeyword();
+        var holiday = getHolidayReminder();
+        var summary = getMonthlySummary();
+
+        if (keywordElement) {
+          keywordElement.textContent = "📌 月度关键词：" + keyword;
+        }
+        if (holidayElement) {
+          holidayElement.hidden = !holiday;
+          holidayElement.textContent = holiday;
+        }
+        if (summaryElement) {
+          summaryElement.textContent = summary;
+        }
+        if (elements.smartReminder) {
+          elements.smartReminder.textContent = summary;
+        }
+      }
+
+      function getDiningBudgetData() {
+        var todayKey = toDateKey(new Date());
+        var diningCategories = ["早餐", "午餐", "晚餐"];
+        var spent = sumExpenses(state.expenses.filter(function (item) {
+          return item.date === todayKey && diningCategories.indexOf(item.category) !== -1;
+        }));
+        var budget = state.settings.dailyDining;
+        return {
+          budget: roundMoney(budget),
+          spent: spent,
+          remaining: roundMoney(budget - spent)
+        };
+      }
+
+      function renderDailyDiningAlert() {
+        if (!elements.diningAlert) {
+          return;
+        }
+        var data = getDiningBudgetData();
+        var ratio = data.budget > 0 ? data.remaining / data.budget : 0;
+        if (data.budget > 0 && ratio < 0.2) {
+          elements.diningAlert.hidden = false;
+          elements.diningAlert.textContent = "⚠ 今日餐饮预算剩余较少";
+        } else {
+          elements.diningAlert.hidden = true;
+          elements.diningAlert.textContent = "";
+        }
+      }
+
+      function getRecordVisual(category) {
+        if (category === "早餐" || category === "午餐" || category === "晚餐" || category === "水果零食") {
+          return { icon: "🍚", className: "record-food" };
+        }
+        if (category === "学习") {
+          return { icon: "📚", className: "record-study" };
+        }
+        if (category === "娱乐") {
+          return { icon: "🎮", className: "record-fun" };
+        }
+        if (category === NONMEAL_CATEGORY) {
+          return { icon: "🍟", className: "record-nonmeal" };
+        }
+        if (category === UNEXPECTED_CATEGORY) {
+          return { icon: "⚠", className: "record-unexpected" };
+        }
+        if (category === FIXED_CATEGORY || category === "话费" || category === "水电热水") {
+          return { icon: "🏠", className: "record-fixed" };
+        }
+        if (category === "交通") {
+          return { icon: "🚇", className: "record-traffic" };
+        }
+        return { icon: "📦", className: "record-other" };
+      }
+
+      function renderInsights() {
+        var statistics = calculateStatistics();
+        var monthExpenses = getMonthExpenses(new Date());
+        var maxExpense = null;
+        var nonmealCounts = {};
+        var nonmealAmounts = {};
+
+        monthExpenses.forEach(function (item) {
+          if (!maxExpense || item.amount > maxExpense.amount) {
+            maxExpense = item;
+          }
+          if (isNonmealExpense(item)) {
+            var key = item.subcategory || item.category;
+            nonmealCounts[key] = (nonmealCounts[key] || 0) + 1;
+            nonmealAmounts[key] = roundMoney((nonmealAmounts[key] || 0) + Number(item.amount));
+          }
+        });
+
+        var nonmealRanking = Object.keys(nonmealCounts)
+          .map(function (key) {
+            return { name: key, count: nonmealCounts[key], amount: nonmealAmounts[key] };
+          })
+          .sort(function (first, second) {
+            return second.count - first.count || second.amount - first.amount;
+          });
+
+        var setText = function (id, value) {
+          var element = document.getElementById(id);
+          if (element) {
+            element.textContent = value;
+          }
+        };
+
+        setText("insightMonthSpent", "¥" + formatMoney(statistics.monthSpent));
+        setText("insightHighestCategory", statistics.highestCategory ? statistics.highestCategory.category : "暂无");
+        setText("insightLowestCategory", statistics.lowestCategory ? statistics.lowestCategory.category : "暂无");
+        setText("insightMaxExpense", maxExpense ? maxExpense.category + " ¥" + formatMoney(maxExpense.amount) : "暂无");
+        setText("insightHighestDay", statistics.highestSpendDay ? statistics.highestSpendDay.date + " ¥" + formatMoney(statistics.highestSpendDay.amount) : "暂无");
+        setText("insightAverageDaily", "¥" + formatMoney(statistics.averageDailySpent));
+        setText("insightForecastBalance", statistics.forecastRemaining < 0 ? "-¥" + formatMoney(statistics.forecastRemaining) : "¥" + formatMoney(statistics.forecastRemaining));
+
+        var rankingElement = document.getElementById("nonmealInsightRanking");
+        if (rankingElement) {
+          rankingElement.textContent = "";
+          if (nonmealRanking.length === 0) {
+            var empty = document.createElement("p");
+            empty.className = "empty-records";
+            empty.textContent = "本月暂无非正餐消费";
+            rankingElement.appendChild(empty);
+          } else {
+            nonmealRanking.forEach(function (item, index) {
+              var row = document.createElement("div");
+              row.className = "ranking-item";
+              row.textContent = (index + 1) + ". " + item.name + " " + item.count + "次 · ¥" + formatMoney(item.amount);
+              rankingElement.appendChild(row);
+            });
+          }
+        }
+      }
+
+      function applyTheme(theme) {
+        state.theme = theme;
+        var resolved = theme;
+        if (theme === "system") {
+          resolved = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+        document.documentElement.setAttribute("data-theme", resolved);
+        document.querySelectorAll("[data-theme]").forEach(function (button) {
+          button.classList.toggle("active", button.getAttribute("data-theme") === theme);
+        });
+      }
+
+      function loadThemeSetting() {
+        try {
+          var saved = window.localStorage.getItem(THEME_KEY);
+          return ["light", "dark", "system"].indexOf(saved) !== -1 ? saved : "system";
+        } catch (error) {
+          return "system";
+        }
+      }
+
+      function saveThemeSetting(theme) {
+        state.theme = theme;
+        try {
+          window.localStorage.setItem(THEME_KEY, theme);
+        } catch (error) {
+          // 主题保存失败时不阻断使用。
+        }
+        applyTheme(theme);
+      }
+
+      function shouldAskSatisfaction(category) {
+        return category === "娱乐" || category === NONMEAL_CATEGORY || category === "其他";
+      }
+
+      function openSatisfactionModal(expense) {
+        state.pendingExpense = expense;
+        elements.satisfactionDetails.textContent = expense.category + " ¥" + formatMoney(expense.amount) + "，请选择你的感受。";
+        elements.satisfactionModal.hidden = false;
+      }
+
+      function closeSatisfactionModal() {
+        elements.satisfactionModal.hidden = true;
+        state.pendingExpense = null;
+      }
+
+      function saveExpenseRecord(expense) {
+        state.expenses.push(expense);
+        saveExpenses();
+        elements.amountInput.value = "";
+        elements.expenseNote.value = "";
+        render();
+        var savedLabel = expense.subcategory
+          ? expense.category + " · " + expense.subcategory
+          : expense.category;
+        showToast("已保存：" + savedLabel + " ¥" + formatMoney(expense.amount));
+        if (shouldAskSatisfaction(expense.category)) {
+          openSatisfactionModal(expense);
+        }
+      }
+
+      function isLateNight() {
+        var now = new Date();
+        return now.getHours() > 22 || (now.getHours() === 22 && now.getMinutes() >= 30);
+      }
+
+      function processExpenseAfterChecks(expense) {
+        if (isLateNight() && ["娱乐", NONMEAL_CATEGORY, "其他"].indexOf(expense.category) !== -1) {
+          if (!window.confirm("🌙 深夜消费提醒\n确定需要这笔支出吗？")) {
+            return;
+          }
+        }
+        saveExpenseRecord(expense);
+      }
+
+      function openImpulseModal(expense) {
+        state.pendingExpense = expense;
+        elements.impulseDetails.textContent = "单笔消费 ¥" + formatMoney(expense.amount) + "，请确认是否继续。";
+        elements.impulseModal.hidden = false;
+        elements.impulseConfirm.disabled = true;
+        var remaining = 3;
+        elements.impulseCountdown.textContent = "请等待 " + remaining + " 秒";
+        if (state.impulseTimer) {
+          window.clearInterval(state.impulseTimer);
+        }
+        state.impulseTimer = window.setInterval(function () {
+          remaining -= 1;
+          if (remaining <= 0) {
+            window.clearInterval(state.impulseTimer);
+            state.impulseTimer = null;
+            elements.impulseCountdown.textContent = "可以确认";
+            elements.impulseConfirm.disabled = false;
+          } else {
+            elements.impulseCountdown.textContent = "请等待 " + remaining + " 秒";
+          }
+        }, 1000);
+      }
+
+      var QUICK_NOTE_OPTIONS = {
+        "学习": ["教材", "课程", "考试报名", "打印资料", "软件会员", "其他"],
+        "娱乐": ["游戏", "电影", "聚餐", "旅游", "其他"],
+        "非正餐消费": ["奶茶", "咖啡", "零食", "水果", "其他"]
+      };
+
+      function renderQuickNotes() {
+        var group = document.getElementById("quickNoteGroup");
+        if (!group) {
+          return;
+        }
+        var options = QUICK_NOTE_OPTIONS[state.selectedCategory] || [];
+        group.textContent = "";
+        if (options.length === 0) {
+          group.hidden = true;
+          return;
+        }
+        group.hidden = false;
+        options.forEach(function (note) {
+          var button = document.createElement("button");
+          button.type = "button";
+          button.className = "quick-note-button";
+          button.setAttribute("data-quick-note", note);
+          button.textContent = note;
+          group.appendChild(button);
+        });
+      }
+
+      function openExpenseDetail(expenseId) {
+        var expense = state.expenses.filter(function (item) {
+          return item.id === expenseId;
+        })[0];
+        if (!expense) {
+          return;
+        }
+        state.pendingExpense = expense;
+        document.getElementById("detailMeta").textContent =
+          expense.date + " · " + expense.category +
+          (expense.subcategory ? " · " + expense.subcategory : "") +
+          " · ¥" + formatMoney(expense.amount);
+        document.getElementById("detailNoteInput").value = expense.note || "";
+        document.getElementById("detailModal").hidden = false;
+      }
+
+      function closeExpenseDetail() {
+        document.getElementById("detailModal").hidden = true;
+        state.pendingExpense = null;
+      }
+
+      function saveExpenseDetail() {
+        if (!state.pendingExpense) {
+          return;
+        }
+        state.pendingExpense.note = document.getElementById("detailNoteInput").value.trim().slice(0, 50);
+        saveExpenses();
+        closeExpenseDetail();
+        render();
+        showToast("备注已保存");
+      }
+
+      function getStorageBackupData() {
+        var data = {};
+        try {
+          Object.keys(window.localStorage).forEach(function (key) {
+            if (key.indexOf("collegeLife") === 0) {
+              data[key] = window.localStorage.getItem(key);
+            }
+          });
+        } catch (error) {
+          // 忽略读取失败，导出已读取内容。
+        }
+        return data;
+      }
+
+      function formatBackupTime(value) {
+        if (!value) {
+          return "暂无";
+        }
+        var date = new Date(value);
+        return isNaN(date.getTime()) ? value : date.toLocaleString("zh-CN", { hour12: false });
+      }
+
+      function renderLastBackupTime() {
+        var element = document.getElementById("lastBackupTime");
+        if (!element) {
+          return;
+        }
+        try {
+          element.textContent = "最近备份时间：" + formatBackupTime(window.localStorage.getItem("collegeLifeLastBackupV1"));
+        } catch (error) {
+          element.textContent = "最近备份时间：暂无";
+        }
+      }
+
+      function exportBackup() {
+        var exportedAt = new Date().toISOString();
+        var backup = {
+          app: "大学生生活费管家",
+          version: 1,
+          exportedAt: exportedAt,
+          data: getStorageBackupData(),
+          derived: {
+            monthlyKeyword: getMonthlyKeyword(),
+            monthlySummary: getMonthlySummary(),
+            streak: calculateStreak(),
+            date: exportedAt
+          }
+        };
+        var blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
+        var url = URL.createObjectURL(blob);
+        var link = document.createElement("a");
+        link.href = url;
+        link.download = "life-manager-backup.json";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        try {
+          window.localStorage.setItem("collegeLifeLastBackupV1", exportedAt);
+        } catch (error) {
+          // 文件名已生成，时间记录失败不阻断。
+        }
+        renderLastBackupTime();
+        showToast("备份文件已生成");
+      }
+
+      function restoreBackupFile(file) {
+        if (!file) {
+          return;
+        }
+        var reader = new FileReader();
+        reader.onload = function () {
+          try {
+            var backup = JSON.parse(reader.result);
+            if (!backup || !backup.data || typeof backup.data !== "object") {
+              throw new Error("invalid backup");
+            }
+            if (!window.confirm("恢复备份将覆盖当前数据\n是否继续？")) {
+              return;
+            }
+            Object.keys(window.localStorage).forEach(function (key) {
+              if (key.indexOf("collegeLife") === 0) {
+                window.localStorage.removeItem(key);
+              }
+            });
+            Object.keys(backup.data).forEach(function (key) {
+              if (typeof backup.data[key] === "string") {
+                window.localStorage.setItem(key, backup.data[key]);
+              }
+            });
+            showToast("备份已恢复，正在刷新");
+            window.setTimeout(function () { window.location.reload(); }, 600);
+          } catch (error) {
+            showToast("备份文件无效，无法恢复");
+          }
+        };
+        reader.readAsText(file, "utf-8");
+      }
+
+      var BUDGET_HISTORY_KEY = "collegeLifeBudgetHistoryV1";
+      var BUDGET_ANALYSIS_KEY = "collegeLifeBudgetAnalysisV1";
+
+      function getMonthDateByOffset(offset) {
+        var date = new Date();
+        date.setDate(1);
+        date.setMonth(date.getMonth() - offset);
+        return date;
+      }
+
+      function getBudgetUsageForMonth(date, key) {
+        var monthExpenses = getMonthExpenses(date);
+        var budget = state.settings[key];
+        var spent = 0;
+        if (key === "study") {
+          spent = sumExpenses(monthExpenses.filter(function (item) { return item.category === "学习"; }));
+        } else if (key === "entertainment") {
+          spent = sumExpenses(monthExpenses.filter(function (item) { return item.category === "娱乐"; }));
+        } else if (key === "nonmeal") {
+          spent = sumExpenses(monthExpenses.filter(isNonmealExpense));
+        } else if (key === "fixed") {
+          spent = sumExpenses(monthExpenses.filter(isFixedExpense));
+        } else if (key === "unexpected") {
+          spent = sumExpenses(monthExpenses.filter(function (item) { return item.category === UNEXPECTED_CATEGORY; }));
+        }
+        return { spent: spent, budget: budget, usage: budget > 0 ? (spent / budget) * 100 : 0, hasData: spent > 0 };
+      }
+
+      function clampBudgetSuggestion(key, current, suggested, onlyUp) {
+        var limitMap = { study: 30, entertainment: 20, nonmeal: 20, unexpected: 10, fixed: 100 };
+        var limit = limitMap[key] || 20;
+        var result = Math.max(current * (1 - limit / 100), Math.min(current * (1 + limit / 100), suggested));
+        if (onlyUp) result = Math.max(current, result);
+        return roundMoney(result);
+      }
+
+      function generateBudgetSuggestions() {
+        var first = {};
+        var second = {};
+        ["study", "entertainment", "nonmeal", "fixed", "unexpected"].forEach(function (key) {
+          first[key] = getBudgetUsageForMonth(getMonthDateByOffset(1), key);
+          second[key] = getBudgetUsageForMonth(getMonthDateByOffset(2), key);
+        });
+        var studyDown = first.study.usage < 50 && second.study.usage < 50 && (first.study.hasData || second.study.hasData);
+        var studyUp = first.study.usage > 100 && second.study.usage > 100;
+        var suggestions = [{
+          key: "study", label: "学习预算", current: state.settings.study,
+          suggested: studyDown ? clampBudgetSuggestion("study", state.settings.study, state.settings.study * 0.9, false) : (studyUp ? clampBudgetSuggestion("study", state.settings.study, state.settings.study * 1.1, false) : state.settings.study),
+          reason: studyDown ? "连续2个月使用率低于50%" : (studyUp ? "连续2个月超过100%" : "预算使用合理")
+        }];
+        ["entertainment", "nonmeal"].forEach(function (key) {
+          var down = first[key].usage < 50 && second[key].usage < 50 && (first[key].hasData || second[key].hasData);
+          var up = first[key].usage > 100 && second[key].usage > 100;
+          suggestions.push({
+            key: key, label: key === "entertainment" ? "娱乐预算" : "非正餐消费预算", current: state.settings[key],
+            suggested: down ? clampBudgetSuggestion(key, state.settings[key], state.settings[key] * 0.9, false) : (up ? clampBudgetSuggestion(key, state.settings[key], state.settings[key] * 1.1, false) : state.settings[key]),
+            reason: down ? "连续2个月低于50%" : (up ? "连续2个月超过100%" : "预算使用合理")
+          });
+        });
+        var fixedUp = first.fixed.usage > 100 || second.fixed.usage > 100;
+        suggestions.push({ key: "fixed", label: "固定支出预算", current: state.settings.fixed, suggested: fixedUp ? clampBudgetSuggestion("fixed", state.settings.fixed, state.settings.fixed * 1.05, true) : state.settings.fixed, reason: fixedUp ? "近期固定支出超过预算" : "固定支出预算保持稳定" });
+        var unexpectedAvg = (first.unexpected.usage + second.unexpected.usage) / 2;
+        var unexpectedSuggested = state.settings.unexpected;
+        var unexpectedReason = "意外支出使用合理";
+        if (unexpectedAvg < 50 && (first.unexpected.hasData || second.unexpected.hasData)) {
+          unexpectedSuggested = clampBudgetSuggestion("unexpected", state.settings.unexpected, state.settings.unexpected * 0.95, false);
+          unexpectedReason = "近期意外支出较少";
+        } else if (unexpectedAvg > 100) {
+          unexpectedSuggested = clampBudgetSuggestion("unexpected", state.settings.unexpected, state.settings.unexpected * 1.05, false);
+          unexpectedReason = "近期意外支出超过预算";
+        }
+        suggestions.push({ key: "unexpected", label: "意外支出预算", current: state.settings.unexpected, suggested: unexpectedSuggested, reason: unexpectedReason });
+        return suggestions;
+      }
+
+      function saveBudgetAnalysis(suggestions) {
+        try { window.localStorage.setItem(BUDGET_ANALYSIS_KEY, JSON.stringify({ monthKey: toMonthKey(new Date()), generatedAt: new Date().toISOString(), suggestions: suggestions })); } catch (error) {}
+      }
+      function getBudgetAnalysis() {
+        try {
+          var parsed = JSON.parse(window.localStorage.getItem(BUDGET_ANALYSIS_KEY) || "null");
+          if (parsed && parsed.monthKey === toMonthKey(new Date()) && Array.isArray(parsed.suggestions)) return parsed;
+        } catch (error) { return null; }
+        return null;
+      }
+      function getBudgetHistory() {
+        try { var parsed = JSON.parse(window.localStorage.getItem(BUDGET_HISTORY_KEY) || "[]"); return Array.isArray(parsed) ? parsed : []; } catch (error) { return []; }
+      }
+      function saveBudgetHistory(history) { try { window.localStorage.setItem(BUDGET_HISTORY_KEY, JSON.stringify(history)); } catch (error) {} }
+
+      function renderBudgetAssistant() {
+        var list = document.getElementById("budgetSuggestions");
+        var historyList = document.getElementById("budgetHistoryList");
+        var timeElement = document.getElementById("budgetAnalysisTime");
+        if (!list || !historyList) return;
+        var analysis = getBudgetAnalysis();
+        if (!analysis) { saveBudgetAnalysis(generateBudgetSuggestions()); analysis = getBudgetAnalysis(); }
+        if (!analysis) return;
+        list.textContent = "";
+        analysis.suggestions.forEach(function (suggestion) {
+          var item = document.createElement("article");
+          item.className = "suggestion-item";
+          item.innerHTML = "<strong>" + suggestion.label + "</strong><p>当前：¥" + formatMoney(suggestion.current) + "　建议：¥" + formatMoney(suggestion.suggested) + "</p><p>原因：" + suggestion.reason + "</p>";
+          if (suggestion.suggested !== suggestion.current) {
+            var button = document.createElement("button");
+            button.type = "button"; button.className = "suggestion-action"; button.setAttribute("data-apply-key", suggestion.key); button.textContent = "采用建议";
+            item.appendChild(button);
+          }
+          list.appendChild(item);
+        });
+        var history = getBudgetHistory();
+        historyList.textContent = "";
+        if (history.length === 0) {
+          var empty = document.createElement("p"); empty.className = "empty-records"; empty.textContent = "暂无预算调整记录"; historyList.appendChild(empty);
+        } else {
+          history.slice().reverse().forEach(function (record) {
+            var item = document.createElement("div"); item.className = "history-item";
+            item.innerHTML = "<strong>" + record.label + "</strong><p>" + formatBackupTime(record.time) + "　¥" + formatMoney(record.before) + " → ¥" + formatMoney(record.after) + "</p><p>原因：" + record.reason + "</p>";
+            historyList.appendChild(item);
+          });
+        }
+        if (timeElement) timeElement.textContent = "分析时间：" + formatBackupTime(analysis.generatedAt);
+      }
+
+      function applyBudgetSuggestion(key) {
+        var analysis = getBudgetAnalysis();
+        if (!analysis) return;
+        var suggestion = analysis.suggestions.filter(function (item) { return item.key === key; })[0];
+        if (!suggestion || suggestion.suggested === suggestion.current) { showToast("该预算当前无需调整"); return; }
+        state.settings[key] = suggestion.suggested;
+        saveBudgetSettings();
+        var history = getBudgetHistory();
+        history.push({ time: new Date().toISOString(), key: key, label: suggestion.label, before: suggestion.current, after: suggestion.suggested, reason: suggestion.reason });
+        saveBudgetHistory(history);
+        render(); renderBudgetAssistant(); showToast(suggestion.label + "已调整为 ¥" + formatMoney(suggestion.suggested));
+      }
+      function applyAllBudgetSuggestions() {
+        var analysis = getBudgetAnalysis();
+        if (!analysis) return;
+        var changed = 0;
+        analysis.suggestions.forEach(function (suggestion) { if (suggestion.suggested !== suggestion.current) { applyBudgetSuggestion(suggestion.key); changed += 1; } });
+        if (changed === 0) showToast("当前没有需要采用的预算建议");
+      }
+
       function renderHome() {
         var data = calculateMonthData();
         var monthExpenses = getMonthExpenses(new Date());
@@ -1843,6 +3538,7 @@
         var suggestedAmount = Math.max(0, Math.round(data.todayAvailable * 0.95));
         var studyBudget = getCategoryBudgetData("学习", state.settings.study, monthExpenses);
         var entertainmentBudget = getCategoryBudgetData("娱乐", state.settings.entertainment, monthExpenses);
+        var nonmealBudget = getNonmealBudgetData(state.settings.nonmeal, monthExpenses);
         var unexpectedBudget = getCategoryBudgetData(UNEXPECTED_CATEGORY, state.settings.unexpected, monthExpenses);
         var fixedBudget = getFixedCategoryBudgetData(state.settings.fixed, monthExpenses);
 
@@ -1895,15 +3591,35 @@
 
         renderHomeBudgetCard("study", studyBudget);
         renderHomeBudgetCard("entertainment", entertainmentBudget);
+        renderHomeBudgetCard("nonmeal", nonmealBudget);
         renderHomeBudgetCard("unexpected", unexpectedBudget);
         renderHomeBudgetCard("fixed", fixedBudget);
+
+        if (nonmealBudget.usageRate >= 100) {
+          elements.nonmealBudgetAlert.hidden = false;
+          elements.nonmealBudgetAlert.className = "budget-card-alert red";
+          elements.nonmealBudgetAlert.textContent = "🚨 非正餐消费超预算";
+        } else if (nonmealBudget.usageRate >= 80) {
+          elements.nonmealBudgetAlert.hidden = false;
+          elements.nonmealBudgetAlert.className = "budget-card-alert yellow";
+          elements.nonmealBudgetAlert.textContent = "⚠ 非正餐消费接近预算";
+        } else {
+          elements.nonmealBudgetAlert.hidden = true;
+          elements.nonmealBudgetAlert.className = "budget-card-alert";
+          elements.nonmealBudgetAlert.textContent = "";
+        }
+
         renderHomeHealth([
           { name: "学习", total: studyBudget.total, spent: studyBudget.spent },
           { name: "娱乐", total: entertainmentBudget.total, spent: entertainmentBudget.spent },
+          { name: "非正餐消费", total: nonmealBudget.total, spent: nonmealBudget.spent },
           { name: "意外支出", total: unexpectedBudget.total, spent: unexpectedBudget.spent },
           { name: "固定支出", total: fixedBudget.total, spent: fixedBudget.spent }
         ]);
         renderHomeOverview();
+        renderDailyDiningAlert();
+        renderAchievementHome();
+        renderSmartReminder();
       }
 
       /* ---------- 渲染预算输入框 ---------- */
@@ -1951,11 +3667,15 @@
           var info = document.createElement("div");
           info.className = "record-info";
 
+          var visual = getRecordVisual(item.category);
+          row.className = "record-item " + visual.className;
+          row.setAttribute("data-record-id", item.id);
+
           var category = document.createElement("strong");
           category.className = "record-category";
-          category.textContent = item.subcategory
+          category.textContent = visual.icon + " " + (item.subcategory
             ? item.category + " · " + item.subcategory
-            : item.category;
+            : item.category);
 
           var date = document.createElement("span");
           date.className = "record-date";
@@ -1963,6 +3683,12 @@
 
           info.appendChild(category);
           info.appendChild(date);
+          if (item.note) {
+            var note = document.createElement("span");
+            note.className = "record-note";
+            note.textContent = item.note.length > 16 ? item.note.slice(0, 16) + "…" : item.note;
+            info.appendChild(note);
+          }
 
           var side = document.createElement("div");
           side.className = "record-side";
@@ -2329,6 +4055,19 @@
           ? statistics.highestSpendDay.date + " ¥" + formatMoney(statistics.highestSpendDay.amount)
           : "暂无";
         elements.averageDailySpent.textContent = "¥" + formatMoney(statistics.averageDailySpent);
+
+        var maxExpense = null;
+        getMonthExpenses(new Date()).forEach(function (item) {
+          if (!maxExpense || item.amount > maxExpense.amount) {
+            maxExpense = item;
+          }
+        });
+        var maxExpenseNoteElement = document.getElementById("maxExpenseNote");
+        if (maxExpenseNoteElement) {
+          maxExpenseNoteElement.textContent = maxExpense
+            ? maxExpense.category + " ¥" + formatMoney(maxExpense.amount) + (maxExpense.note ? " · " + maxExpense.note : " · 无备注")
+            : "暂无";
+        }
       }
 
       function renderStats() {
@@ -2355,6 +4094,20 @@
         renderCategoryRanking(statistics.categoryData);
         renderStatisticsAnalysis(statistics);
 
+        var regretExpenses = getMonthExpenses(new Date()).filter(function (item) {
+          return item.satisfaction === "regret";
+        });
+        var regretAmount = sumExpenses(regretExpenses);
+        var entertainmentSpent = sumExpenses(getMonthExpenses(new Date()).filter(function (item) {
+          return item.category === "娱乐";
+        }));
+        var nonmealSpent = sumExpenses(getMonthExpenses(new Date()).filter(isNonmealExpense));
+        var regretBase = roundMoney(entertainmentSpent + nonmealSpent);
+        var regretPercent = regretBase > 0 ? (regretAmount / regretBase) * 100 : 0;
+        elements.regretAmount.textContent = "¥" + formatMoney(regretAmount);
+        elements.regretPercent.textContent = formatPercent(regretPercent);
+        elements.regretCount.textContent = regretExpenses.length + " 次";
+
         if (elements.statsPage.classList.contains("active")) {
           drawPieChart(elements.categoryPieChart, statistics.categoryData);
           drawBarChart(elements.categoryBarChart, statistics.categoryData);
@@ -2366,6 +4119,9 @@
         renderBudgetInputs();
         renderExpenseList();
         renderStats();
+        renderAchievementPage();
+        renderInsights();
+        renderBudgetAssistant();
       }
 
       /* ---------- 页面切换 ---------- */
@@ -2386,6 +4142,15 @@
 
         if (pageId === "statsPage") {
           renderStats();
+        }
+        if (pageId === "achievementPage") {
+          renderAchievementPage();
+        }
+        if (pageId === "insightPage") {
+          renderInsights();
+        }
+        if (pageId === "budgetAssistantPage") {
+          renderBudgetAssistant();
         }
 
         window.scrollTo(0, 0);
@@ -2410,12 +4175,34 @@
             button.setAttribute("aria-pressed", "false");
           });
         }
+
+        if (category === NONMEAL_CATEGORY) {
+          elements.nonmealSubcategoryGroup.hidden = false;
+        } else {
+          elements.nonmealSubcategoryGroup.hidden = true;
+          state.selectedNonmealSubcategory = "";
+          elements.nonmealSubcategoryButtons.forEach(function (button) {
+            button.classList.remove("selected");
+            button.setAttribute("aria-pressed", "false");
+          });
+        }
+
+        renderQuickNotes();
       }
 
       function selectFixedSubcategory(subcategory) {
         state.selectedFixedSubcategory = subcategory;
         elements.fixedSubcategoryButtons.forEach(function (button) {
           var isSelected = button.getAttribute("data-fixed-subcategory") === subcategory;
+          button.classList.toggle("selected", isSelected);
+          button.setAttribute("aria-pressed", isSelected ? "true" : "false");
+        });
+      }
+
+      function selectNonmealSubcategory(subcategory) {
+        state.selectedNonmealSubcategory = subcategory;
+        elements.nonmealSubcategoryButtons.forEach(function (button) {
+          var isSelected = button.getAttribute("data-nonmeal-subcategory") === subcategory;
           button.classList.toggle("selected", isSelected);
           button.setAttribute("aria-pressed", isSelected ? "true" : "false");
         });
@@ -2441,6 +4228,11 @@
           return;
         }
 
+        if (state.selectedCategory === NONMEAL_CATEGORY && !state.selectedNonmealSubcategory) {
+          showToast("请选择非正餐消费子项");
+          return;
+        }
+
         var expenseDate = elements.expenseDate.value;
         if (!isValidDateKey(expenseDate)) {
           showToast("请选择有效的消费日期");
@@ -2449,50 +4241,54 @@
         }
 
         var now = new Date();
-        state.expenses.push({
+        var expense = {
           id: createId(),
           amount: roundMoney(amount),
           category: state.selectedCategory,
-          subcategory: state.selectedCategory === FIXED_CATEGORY ? state.selectedFixedSubcategory : "",
+          subcategory: state.selectedCategory === FIXED_CATEGORY
+            ? state.selectedFixedSubcategory
+            : (state.selectedCategory === NONMEAL_CATEGORY ? state.selectedNonmealSubcategory : ""),
+          satisfaction: "",
           date: expenseDate,
-          note: elements.expenseNote.value.trim(),
+          note: elements.expenseNote.value.trim().slice(0, 50),
           createdAt: now.toISOString()
-        });
+        };
 
-        saveExpenses();
-        elements.amountInput.value = "";
-        elements.expenseNote.value = "";
-        render();
+        if (expense.amount >= 50) {
+          openImpulseModal(expense);
+          return;
+        }
 
-        var savedLabel = state.selectedCategory === FIXED_CATEGORY
-          ? FIXED_CATEGORY + " · " + state.selectedFixedSubcategory
-          : state.selectedCategory;
-        showToast("已保存：" + savedLabel + " ¥" + formatMoney(amount));
+        processExpenseAfterChecks(expense);
       }
 
       /* ---------- 删除消费记录 ---------- */
       function handleExpenseListClick(event) {
         var deleteButton = event.target.closest("[data-delete-id]");
-        if (!deleteButton) {
+        if (deleteButton) {
+          var expenseId = deleteButton.getAttribute("data-delete-id");
+          var recordExists = state.expenses.some(function (item) {
+            return item.id === expenseId;
+          });
+
+          if (!recordExists || !window.confirm("确定删除该记录？")) {
+            return;
+          }
+
+          state.expenses = state.expenses.filter(function (item) {
+            return item.id !== expenseId;
+          });
+
+          saveExpenses();
+          render();
+          showToast("消费记录已删除");
           return;
         }
 
-        var expenseId = deleteButton.getAttribute("data-delete-id");
-        var recordExists = state.expenses.some(function (item) {
-          return item.id === expenseId;
-        });
-
-        if (!recordExists || !window.confirm("确定删除这条消费记录吗？")) {
-          return;
+        var row = event.target.closest(".record-item");
+        if (row && row.getAttribute("data-record-id")) {
+          openExpenseDetail(row.getAttribute("data-record-id"));
         }
-
-        state.expenses = state.expenses.filter(function (item) {
-          return item.id !== expenseId;
-        });
-
-        saveExpenses();
-        render();
-        showToast("消费记录已删除");
       }
 
       /* ---------- 预算事件：输入有效值后自动保存 ---------- */
@@ -2609,6 +4405,99 @@
         });
       });
 
+      elements.nonmealSubcategoryButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          selectNonmealSubcategory(button.getAttribute("data-nonmeal-subcategory"));
+        });
+      });
+
+      var quickNoteGroup = document.getElementById("quickNoteGroup");
+      if (quickNoteGroup) {
+        quickNoteGroup.addEventListener("click", function (event) {
+          var button = event.target.closest("[data-quick-note]");
+          if (!button) {
+            return;
+          }
+          elements.expenseNote.value = button.getAttribute("data-quick-note").slice(0, 50);
+          elements.expenseNote.focus();
+        });
+      }
+
+      document.getElementById("detailCancel").addEventListener("click", closeExpenseDetail);
+      document.getElementById("detailSave").addEventListener("click", saveExpenseDetail);
+
+      var exportBackupButton = document.getElementById("exportBackupButton");
+      var importBackupButton = document.getElementById("importBackupButton");
+      var backupFileInput = document.getElementById("backupFileInput");
+      if (exportBackupButton) {
+        exportBackupButton.addEventListener("click", exportBackup);
+      }
+      if (importBackupButton && backupFileInput) {
+        importBackupButton.addEventListener("click", function () {
+          backupFileInput.click();
+        });
+        backupFileInput.addEventListener("change", function () {
+          restoreBackupFile(backupFileInput.files[0]);
+          backupFileInput.value = "";
+        });
+      }
+
+      elements.themeButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          saveThemeSetting(button.getAttribute("data-theme"));
+        });
+      });
+
+      var analyzeBudgetButton = document.getElementById("analyzeBudgetButton");
+      var budgetSuggestions = document.getElementById("budgetSuggestions");
+      var applyAllSuggestions = document.getElementById("applyAllSuggestions");
+      var ignoreSuggestions = document.getElementById("ignoreSuggestions");
+      if (analyzeBudgetButton) analyzeBudgetButton.addEventListener("click", function () { saveBudgetAnalysis(generateBudgetSuggestions()); renderBudgetAssistant(); showToast("预算分析已更新"); });
+      if (budgetSuggestions) budgetSuggestions.addEventListener("click", function (event) { var button = event.target.closest("[data-apply-key]"); if (button) applyBudgetSuggestion(button.getAttribute("data-apply-key")); });
+      if (applyAllSuggestions) applyAllSuggestions.addEventListener("click", applyAllBudgetSuggestions);
+      if (ignoreSuggestions) ignoreSuggestions.addEventListener("click", function () { showToast("暂不调整预算"); });
+
+      elements.satisfactionButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          if (!state.pendingExpense) {
+            return;
+          }
+          var expense = state.expenses.filter(function (item) {
+            return item.id === state.pendingExpense.id;
+          })[0];
+          if (expense) {
+            expense.satisfaction = button.getAttribute("data-satisfaction");
+            saveExpenses();
+          }
+          closeSatisfactionModal();
+          render();
+          showToast("消费评价已保存");
+        });
+      });
+
+      elements.impulseCancel.addEventListener("click", function () {
+        if (state.impulseTimer) {
+          window.clearInterval(state.impulseTimer);
+          state.impulseTimer = null;
+        }
+        elements.impulseModal.hidden = true;
+        state.pendingExpense = null;
+      });
+
+      elements.impulseConfirm.addEventListener("click", function () {
+        if (!state.pendingExpense || elements.impulseConfirm.disabled) {
+          return;
+        }
+        var expense = state.pendingExpense;
+        if (state.impulseTimer) {
+          window.clearInterval(state.impulseTimer);
+          state.impulseTimer = null;
+        }
+        elements.impulseModal.hidden = true;
+        state.pendingExpense = null;
+        processExpenseAfterChecks(expense);
+      });
+
       elements.expenseForm.addEventListener("submit", handleExpenseSubmit);
       elements.expenseList.addEventListener("click", handleExpenseListClick);
 
@@ -2650,9 +4539,21 @@
       registerServiceWorker();
       setupInstallPrompt();
 
+      applyTheme(loadThemeSetting());
+      if (window.matchMedia) {
+        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () {
+          if (state.theme === "system") {
+            applyTheme("system");
+          }
+        });
+      }
+
       elements.expenseDate.value = toDateKey(new Date());
       state.settings = loadBudgetSettings();
       state.expenses = loadExpenses();
+      renderQuickNotes();
+      renderLastBackupTime();
+      if (!getBudgetAnalysis()) saveBudgetAnalysis(generateBudgetSuggestions());
       render();
     })();
   </script>
