@@ -1,7 +1,8 @@
+/* Deployment trigger: 2026-09-22 */
 /* 大学生生活费管家 Service Worker
  * 作用：缓存应用文件，支持离线打开和自动更新缓存。
  */
-var CACHE_NAME = "college-life-manager-v9";
+var CACHE_NAME = "college-life-manager-v10";
 var APP_SHELL = [
   "./index.html",
   "./manifest.json",
