@@ -1725,44 +1725,18 @@
           <fieldset class="form-group">
             <legend>消费分类</legend>
             <div class="category-grid" id="categoryGrid">
-              <button class="category-button" type="button" data-category="早餐" aria-pressed="false">早餐</button>
-              <button class="category-button" type="button" data-category="午餐" aria-pressed="false">午餐</button>
-              <button class="category-button" type="button" data-category="晚餐" aria-pressed="false">晚餐</button>
-              <button class="category-button" type="button" data-category="水果零食" aria-pressed="false">水果零食</button>
-              <button class="category-button" type="button" data-category="水电热水" aria-pressed="false">水电热水</button>
-              <button class="category-button" type="button" data-category="话费" aria-pressed="false">话费</button>
-              <button class="category-button" type="button" data-category="学习" aria-pressed="false">学习</button>
-              <button class="category-button" type="button" data-category="娱乐" aria-pressed="false">娱乐</button>
-              <button class="category-button" type="button" data-category="交通" aria-pressed="false">交通</button>
-              <button class="category-button" type="button" data-category="应急储备" aria-pressed="false">应急储备</button>
-              <button class="category-button" type="button" data-category="固定支出" aria-pressed="false">固定支出</button>
-              <button class="category-button" type="button" data-category="其他" aria-pressed="false">其他</button>
+              <button class="category-button" type="button" data-category="正餐" aria-pressed="false">🍚 正餐</button>
+              <button class="category-button" type="button" data-category="非正餐" aria-pressed="false">🍟 非正餐</button>
+              <button class="category-button" type="button" data-category="娱乐消费" aria-pressed="false">🎮 娱乐消费</button>
+              <button class="category-button" type="button" data-category="购物消费" aria-pressed="false">🛒 购物消费</button>
+              <button class="category-button" type="button" data-category="学习成长" aria-pressed="false">📚 学习成长</button>
+              <button class="category-button" type="button" data-category="应急支出" aria-pressed="false">🛟 应急支出</button>
             </div>
           </fieldset>
 
-          <fieldset class="form-group" id="fixedSubcategoryGroup" hidden>
-            <legend>固定支出子项</legend>
-            <div class="category-grid" id="fixedSubcategoryGrid">
-              <button class="category-button" type="button" data-fixed-subcategory="话费" aria-pressed="false">话费</button>
-              <button class="category-button" type="button" data-fixed-subcategory="校园网" aria-pressed="false">校园网</button>
-              <button class="category-button" type="button" data-fixed-subcategory="水电" aria-pressed="false">水电</button>
-              <button class="category-button" type="button" data-fixed-subcategory="洗衣" aria-pressed="false">洗衣</button>
-              <button class="category-button" type="button" data-fixed-subcategory="打印" aria-pressed="false">打印</button>
-              <button class="category-button" type="button" data-fixed-subcategory="会员" aria-pressed="false">会员</button>
-              <button class="category-button" type="button" data-fixed-subcategory="月卡" aria-pressed="false">月卡</button>
-              <button class="category-button" type="button" data-fixed-subcategory="其他固定支出" aria-pressed="false">其他固定支出</button>
-            </div>
-          </fieldset>
-
-          <fieldset class="form-group" id="nonmealSubcategoryGroup" hidden>
-            <legend>非正餐消费子项</legend>
-            <div class="category-grid" id="nonmealSubcategoryGrid">
-              <button class="category-button" type="button" data-nonmeal-subcategory="奶茶" aria-pressed="false">奶茶</button>
-              <button class="category-button" type="button" data-nonmeal-subcategory="咖啡" aria-pressed="false">咖啡</button>
-              <button class="category-button" type="button" data-nonmeal-subcategory="零食" aria-pressed="false">零食</button>
-              <button class="category-button" type="button" data-nonmeal-subcategory="水果" aria-pressed="false">水果</button>
-              <button class="category-button" type="button" data-nonmeal-subcategory="其他" aria-pressed="false">其他</button>
-            </div>
+          <fieldset class="form-group" id="subcategoryGroup" hidden>
+            <legend id="subcategoryLegend">消费子项</legend>
+            <div class="category-grid" id="subcategoryGrid"></div>
           </fieldset>
 
           <p class="dining-alert" id="diningAlert" hidden></p>
@@ -2234,15 +2208,29 @@
       var EXPENSES_KEY = "collegeLifeExpensesV1";
       var THEME_KEY = "collegeLifeThemeV1";
       var ACHIEVEMENTS_KEY = "collegeLifeAchievementsV1";
-      var UNEXPECTED_CATEGORY = "应急储备";
+      var UNEXPECTED_CATEGORY = "应急支出";
       var LEGACY_EMERGENCY_CATEGORY = "意外支出";
       var FIXED_CATEGORY = "固定支出";
-      var NONMEAL_CATEGORY = "非正餐消费";
-      var CATEGORY_NAMES = [
-        "早餐", "午餐", "晚餐", "水果零食", "水电热水",
-        "话费", "学习", "娱乐", "交通", "应急储备", "固定支出", "非正餐消费", "其他"
-      ];
-      var STATS_CATEGORY_NAMES = ["餐饮", "学习", "娱乐", "固定支出", "应急储备", "非正餐消费", "交通", "其他"];
+      var NONMEAL_CATEGORY = "非正餐";
+      var CATEGORY_TREE = {
+        "正餐": ["早餐", "午餐", "晚餐", "其他"],
+        "非正餐": ["奶茶饮料", "零食", "水果", "夜宵", "甜品", "咖啡", "其他"],
+        "娱乐消费": ["游戏", "影音会员", "小说漫画", "社交活动", "景点门票", "其他"],
+        "购物消费": ["日用品", "学习用品", "服饰鞋包", "数码配件", "宿舍用品", "其他"],
+        "学习成长": ["教材资料", "网课会员", "AI工具", "考试报名", "英语学习", "其他"],
+        "应急支出": ["突发维修", "补办证件", "紧急损失", "临时支出", "其他"]
+      };
+      var CATEGORY_NAMES = Object.keys(CATEGORY_TREE);
+      var STATS_CATEGORY_NAMES = Object.keys(CATEGORY_TREE).concat(["固定支出"]);
+      var LEGACY_CATEGORY_MAP = {
+        "早餐": "正餐", "午餐": "正餐", "晚餐": "正餐",
+        "水果零食": "非正餐", "奶茶饮料": "非正餐", "零食": "非正餐", "水果": "非正餐", "夜宵": "非正餐", "甜品": "非正餐", "咖啡": "非正餐",
+        "娱乐": "娱乐消费", "游戏": "娱乐消费", "影音会员": "娱乐消费", "小说漫画": "娱乐消费", "社交活动": "娱乐消费", "景点门票": "娱乐消费", "人情往来": "娱乐消费",
+        "学习": "学习成长", "教材资料": "学习成长", "网课会员": "学习成长", "AI工具": "学习成长", "考试报名": "学习成长", "英语学习": "学习成长",
+        "购物": "购物消费", "日用品": "购物消费", "学习用品": "购物消费", "服饰鞋包": "购物消费", "数码配件": "购物消费", "宿舍用品": "购物消费", "交通": "购物消费",
+        "医疗健康": "应急支出", "应急储备": "应急支出", "意外支出": "应急支出",
+        "固定支出": "固定支出", "水电热水": "固定支出", "话费": "固定支出"
+      };
       var CHART_COLORS = [
         "#2563eb", "#3b82f6", "#60a5fa", "#93c5fd",
         "#1d4ed8", "#0ea5e9", "#7dd3fc", "#38bdf8",
@@ -2271,10 +2259,6 @@
         achievementProgressFill: document.getElementById("achievementProgressFill"),
         smartReminder: document.getElementById("smartReminder"),
         nonmealBudgetAlert: document.getElementById("nonmealBudgetAlert"),
-        nonmealSubcategoryGroup: document.getElementById("nonmealSubcategoryGroup"),
-        nonmealSubcategoryButtons: Array.prototype.slice.call(
-          document.querySelectorAll("[data-nonmeal-subcategory]")
-        ),
         diningAlert: document.getElementById("diningAlert"),
         themeButtons: Array.prototype.slice.call(document.querySelectorAll("[data-theme]")),
         regretAmount: document.getElementById("regretAmount"),
@@ -2310,10 +2294,9 @@
         expenseNote: document.getElementById("expenseNote"),
         expenseList: document.getElementById("expenseList"),
         categoryGrid: document.getElementById("categoryGrid"),
-        fixedSubcategoryGroup: document.getElementById("fixedSubcategoryGroup"),
-        fixedSubcategoryButtons: Array.prototype.slice.call(
-          document.querySelectorAll("[data-fixed-subcategory]")
-        ),
+        subcategoryGroup: document.getElementById("subcategoryGroup"),
+        subcategoryGrid: document.getElementById("subcategoryGrid"),
+        subcategoryLegend: document.getElementById("subcategoryLegend"),
         statsPage: document.getElementById("statsPage"),
         statsTodaySpent: document.getElementById("statsTodaySpent"),
         statsWeekSpent: document.getElementById("statsWeekSpent"),
@@ -2347,8 +2330,7 @@
         settings: Object.assign({}, DEFAULT_BUDGET_SETTINGS),
         expenses: [],
         selectedCategory: "",
-        selectedFixedSubcategory: "",
-        selectedNonmealSubcategory: "",
+        selectedSubcategory: "",
         theme: "system",
         pendingExpense: null,
         impulseTimer: null
@@ -2375,6 +2357,13 @@
         var number = Number(value);
         var isValid = Number.isFinite(number) && (allowZero ? number >= 0 : number > 0);
         return isValid ? roundMoney(number) : fallback;
+      }
+
+      function getExpenseGroup(item) {
+        if (CATEGORY_TREE[item.category]) {
+          return item.category;
+        }
+        return LEGACY_CATEGORY_MAP[item.category] || "购物消费";
       }
 
       function createId() {
@@ -2604,8 +2593,7 @@
       }
 
       function isEmergencyExpense(item) {
-        return item.category === UNEXPECTED_CATEGORY ||
-          item.category === LEGACY_EMERGENCY_CATEGORY;
+        return getExpenseGroup(item) === UNEXPECTED_CATEGORY;
       }
 
       function getEmergencyBudgetData(total, monthExpenses) {
@@ -2622,9 +2610,7 @@
       }
 
       function isFixedExpense(item) {
-        return item.category === FIXED_CATEGORY ||
-          item.category === "话费" ||
-          item.category === "水电热水";
+        return getExpenseGroup(item) === FIXED_CATEGORY;
       }
 
       function getFixedCategoryBudgetData(total, monthExpenses) {
@@ -2644,7 +2630,7 @@
       }
 
       function isNonmealExpense(item) {
-        return item.category === NONMEAL_CATEGORY || item.category === "水果零食";
+        return getExpenseGroup(item) === NONMEAL_CATEGORY;
       }
 
       function getNonmealBudgetData(total, monthExpenses) {
@@ -2665,7 +2651,7 @@
 
       function getCategoryBudgetData(categoryName, total, monthExpenses) {
         var spent = sumExpenses(monthExpenses.filter(function (item) {
-          return item.category === categoryName;
+          return getExpenseGroup(item) === categoryName;
         }));
         var remaining = roundMoney(total - spent);
         var usageRate = total > 0
@@ -2741,12 +2727,11 @@
         var now = new Date();
         var daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
         var monthlyDiningBudget = roundMoney(state.settings.dailyDining * daysInMonth);
-        var diningCategories = ["早餐", "午餐", "晚餐"];
-        var monthDiningSpent = sumExpenses(monthExpenses.filter(function (item) { return diningCategories.indexOf(item.category) !== -1; }));
+        var monthDiningSpent = sumExpenses(monthExpenses.filter(function (item) { return getExpenseGroup(item) === "正餐"; }));
         var diningRemaining = roundMoney(monthlyDiningBudget - monthDiningSpent);
         var todayDiningBudget = roundMoney(diningRemaining / getRemainingDays(now));
         var todayKey = toDateKey(now);
-        var todayDiningSpent = sumExpenses(state.expenses.filter(function (item) { return item.date === todayKey && diningCategories.indexOf(item.category) !== -1; }));
+        var todayDiningSpent = sumExpenses(state.expenses.filter(function (item) { return item.date === todayKey && getExpenseGroup(item) === "正餐"; }));
         var usage = todayDiningBudget > 0 ? (todayDiningSpent / todayDiningBudget) * 100 : 0;
         var status = usage > 100 ? { key: "over", text: "已超支" } : (usage >= 80 ? { key: "red", text: "偏低" } : (usage >= 60 ? { key: "yellow", text: "注意" } : { key: "green", text: "正常" }));
         var setText = function (id, value) { var element = document.getElementById(id); if (element) element.textContent = value; };
@@ -2907,7 +2892,7 @@
           var current = new Date(checkDate.getFullYear(), checkDate.getMonth(), checkDate.getDate() - offset);
           var key = toDateKey(current);
           var hasMilkTea = state.expenses.some(function (item) {
-            return item.date === key && (item.subcategory === "奶茶" || item.category === "奶茶");
+            return item.date === key && (item.subcategory === "奶茶饮料" || item.category === "奶茶饮料" || item.category === "奶茶");
           });
           if (hasMilkTea) {
             break;
@@ -2953,8 +2938,8 @@
       function getAchievementDefinitions() {
         var monthExpenses = getMonthExpenses(new Date());
         var statistics = calculateStatistics();
-        var study = getCategoryBudgetData("学习", state.settings.study, monthExpenses);
-        var entertainment = getCategoryBudgetData("娱乐", state.settings.entertainment, monthExpenses);
+        var study = getCategoryBudgetData("学习成长", state.settings.study, monthExpenses);
+        var entertainment = getCategoryBudgetData("娱乐消费", state.settings.entertainment, monthExpenses);
         var nonmeal = getNonmealBudgetData(state.settings.nonmeal, monthExpenses);
         var unexpected = getEmergencyBudgetData(state.settings.unexpected, monthExpenses);
         var fixed = getFixedCategoryBudgetData(state.settings.fixed, monthExpenses);
@@ -2975,12 +2960,12 @@
           { id: "week_streak", title: "一周坚持", desc: "连续记账7天", current: Math.min(streak, 7), target: 7, unlocked: streak >= 7 },
           { id: "streak_30", title: "连续记账达人", desc: "连续记账30天", current: Math.min(streak, 30), target: 30, unlocked: streak >= 30 },
           { id: "budget_master", title: "预算大师", desc: "所有预算均未超支", current: allBudgetSafe ? 1 : 0, target: 1, unlocked: allBudgetSafe },
-          { id: "no_milk_tea_7", title: "奶茶克星", desc: "连续7天无奶茶消费", current: Math.min(milkFreeDays, 7), target: 7, unlocked: milkFreeDays >= 7 },
+          { id: "no_milk_tea_7", title: "奶茶克制王", desc: "连续7天无奶茶饮料消费", current: Math.min(milkFreeDays, 7), target: 7, unlocked: milkFreeDays >= 7 },
           { id: "snack_control", title: "零食克制者", desc: "非正餐消费低于预算50%", current: nonmeal.total > 0 && nonmeal.spent < nonmeal.total * 0.5 ? 1 : 0, target: 1, unlocked: nonmeal.total > 0 && nonmeal.spent < nonmeal.total * 0.5 },
           { id: "savings_master", title: "储蓄达人", desc: "达成储蓄目标", current: savingsProgress, target: 1, unlocked: savingsProgress >= 1 },
-          { id: "invest_self", title: "投资自己", desc: "学习预算使用率超过50%", current: study.total > 0 ? Math.min(study.spent / study.total, 1) : 0, target: 1, unlocked: study.total > 0 && study.spent / study.total > 0.5 },
-          { id: "penny_pincher", title: "一毛不拔", desc: "一天消费0元", current: hasZeroSpendDay() ? 1 : 0, target: 1, unlocked: hasZeroSpendDay() },
-          { id: "zen_life", title: "佛系生活", desc: "连续3天消费低于10元", current: Math.min(zenDays, 3), target: 3, unlocked: zenDays >= 3 }
+          { id: "invest_self", title: "成长投资家", desc: "学习成长预算使用率超过50%", current: study.total > 0 ? Math.min(study.spent / study.total, 1) : 0, target: 1, unlocked: study.total > 0 && study.spent / study.total > 0.5 },
+          { id: "penny_pincher", title: "财务自由幼苗", desc: "完成一天0元消费", current: hasZeroSpendDay() ? 1 : 0, target: 1, unlocked: hasZeroSpendDay() },
+          { id: "zen_life", title: "安全管家", desc: "连续3天消费低于10元", current: Math.min(zenDays, 3), target: 3, unlocked: zenDays >= 3 }
         ];
       }
 
@@ -3106,10 +3091,10 @@
       function getMonthlyKeyword() {
         var monthExpenses = getMonthExpenses(new Date());
         var statistics = calculateStatistics();
-        var study = getCategoryBudgetData("学习", state.settings.study, monthExpenses);
-        var entertainment = getCategoryBudgetData("娱乐", state.settings.entertainment, monthExpenses);
+        var study = getCategoryBudgetData("学习成长", state.settings.study, monthExpenses);
+        var entertainment = getCategoryBudgetData("娱乐消费", state.settings.entertainment, monthExpenses);
         var nonmeal = getNonmealBudgetData(state.settings.nonmeal, monthExpenses);
-        var milkTeaCount = monthExpenses.filter(function (item) { return item.subcategory === "奶茶" || item.category === "奶茶"; }).length;
+        var milkTeaCount = monthExpenses.filter(function (item) { return item.subcategory === "奶茶饮料" || item.category === "奶茶饮料" || item.category === "奶茶"; }).length;
         if (milkTeaCount === 0 && countMilkFreeDays() >= 7) return "奶茶克星月";
         if (nonmeal.usageRate >= 80) return "非正餐控制月";
         if (entertainment.usageRate >= 80) return "娱乐达人月";
@@ -3123,8 +3108,8 @@
       function getMonthlySummary() {
         var statistics = calculateStatistics();
         var monthExpenses = getMonthExpenses(new Date());
-        var study = getCategoryBudgetData("学习", state.settings.study, monthExpenses);
-        var entertainment = getCategoryBudgetData("娱乐", state.settings.entertainment, monthExpenses);
+        var study = getCategoryBudgetData("学习成长", state.settings.study, monthExpenses);
+        var entertainment = getCategoryBudgetData("娱乐消费", state.settings.entertainment, monthExpenses);
 
         if (statistics.forecastRemaining > 0) {
           return "本月消费控制良好，预计结余 ¥" + formatMoney(statistics.forecastRemaining) + "。";
@@ -3190,7 +3175,7 @@
           var statistics = calculateStatistics();
           var monthExpenses = getMonthExpenses(new Date());
           var nonmeal = getNonmealBudgetData(state.settings.nonmeal, monthExpenses);
-          var entertainment = getCategoryBudgetData("娱乐", state.settings.entertainment, monthExpenses);
+          var entertainment = getCategoryBudgetData("娱乐消费", state.settings.entertainment, monthExpenses);
           var emergency = getEmergencyBudgetData(state.settings.unexpected, monthExpenses);
           var streak = calculateStreak();
           var reminder = summary;
@@ -3207,9 +3192,8 @@
 
       function getDiningBudgetData() {
         var todayKey = toDateKey(new Date());
-        var diningCategories = ["早餐", "午餐", "晚餐"];
         var spent = sumExpenses(state.expenses.filter(function (item) {
-          return item.date === todayKey && diningCategories.indexOf(item.category) !== -1;
+          return item.date === todayKey && getExpenseGroup(item) === "正餐";
         }));
         var budget = state.settings.dailyDining;
         return {
@@ -3235,28 +3219,14 @@
       }
 
       function getRecordVisual(category) {
-        if (category === "早餐" || category === "午餐" || category === "晚餐" || category === "水果零食") {
-          return { icon: "🍚", className: "record-food" };
-        }
-        if (category === "学习") {
-          return { icon: "📚", className: "record-study" };
-        }
-        if (category === "娱乐") {
-          return { icon: "🎮", className: "record-fun" };
-        }
-        if (category === NONMEAL_CATEGORY) {
-          return { icon: "🍟", className: "record-nonmeal" };
-        }
-        if (category === UNEXPECTED_CATEGORY) {
-          return { icon: "⚠", className: "record-unexpected" };
-        }
-        if (category === FIXED_CATEGORY || category === "话费" || category === "水电热水") {
-          return { icon: "🏠", className: "record-fixed" };
-        }
-        if (category === "交通") {
-          return { icon: "🚇", className: "record-traffic" };
-        }
-        return { icon: "📦", className: "record-other" };
+        var group = getExpenseGroup({ category: category });
+        if (group === "正餐") return { icon: "🍚", className: "record-food" };
+        if (group === "学习成长") return { icon: "📚", className: "record-study" };
+        if (group === "娱乐消费") return { icon: "🎮", className: "record-fun" };
+        if (group === "非正餐") return { icon: "🍟", className: "record-nonmeal" };
+        if (group === "应急支出") return { icon: "🛟", className: "record-unexpected" };
+        if (group === "固定支出") return { icon: "🏠", className: "record-fixed" };
+        return { icon: "🛒", className: "record-other" };
       }
 
       function renderInsights() {
@@ -3350,8 +3320,11 @@
         applyTheme(theme);
       }
 
-      function shouldAskSatisfaction(category) {
-        return category === "娱乐" || category === NONMEAL_CATEGORY || category === "其他";
+      function shouldAskSatisfaction(expense) {
+        return expense.category === "娱乐消费" ||
+          expense.category === NONMEAL_CATEGORY ||
+          expense.category === "购物消费" ||
+          expense.subcategory === "其他";
       }
 
       function openSatisfactionModal(expense) {
@@ -3375,7 +3348,7 @@
           ? expense.category + " · " + expense.subcategory
           : expense.category;
         showToast("已保存：" + savedLabel + " ¥" + formatMoney(expense.amount));
-        if (shouldAskSatisfaction(expense.category)) {
+        if (shouldAskSatisfaction(expense)) {
           openSatisfactionModal(expense);
         }
       }
@@ -3418,9 +3391,9 @@
       }
 
       var QUICK_NOTE_OPTIONS = {
-        "学习": ["教材", "课程", "考试报名", "打印资料", "软件会员", "其他"],
-        "娱乐": ["游戏", "电影", "聚餐", "旅游", "其他"],
-        "非正餐消费": ["奶茶", "咖啡", "零食", "水果", "其他"]
+        "学习成长": ["教材资料", "网课会员", "AI工具", "考试报名", "英语学习", "其他"],
+        "娱乐消费": ["游戏", "影音会员", "小说漫画", "社交活动", "景点门票", "其他"],
+        "非正餐": ["奶茶饮料", "零食", "水果", "夜宵", "甜品", "咖啡", "其他"]
       };
 
       function renderQuickNotes() {
@@ -3591,9 +3564,9 @@
         var budget = state.settings[key];
         var spent = 0;
         if (key === "study") {
-          spent = sumExpenses(monthExpenses.filter(function (item) { return item.category === "学习"; }));
+          spent = sumExpenses(monthExpenses.filter(function (item) { return getExpenseGroup(item) === "学习成长"; }));
         } else if (key === "entertainment") {
-          spent = sumExpenses(monthExpenses.filter(function (item) { return item.category === "娱乐"; }));
+          spent = sumExpenses(monthExpenses.filter(function (item) { return getExpenseGroup(item) === "娱乐消费"; }));
         } else if (key === "nonmeal") {
           spent = sumExpenses(monthExpenses.filter(isNonmealExpense));
         } else if (key === "fixed") {
@@ -3726,8 +3699,8 @@
         var todayIsNegative = data.todayAvailable < 0;
         var consumableIsNegative = data.consumableBudget < 0;
         var suggestedAmount = Math.max(0, Math.round(data.todayAvailable * 0.95));
-        var studyBudget = getCategoryBudgetData("学习", state.settings.study, monthExpenses);
-        var entertainmentBudget = getCategoryBudgetData("娱乐", state.settings.entertainment, monthExpenses);
+        var studyBudget = getCategoryBudgetData("学习成长", state.settings.study, monthExpenses);
+        var entertainmentBudget = getCategoryBudgetData("娱乐消费", state.settings.entertainment, monthExpenses);
         var nonmealBudget = getNonmealBudgetData(state.settings.nonmeal, monthExpenses);
         var unexpectedBudget = getEmergencyBudgetData(state.settings.unexpected, monthExpenses);
         var fixedBudget = getFixedCategoryBudgetData(state.settings.fixed, monthExpenses);
@@ -3805,9 +3778,9 @@
         }
 
         renderHomeHealth([
-          { name: "学习", total: studyBudget.total, spent: studyBudget.spent },
-          { name: "娱乐", total: entertainmentBudget.total, spent: entertainmentBudget.spent },
-          { name: "非正餐消费", total: nonmealBudget.total, spent: nonmealBudget.spent },
+          { name: "学习成长", total: studyBudget.total, spent: studyBudget.spent },
+          { name: "娱乐消费", total: entertainmentBudget.total, spent: entertainmentBudget.spent },
+          { name: "非正餐", total: nonmealBudget.total, spent: nonmealBudget.spent },
           { name: "应急储备", total: unexpectedBudget.total, spent: unexpectedBudget.spent },
           { name: "固定支出", total: fixedBudget.total, spent: fixedBudget.spent }
         ]);
@@ -3933,22 +3906,7 @@
       }
 
       function getStatisticsCategory(item) {
-        if (isEmergencyExpense(item)) {
-          return UNEXPECTED_CATEGORY;
-        }
-        if (isFixedExpense(item)) {
-          return "固定支出";
-        }
-        if (item.category === "早餐" ||
-            item.category === "午餐" ||
-            item.category === "晚餐" ||
-            item.category === "水果零食") {
-          return "餐饮";
-        }
-        if (STATS_CATEGORY_NAMES.indexOf(item.category) !== -1) {
-          return item.category;
-        }
-        return "其他";
+        return getExpenseGroup(item);
       }
 
       function buildCategoryData(monthExpenses) {
@@ -4297,7 +4255,7 @@
         });
         var regretAmount = sumExpenses(regretExpenses);
         var entertainmentSpent = sumExpenses(getMonthExpenses(new Date()).filter(function (item) {
-          return item.category === "娱乐";
+          return getExpenseGroup(item) === "娱乐消费";
         }));
         var nonmealSpent = sumExpenses(getMonthExpenses(new Date()).filter(isNonmealExpense));
         var regretBase = roundMoney(entertainmentSpent + nonmealSpent);
@@ -4355,52 +4313,39 @@
       }
 
       /* ---------- 记账事件 ---------- */
+      function renderSubcategoryButtons(category) {
+        var options = CATEGORY_TREE[category] || [];
+        elements.subcategoryGrid.textContent = "";
+        elements.subcategoryLegend.textContent = category + "子项";
+        elements.subcategoryGroup.hidden = options.length === 0;
+
+        options.forEach(function (subcategory) {
+          var button = document.createElement("button");
+          button.type = "button";
+          button.className = "category-button";
+          button.setAttribute("data-subcategory", subcategory);
+          button.setAttribute("aria-pressed", "false");
+          button.textContent = subcategory;
+          elements.subcategoryGrid.appendChild(button);
+        });
+      }
+
       function selectCategory(category) {
         state.selectedCategory = category;
+        state.selectedSubcategory = "";
         elements.categoryButtons.forEach(function (button) {
           var isSelected = button.getAttribute("data-category") === category;
           button.classList.toggle("selected", isSelected);
           button.setAttribute("aria-pressed", isSelected ? "true" : "false");
         });
-
-        if (category === FIXED_CATEGORY) {
-          elements.fixedSubcategoryGroup.hidden = false;
-        } else {
-          elements.fixedSubcategoryGroup.hidden = true;
-          state.selectedFixedSubcategory = "";
-          elements.fixedSubcategoryButtons.forEach(function (button) {
-            button.classList.remove("selected");
-            button.setAttribute("aria-pressed", "false");
-          });
-        }
-
-        if (category === NONMEAL_CATEGORY) {
-          elements.nonmealSubcategoryGroup.hidden = false;
-        } else {
-          elements.nonmealSubcategoryGroup.hidden = true;
-          state.selectedNonmealSubcategory = "";
-          elements.nonmealSubcategoryButtons.forEach(function (button) {
-            button.classList.remove("selected");
-            button.setAttribute("aria-pressed", "false");
-          });
-        }
-
+        renderSubcategoryButtons(category);
         renderQuickNotes();
       }
 
-      function selectFixedSubcategory(subcategory) {
-        state.selectedFixedSubcategory = subcategory;
-        elements.fixedSubcategoryButtons.forEach(function (button) {
-          var isSelected = button.getAttribute("data-fixed-subcategory") === subcategory;
-          button.classList.toggle("selected", isSelected);
-          button.setAttribute("aria-pressed", isSelected ? "true" : "false");
-        });
-      }
-
-      function selectNonmealSubcategory(subcategory) {
-        state.selectedNonmealSubcategory = subcategory;
-        elements.nonmealSubcategoryButtons.forEach(function (button) {
-          var isSelected = button.getAttribute("data-nonmeal-subcategory") === subcategory;
+      function selectSubcategory(subcategory) {
+        state.selectedSubcategory = subcategory;
+        Array.prototype.slice.call(elements.subcategoryGrid.querySelectorAll("[data-subcategory]")).forEach(function (button) {
+          var isSelected = button.getAttribute("data-subcategory") === subcategory;
           button.classList.toggle("selected", isSelected);
           button.setAttribute("aria-pressed", isSelected ? "true" : "false");
         });
@@ -4421,13 +4366,8 @@
           return;
         }
 
-        if (state.selectedCategory === FIXED_CATEGORY && !state.selectedFixedSubcategory) {
-          showToast("请选择固定支出子项");
-          return;
-        }
-
-        if (state.selectedCategory === NONMEAL_CATEGORY && !state.selectedNonmealSubcategory) {
-          showToast("请选择非正餐消费子项");
+        if (!state.selectedSubcategory) {
+          showToast("请选择具体消费子项");
           return;
         }
 
@@ -4443,9 +4383,7 @@
           id: createId(),
           amount: roundMoney(amount),
           category: state.selectedCategory,
-          subcategory: state.selectedCategory === FIXED_CATEGORY
-            ? state.selectedFixedSubcategory
-            : (state.selectedCategory === NONMEAL_CATEGORY ? state.selectedNonmealSubcategory : ""),
+          subcategory: state.selectedSubcategory,
           satisfaction: "",
           date: expenseDate,
           note: elements.expenseNote.value.trim().slice(0, 50),
@@ -4597,17 +4535,14 @@
         });
       });
 
-      elements.fixedSubcategoryButtons.forEach(function (button) {
-        button.addEventListener("click", function () {
-          selectFixedSubcategory(button.getAttribute("data-fixed-subcategory"));
+      if (elements.subcategoryGrid) {
+        elements.subcategoryGrid.addEventListener("click", function (event) {
+          var button = event.target.closest("[data-subcategory]");
+          if (button) {
+            selectSubcategory(button.getAttribute("data-subcategory"));
+          }
         });
-      });
-
-      elements.nonmealSubcategoryButtons.forEach(function (button) {
-        button.addEventListener("click", function () {
-          selectNonmealSubcategory(button.getAttribute("data-nonmeal-subcategory"));
-        });
-      });
+      }
 
       var quickNoteGroup = document.getElementById("quickNoteGroup");
       if (quickNoteGroup) {
