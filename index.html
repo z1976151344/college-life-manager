@@ -1595,9 +1595,9 @@
           <div class="fund-breakdown">
             <div><span>生活费</span><strong id="fundLiving">¥0.00</strong></div>
             <div><span>储蓄目标</span><strong id="fundSavings">¥0.00</strong></div>
-            <div><span>学习预算</span><strong id="fundStudy">¥0.00</strong></div>
+            <div><span>学习成长预算</span><strong id="fundStudy">¥0.00</strong></div>
             <div><span>固定支出</span><strong id="fundFixed">¥0.00</strong></div>
-            <div><span>应急储备</span><strong id="fundEmergency">¥0.00</strong></div>
+            <div><span>应急支出</span><strong id="fundEmergency">¥0.00</strong></div>
             <div><span>自由消费资金</span><strong id="fundFree">¥0.00</strong></div>
           </div>
         </details>
@@ -1626,7 +1626,7 @@
 
         <div class="budget-card-grid">
           <article class="budget-card">
-            <div class="budget-card-head"><h3>🛟 应急储备</h3><span class="budget-card-status green" id="unexpectedBudgetStatus">安全</span></div>
+            <div class="budget-card-head"><h3>🛟 应急支出</h3><span class="budget-card-status green" id="unexpectedBudgetStatus">安全</span></div>
             <strong class="budget-card-remaining" id="unexpectedBudgetRemaining">¥200.00 / ¥200.00</strong>
             <span class="budget-card-used" id="unexpectedBudgetUsed">已使用 ¥0.00</span>
             <div class="budget-card-usage"><span id="unexpectedBudgetBattery">██████████ 0%</span><strong id="unexpectedBudgetUsage">0%</strong></div>
@@ -1635,7 +1635,7 @@
           </article>
 
           <article class="budget-card">
-            <div class="budget-card-head"><h3>📚 学习预算</h3><span class="budget-card-status green" id="studyBudgetStatus">正常</span></div>
+            <div class="budget-card-head"><h3>📚 学习成长</h3><span class="budget-card-status green" id="studyBudgetStatus">正常</span></div>
             <strong class="budget-card-remaining" id="studyBudgetRemaining">¥200.00 / ¥200.00</strong>
             <span class="budget-card-used" id="studyBudgetUsed">已消费 ¥0.00</span>
             <div class="budget-card-usage"><span id="studyBudgetBattery">██████████ 0%</span><strong id="studyBudgetUsage">0%</strong></div>
@@ -1643,7 +1643,7 @@
           </article>
 
           <article class="budget-card">
-            <div class="budget-card-head"><h3>🎮 娱乐预算</h3><span class="budget-card-status green" id="entertainmentBudgetStatus">正常</span></div>
+            <div class="budget-card-head"><h3>🎮 娱乐消费</h3><span class="budget-card-status green" id="entertainmentBudgetStatus">正常</span></div>
             <strong class="budget-card-remaining" id="entertainmentBudgetRemaining">¥80.00 / ¥80.00</strong>
             <span class="budget-card-used" id="entertainmentBudgetUsed">已消费 ¥0.00</span>
             <div class="budget-card-usage"><span id="entertainmentBudgetBattery">██████████ 0%</span><strong id="entertainmentBudgetUsage">0%</strong></div>
@@ -1651,7 +1651,7 @@
           </article>
 
           <article class="budget-card">
-            <div class="budget-card-head"><h3>🍟 非正餐预算</h3><span class="budget-card-status green" id="nonmealBudgetStatus">正常</span></div>
+            <div class="budget-card-head"><h3>🍟 非正餐</h3><span class="budget-card-status green" id="nonmealBudgetStatus">正常</span></div>
             <strong class="budget-card-remaining" id="nonmealBudgetRemaining">¥150.00 / ¥150.00</strong>
             <span class="budget-card-used" id="nonmealBudgetUsed">已消费 ¥0.00</span>
             <div class="budget-card-usage"><span id="nonmealBudgetBattery">██████████ 0%</span><strong id="nonmealBudgetUsage">0%</strong></div>
@@ -1728,7 +1728,7 @@
               <button class="category-button" type="button" data-category="正餐" aria-pressed="false">🍚 正餐</button>
               <button class="category-button" type="button" data-category="非正餐" aria-pressed="false">🍟 非正餐</button>
               <button class="category-button" type="button" data-category="娱乐消费" aria-pressed="false">🎮 娱乐消费</button>
-              <button class="category-button" type="button" data-category="购物消费" aria-pressed="false">🛒 购物消费</button>
+              <button class="category-button" type="button" data-category="固定支出" aria-pressed="false">🏠 固定支出</button>
               <button class="category-button" type="button" data-category="学习成长" aria-pressed="false">📚 学习成长</button>
               <button class="category-button" type="button" data-category="应急支出" aria-pressed="false">🛟 应急支出</button>
             </div>
@@ -1830,7 +1830,7 @@
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="studyBudgetInput">学习预算</label>
+              <label class="form-label" for="studyBudgetInput">学习成长预算</label>
               <div class="amount-input">
                 <span class="currency" aria-hidden="true">¥</span>
                 <input
@@ -1866,7 +1866,7 @@
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="entertainmentBudgetInput">娱乐预算</label>
+              <label class="form-label" for="entertainmentBudgetInput">娱乐消费预算</label>
               <div class="amount-input">
                 <span class="currency" aria-hidden="true">¥</span>
                 <input
@@ -1884,7 +1884,7 @@
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="unexpectedBudgetInput">应急储备预算</label>
+              <label class="form-label" for="unexpectedBudgetInput">应急支出预算</label>
               <div class="amount-input">
                 <span class="currency" aria-hidden="true">¥</span>
                 <input
@@ -1902,7 +1902,7 @@
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="nonmealBudgetInput">非正餐消费预算</label>
+              <label class="form-label" for="nonmealBudgetInput">非正餐预算</label>
               <div class="amount-input">
                 <span class="currency" aria-hidden="true">¥</span>
                 <input
@@ -1938,7 +1938,7 @@
             </div>
           </form>
 
-          <p class="hint">修改后自动保存。应急储备预算单独统计，不参与可消费预算公式。</p>
+          <p class="hint">修改后自动保存。应急支出预算单独统计，不参与可消费预算公式。</p>
         </section>
 
         <section class="card" aria-labelledby="themeTitle">
@@ -2110,7 +2110,7 @@
           <article class="stat-card"><span class="stat-label">预计月末结余</span><strong class="stat-value" id="insightForecastBalance">¥0.00</strong></article>
         </div>
         <section class="card" aria-labelledby="nonmealInsightTitle">
-          <div class="card-title-row"><h2 id="nonmealInsightTitle">非正餐消费排行</h2></div>
+          <div class="card-title-row"><h2 id="nonmealInsightTitle">非正餐排行</h2></div>
           <div class="insight-list" id="nonmealInsightRanking"></div>
         </section>
       </section>
@@ -2216,19 +2216,19 @@
         "正餐": ["早餐", "午餐", "晚餐", "其他"],
         "非正餐": ["奶茶饮料", "零食", "水果", "夜宵", "甜品", "咖啡", "其他"],
         "娱乐消费": ["游戏", "影音会员", "小说漫画", "社交活动", "景点门票", "其他"],
-        "购物消费": ["日用品", "学习用品", "服饰鞋包", "数码配件", "宿舍用品", "其他"],
         "学习成长": ["教材资料", "网课会员", "AI工具", "考试报名", "英语学习", "其他"],
+        "固定支出": ["话费", "校园网", "水电", "洗衣", "打印", "会员", "月卡", "其他固定支出"],
         "应急支出": ["突发维修", "补办证件", "紧急损失", "临时支出", "其他"]
       };
       var CATEGORY_NAMES = Object.keys(CATEGORY_TREE);
-      var STATS_CATEGORY_NAMES = Object.keys(CATEGORY_TREE).concat(["固定支出"]);
+      var STATS_CATEGORY_NAMES = Object.keys(CATEGORY_TREE);
       var LEGACY_CATEGORY_MAP = {
         "早餐": "正餐", "午餐": "正餐", "晚餐": "正餐",
         "水果零食": "非正餐", "奶茶饮料": "非正餐", "零食": "非正餐", "水果": "非正餐", "夜宵": "非正餐", "甜品": "非正餐", "咖啡": "非正餐",
         "娱乐": "娱乐消费", "游戏": "娱乐消费", "影音会员": "娱乐消费", "小说漫画": "娱乐消费", "社交活动": "娱乐消费", "景点门票": "娱乐消费", "人情往来": "娱乐消费",
-        "学习": "学习成长", "教材资料": "学习成长", "网课会员": "学习成长", "AI工具": "学习成长", "考试报名": "学习成长", "英语学习": "学习成长",
-        "购物": "购物消费", "日用品": "购物消费", "学习用品": "购物消费", "服饰鞋包": "购物消费", "数码配件": "购物消费", "宿舍用品": "购物消费", "交通": "购物消费",
-        "医疗健康": "应急支出", "应急储备": "应急支出", "意外支出": "应急支出",
+        "学习": "学习成长", "教材资料": "学习成长", "网课会员": "学习成长", "AI工具": "学习成长", "考试报名": "学习成长", "英语学习": "学习成长", "学习用品": "学习成长",
+        "购物": "固定支出", "购物消费": "固定支出", "日用品": "固定支出", "服饰鞋包": "固定支出", "数码配件": "固定支出", "宿舍用品": "固定支出", "交通": "固定支出",
+        "医疗健康": "应急支出", "应急支出": "应急支出", "意外支出": "应急支出",
         "固定支出": "固定支出", "水电热水": "固定支出", "话费": "固定支出"
       };
       var CHART_COLORS = [
@@ -2363,7 +2363,7 @@
         if (CATEGORY_TREE[item.category]) {
           return item.category;
         }
-        return LEGACY_CATEGORY_MAP[item.category] || "购物消费";
+        return LEGACY_CATEGORY_MAP[item.category] || "固定支出";
       }
 
       function createId() {
@@ -2547,8 +2547,8 @@
           ? (unexpectedSpent / unexpectedBudget) * 100
           : (unexpectedSpent > 0 ? 100 : 0);
 
-        // 可消费预算 = 月生活费 - 储蓄目标 - 学习预算 - 固定支出。
-        // 娱乐预算和应急储备预算按当前规则只保存，不参与这个公式。
+        // 可消费预算 = 月生活费 - 储蓄目标 - 学习成长预算 - 固定支出。
+        // 娱乐消费预算和应急支出预算按当前规则只保存，不参与这个公式。
         var consumableBudget = state.settings.living -
           state.settings.savings -
           state.settings.study -
@@ -2776,7 +2776,7 @@
         if (scoreElement) scoreElement.textContent = score + " / 100";
         if (statusElement) { statusElement.textContent = status.text; statusElement.className = "budget-card-status " + status.key; }
         if (progressElement) { progressElement.className = "budget-progress-fill " + status.key; progressElement.style.width = score + "%"; }
-        if (details) details.innerHTML = "<div><span>预计月末结余评分</span><strong>" + Math.round(forecastScore * 30) + "/30</strong></div><div><span>预算执行率评分</span><strong>" + Math.round(executionScore * 30) + "/30</strong></div><div><span>应急储备评分</span><strong>" + Math.round(emergencyRatio * 20) + "/20</strong></div><div><span>连续记账评分</span><strong>" + Math.round(streakScore * 20) + "/20</strong></div><div><span>综合得分</span><strong>" + score + "/100</strong></div>";
+        if (details) details.innerHTML = "<div><span>预计月末结余评分</span><strong>" + Math.round(forecastScore * 30) + "/30</strong></div><div><span>预算执行率评分</span><strong>" + Math.round(executionScore * 30) + "/30</strong></div><div><span>应急支出评分</span><strong>" + Math.round(emergencyRatio * 20) + "/20</strong></div><div><span>连续记账评分</span><strong>" + Math.round(streakScore * 20) + "/20</strong></div><div><span>综合得分</span><strong>" + score + "/100</strong></div>";
       }
 
       function renderHomeRecentRecords() {
@@ -2798,7 +2798,7 @@
 
         var fragment = document.createDocumentFragment();
         items.forEach(function (item) {
-          var status = item.name === "应急储备"
+          var status = item.name === "应急支出"
             ? getEmergencyHealthStatus(item.total, item.spent)
             : getBudgetHealthStatus(item.total, item.spent);
           var emoji = status.key === "green" ? "🟢" : (status.key === "yellow" ? "🟡" : (status.key === "over" ? "🚨" : "🔴"));
@@ -2961,7 +2961,7 @@
           { id: "streak_30", title: "连续记账达人", desc: "连续记账30天", current: Math.min(streak, 30), target: 30, unlocked: streak >= 30 },
           { id: "budget_master", title: "预算大师", desc: "所有预算均未超支", current: allBudgetSafe ? 1 : 0, target: 1, unlocked: allBudgetSafe },
           { id: "no_milk_tea_7", title: "奶茶克制王", desc: "连续7天无奶茶饮料消费", current: Math.min(milkFreeDays, 7), target: 7, unlocked: milkFreeDays >= 7 },
-          { id: "snack_control", title: "零食克制者", desc: "非正餐消费低于预算50%", current: nonmeal.total > 0 && nonmeal.spent < nonmeal.total * 0.5 ? 1 : 0, target: 1, unlocked: nonmeal.total > 0 && nonmeal.spent < nonmeal.total * 0.5 },
+          { id: "snack_control", title: "零食克制者", desc: "非正餐低于预算50%", current: nonmeal.total > 0 && nonmeal.spent < nonmeal.total * 0.5 ? 1 : 0, target: 1, unlocked: nonmeal.total > 0 && nonmeal.spent < nonmeal.total * 0.5 },
           { id: "savings_master", title: "储蓄达人", desc: "达成储蓄目标", current: savingsProgress, target: 1, unlocked: savingsProgress >= 1 },
           { id: "invest_self", title: "成长投资家", desc: "学习成长预算使用率超过50%", current: study.total > 0 ? Math.min(study.spent / study.total, 1) : 0, target: 1, unlocked: study.total > 0 && study.spent / study.total > 0.5 },
           { id: "penny_pincher", title: "财务自由幼苗", desc: "完成一天0元消费", current: hasZeroSpendDay() ? 1 : 0, target: 1, unlocked: hasZeroSpendDay() },
@@ -3135,7 +3135,7 @@
           return "🎉 春节期间建议预留活动预算。";
         }
         if ((month === 3 && day <= 15) || (month === 9 && day <= 15)) {
-          return "📚 开学季建议增加学习预算。";
+          return "📚 开学季建议增加学习成长预算。";
         }
         if (month === 5 && day <= 7) {
           return "🎉 五一期间建议预留活动预算。";
@@ -3179,10 +3179,10 @@
           var emergency = getEmergencyBudgetData(state.settings.unexpected, monthExpenses);
           var streak = calculateStreak();
           var reminder = summary;
-          if (nonmeal.usageRate >= 100) reminder = "本月非正餐消费已超预算。";
-          else if (nonmeal.usageRate >= 80) reminder = "本月非正餐消费接近预算。";
+          if (nonmeal.usageRate >= 100) reminder = "本月非正餐已超预算。";
+          else if (nonmeal.usageRate >= 80) reminder = "本月非正餐接近预算。";
           else if (entertainment.usageRate >= 100) reminder = "本月娱乐消费已超预算，建议控制。";
-          else if (emergency.total > 0 && emergency.remaining / emergency.total < 0.2) reminder = "应急储备偏低，建议及时补充。";
+          else if (emergency.total > 0 && emergency.remaining / emergency.total < 0.2) reminder = "应急支出偏低，建议及时补充。";
           else if (streak > 0 && streak % 7 === 0) reminder = "连续记账 " + streak + " 天，继续保持。";
           else if (statistics.forecastRemaining < 0) reminder = "按当前消费速度，月底可能超支。";
           else if (statistics.forecastRemaining > 0 && statistics.monthSpent < state.settings.living - state.settings.savings) reminder = "储蓄目标有希望完成，预计结余 " + formatSignedMoney(statistics.forecastRemaining) + "。";
@@ -3276,7 +3276,7 @@
           if (nonmealRanking.length === 0) {
             var empty = document.createElement("p");
             empty.className = "empty-records";
-            empty.textContent = "本月暂无非正餐消费";
+            empty.textContent = "本月暂无非正餐";
             rankingElement.appendChild(empty);
           } else {
             nonmealRanking.forEach(function (item, index) {
@@ -3323,7 +3323,6 @@
       function shouldAskSatisfaction(expense) {
         return expense.category === "娱乐消费" ||
           expense.category === NONMEAL_CATEGORY ||
-          expense.category === "购物消费" ||
           expense.subcategory === "其他";
       }
 
@@ -3595,7 +3594,7 @@
         var studyDown = first.study.usage < 50 && second.study.usage < 50 && (first.study.hasData || second.study.hasData);
         var studyUp = first.study.usage > 100 && second.study.usage > 100;
         var suggestions = [{
-          key: "study", label: "学习预算", current: state.settings.study,
+          key: "study", label: "学习成长预算", current: state.settings.study,
           suggested: studyDown ? clampBudgetSuggestion("study", state.settings.study, state.settings.study * 0.9, false) : (studyUp ? clampBudgetSuggestion("study", state.settings.study, state.settings.study * 1.1, false) : state.settings.study),
           reason: studyDown ? "连续2个月使用率低于50%" : (studyUp ? "连续2个月超过100%" : "预算使用合理")
         }];
@@ -3603,7 +3602,7 @@
           var down = first[key].usage < 50 && second[key].usage < 50 && (first[key].hasData || second[key].hasData);
           var up = first[key].usage > 100 && second[key].usage > 100;
           suggestions.push({
-            key: key, label: key === "entertainment" ? "娱乐预算" : "非正餐消费预算", current: state.settings[key],
+            key: key, label: key === "entertainment" ? "娱乐消费预算" : "非正餐预算", current: state.settings[key],
             suggested: down ? clampBudgetSuggestion(key, state.settings[key], state.settings[key] * 0.9, false) : (up ? clampBudgetSuggestion(key, state.settings[key], state.settings[key] * 1.1, false) : state.settings[key]),
             reason: down ? "连续2个月低于50%" : (up ? "连续2个月超过100%" : "预算使用合理")
           });
@@ -3612,15 +3611,15 @@
         suggestions.push({ key: "fixed", label: "固定支出预算", current: state.settings.fixed, suggested: fixedUp ? clampBudgetSuggestion("fixed", state.settings.fixed, state.settings.fixed * 1.05, true) : state.settings.fixed, reason: fixedUp ? "近期固定支出超过预算" : "固定支出预算保持稳定" });
         var unexpectedAvg = (first.unexpected.usage + second.unexpected.usage) / 2;
         var unexpectedSuggested = state.settings.unexpected;
-        var unexpectedReason = "应急储备使用合理";
+        var unexpectedReason = "应急支出使用合理";
         if (unexpectedAvg < 50 && (first.unexpected.hasData || second.unexpected.hasData)) {
           unexpectedSuggested = clampBudgetSuggestion("unexpected", state.settings.unexpected, state.settings.unexpected * 0.95, false);
-          unexpectedReason = "近期应急储备较少";
+          unexpectedReason = "近期应急支出较少";
         } else if (unexpectedAvg > 100) {
           unexpectedSuggested = clampBudgetSuggestion("unexpected", state.settings.unexpected, state.settings.unexpected * 1.05, false);
-          unexpectedReason = "近期应急储备超过预算";
+          unexpectedReason = "近期应急支出超过预算";
         }
-        suggestions.push({ key: "unexpected", label: "应急储备预算", current: state.settings.unexpected, suggested: unexpectedSuggested, reason: unexpectedReason });
+        suggestions.push({ key: "unexpected", label: "应急支出预算", current: state.settings.unexpected, suggested: unexpectedSuggested, reason: unexpectedReason });
         return suggestions;
       }
 
@@ -3766,11 +3765,11 @@
         if (nonmealBudget.usageRate >= 100) {
           elements.nonmealBudgetAlert.hidden = false;
           elements.nonmealBudgetAlert.className = "budget-card-alert red";
-          elements.nonmealBudgetAlert.textContent = "🚨 非正餐消费超预算";
+          elements.nonmealBudgetAlert.textContent = "🚨 非正餐超预算";
         } else if (nonmealBudget.usageRate >= 80) {
           elements.nonmealBudgetAlert.hidden = false;
           elements.nonmealBudgetAlert.className = "budget-card-alert yellow";
-          elements.nonmealBudgetAlert.textContent = "⚠ 非正餐消费接近预算";
+          elements.nonmealBudgetAlert.textContent = "⚠ 非正餐接近预算";
         } else {
           elements.nonmealBudgetAlert.hidden = true;
           elements.nonmealBudgetAlert.className = "budget-card-alert";
@@ -3781,7 +3780,7 @@
           { name: "学习成长", total: studyBudget.total, spent: studyBudget.spent },
           { name: "娱乐消费", total: entertainmentBudget.total, spent: entertainmentBudget.spent },
           { name: "非正餐", total: nonmealBudget.total, spent: nonmealBudget.spent },
-          { name: "应急储备", total: unexpectedBudget.total, spent: unexpectedBudget.spent },
+          { name: "应急支出", total: unexpectedBudget.total, spent: unexpectedBudget.spent },
           { name: "固定支出", total: fixedBudget.total, spent: fixedBudget.spent }
         ]);
         renderHomeOverview();
@@ -3976,13 +3975,13 @@
 
       function getUnexpectedWarning(usageRate) {
         if (usageRate >= 100) {
-          return { className: "red", text: "⚠ 已超出应急储备预算" };
+          return { className: "red", text: "⚠ 已超出应急支出预算" };
         }
         if (usageRate >= 85) {
-          return { className: "orange", text: "⚠ 应急储备预算紧张" };
+          return { className: "orange", text: "⚠ 应急支出预算紧张" };
         }
         if (usageRate >= 70) {
-          return { className: "yellow", text: "⚠ 本月应急储备较高" };
+          return { className: "yellow", text: "⚠ 本月应急支出较高" };
         }
         return null;
       }
@@ -4586,7 +4585,7 @@
         emergencyRecordButton.addEventListener("click", function () {
           var records = getMonthExpenses(new Date()).filter(isEmergencyExpense).slice(0, 5);
           if (records.length === 0) {
-            showToast("本月暂无应急储备记录");
+            showToast("本月暂无应急支出记录");
             return;
           }
           window.alert(records.map(function (item) { return item.date + "  " + item.category + "  ¥" + formatMoney(item.amount) + (item.note ? "  " + item.note : ""); }).join("\n"));
