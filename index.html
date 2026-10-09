@@ -1547,8 +1547,254 @@
       background: #111827;
     }
 
+    /* ---------- 启动过渡动画：占位样式，正式品牌确定后只需替换此段与顶部 HTML ---------- */
+    .splash-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--page);
+    }
+
+    .splash-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      text-align: center;
+    }
+
+    .splash-logo {
+      width: 76px;
+      height: 76px;
+      border-radius: 19px;
+      opacity: 0;
+      transform: scale(0.9);
+      animation: splashLogoIn 460ms ease-out forwards;
+    }
+
+    .splash-name {
+      margin: 0;
+      color: var(--text);
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      opacity: 0;
+      animation: splashNameIn 380ms ease-out 140ms forwards;
+    }
+
+    .splash-screen.splash-hide {
+      opacity: 0;
+      transition: opacity 260ms ease;
+      pointer-events: none;
+    }
+
+    @keyframes splashLogoIn {
+      0% { opacity: 0; transform: scale(0.9); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes splashNameIn {
+      0% { opacity: 0; transform: translateY(4px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .splash-screen { display: none; }
+    }
+
+    /* ---------- 成就中心：概览、筛选、卡片状态与解锁反馈 ---------- */
+    .achievement-overview-card {
+      margin-bottom: 12px;
+    }
+
+    .achievement-overview-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .achievement-overview-row span {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .achievement-overview-row strong {
+      font-size: 15px;
+    }
+
+    .achievement-filters {
+      display: flex;
+      gap: 8px;
+      margin: 0 0 14px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .achievement-filter {
+      flex: 0 0 auto;
+      min-height: 34px;
+      padding: 0 13px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--card);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .achievement-filter.active {
+      border-color: var(--blue);
+      background: var(--blue-soft);
+      color: var(--blue-dark);
+    }
+
+    .achievement-item {
+      position: relative;
+      cursor: pointer;
+      transition: border-color 160ms ease, background 160ms ease;
+    }
+
+    .achievement-item:active {
+      transform: scale(0.995);
+    }
+
+    .achievement-item-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      margin-right: 9px;
+      border-radius: 10px;
+      background: var(--blue-soft);
+      font-size: 18px;
+      vertical-align: -9px;
+    }
+
+    .achievement-item-status.in-progress {
+      border-color: #fbbf24;
+      background: #fffbeb;
+      color: #92400e;
+    }
+
+    .achievement-item-status.locked {
+      border-color: var(--line);
+      background: var(--card);
+      color: var(--muted);
+    }
+
+    .achievement-item-status.unlocked-badge {
+      border-color: #86efac;
+      background: #f0fdf4;
+      color: #166534;
+    }
+
+    .achievement-item.just-unlocked {
+      border-color: #fbbf24;
+      background: #fffbeb;
+      animation: achievementFlash 900ms ease;
+    }
+
+    @keyframes achievementFlash {
+      0% { background: #fef3c7; }
+      100% { background: #fffbeb; }
+    }
+
+    .achievement-item.just-unlocked .achievement-item-icon {
+      animation: achievementIconPop 500ms ease;
+    }
+
+    @keyframes achievementIconPop {
+      0% { transform: scale(0.8); opacity: 0.4; }
+      60% { transform: scale(1.12); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .achievement-item-detail {
+      display: none;
+      margin: 10px 0 0;
+      padding: 10px 12px;
+      border-radius: 9px;
+      background: rgba(37, 99, 235, 0.06);
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .achievement-item.detail-open .achievement-item-detail {
+      display: block;
+    }
+
+    html[data-theme="dark"] .achievement-item.just-unlocked {
+      border-color: #f59e0b;
+      background: #451a03;
+    }
+
+    html[data-theme="dark"] .achievement-item-detail {
+      background: rgba(59, 130, 246, 0.12);
+    }
+
+    /* ---------- 月度复盘入口与弹窗 ---------- */
+    .review-entry {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      padding: 11px 13px;
+      border: 1px dashed var(--line);
+      border-radius: 11px;
+      background: var(--card);
+    }
+
+    .review-entry-tip {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .review-month-label {
+      margin: 0 0 10px;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .review-summary {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 14px;
+      margin: 0 0 12px;
+      font-size: 13px;
+    }
+
+    .review-summary div {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px dashed var(--line);
+      color: var(--muted);
+    }
+
+    .review-summary strong {
+      color: var(--text);
+    }
+
 </style></head>
 <body>
+  <!-- 启动过渡动画（占位结构）：正式图标确定后只需替换图标资源、名称与 SPLASH_CONFIG 参数 -->
+  <div class="splash-screen" id="splashScreen" aria-hidden="true">
+    <div class="splash-content">
+      <img class="splash-logo" id="splashLogo" src="./icons/icon-192.png" alt="">
+      <p class="splash-name" id="splashName">大学生生活费管家</p>
+    </div>
+  </div>
   <div class="app">
     <header class="app-header">
       <div>
@@ -1902,6 +2148,24 @@
             </div>
 
             <div class="form-group">
+              <label class="form-label" for="emergencyReserveInput">应急储备目标</label>
+              <div class="amount-input">
+                <span class="currency" aria-hidden="true">¥</span>
+                <input
+                  id="emergencyReserveInput"
+                  name="emergencyReserve"
+                  data-setting="emergencyReserve"
+                  type="number"
+                  inputmode="decimal"
+                  min="0"
+                  step="0.01"
+                  placeholder="0.00"
+                  autocomplete="off"
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
               <label class="form-label" for="nonmealBudgetInput">非正餐预算</label>
               <div class="amount-input">
                 <span class="currency" aria-hidden="true">¥</span>
@@ -1938,7 +2202,7 @@
             </div>
           </form>
 
-          <p class="hint">修改后自动保存。应急支出预算单独统计，不参与可消费预算公式。</p>
+          <p class="hint">修改后自动保存。应急支出预算单独统计，不参与可消费预算公式；应急储备目标用于安全管控与成就计算。</p>
         </section>
 
         <section class="card" aria-labelledby="themeTitle">
@@ -1970,6 +2234,11 @@
         <div class="page-title">
           <h2 id="statsTitle">消费统计</h2>
           <p>根据当前月消费记录自动统计。</p>
+        </div>
+
+        <div class="review-entry">
+          <p class="review-entry-tip" id="reviewEntryTip">每月完成一次消费复盘，掌握消费结构。</p>
+          <button class="secondary-button" type="button" id="openReviewButton">📋 完成本月复盘</button>
         </div>
 
         <div class="stats-grid">
@@ -2089,8 +2358,24 @@
       <section class="page" id="achievementPage" aria-labelledby="achievementTitle">
         <div class="page-title">
           <h2 id="achievementTitle">🏅 成就中心</h2>
-          <p>查看已解锁成就、完成进度和解锁时间。</p>
+          <p>查看已解锁成就、进行中的挑战与解锁进度。</p>
         </div>
+
+        <section class="card achievement-overview-card" aria-labelledby="achievementOverviewTitle">
+          <div class="achievement-overview-row">
+            <div><span>已解锁</span><strong id="achievementUnlockedCount">0 / 0</strong></div>
+            <div><span>进行中</span><strong id="achievementInProgressCount">0</strong></div>
+            <div><span>达成率</span><strong id="achievementRate">0%</strong></div>
+          </div>
+        </section>
+
+        <div class="achievement-filters" role="tablist" aria-label="成就筛选">
+          <button type="button" class="achievement-filter active" data-achievement-filter="all" role="tab" aria-selected="true">全部</button>
+          <button type="button" class="achievement-filter" data-achievement-filter="unlocked" role="tab" aria-selected="false">已解锁</button>
+          <button type="button" class="achievement-filter" data-achievement-filter="inprogress" role="tab" aria-selected="false">进行中</button>
+          <button type="button" class="achievement-filter" data-achievement-filter="locked" role="tab" aria-selected="false">未解锁</button>
+        </div>
+
         <div class="achievement-list" id="achievementList"></div>
       </section>
 
@@ -2159,6 +2444,19 @@
     </div>
   </div>
 
+  <div class="modal-backdrop" id="reviewModal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="reviewTitle">
+      <h2 id="reviewTitle">本月消费复盘</h2>
+      <p class="review-month-label" id="reviewMonthLabel"></p>
+      <div class="review-summary" id="reviewSummary"></div>
+      <p class="monthly-keyword" id="reviewKeyword" hidden></p>
+      <div class="modal-actions">
+        <button class="secondary-button" type="button" id="reviewCancel">关闭</button>
+        <button class="primary-button" type="button" id="reviewConfirm">确认完成复盘</button>
+      </div>
+    </div>
+  </div>
+
   <div class="achievement-toast" id="achievementToast" hidden></div>
 
   <div class="modal-backdrop" id="impulseModal" hidden>
@@ -2201,13 +2499,16 @@
         entertainment: 80,
         unexpected: 200,
         nonmeal: 150,
-        dailyDining: 35
+        dailyDining: 35,
+        emergencyReserve: 0
       };
       var LEGACY_BUDGET_KEY = "collegeLifeBudgetV1";
       var BUDGET_SETTINGS_KEY = "collegeLifeBudgetSettingsV2";
       var EXPENSES_KEY = "collegeLifeExpensesV1";
       var THEME_KEY = "collegeLifeThemeV1";
       var ACHIEVEMENTS_KEY = "collegeLifeAchievementsV1";
+      var REVIEW_KEY = "collegeLifeReviewHistoryV1";
+      var BUDGET_CYCLE_KEY = "collegeLifeBudgetCycleV1";
       var UNEXPECTED_CATEGORY = "应急支出";
       var LEGACY_EMERGENCY_CATEGORY = "意外支出";
       var FIXED_CATEGORY = "固定支出";
@@ -2298,6 +2599,10 @@
         subcategoryGrid: document.getElementById("subcategoryGrid"),
         subcategoryLegend: document.getElementById("subcategoryLegend"),
         statsPage: document.getElementById("statsPage"),
+        recordPage: document.getElementById("recordPage"),
+        budgetPage: document.getElementById("budgetPage"),
+        insightPage: document.getElementById("insightPage"),
+        budgetAssistantPage: document.getElementById("budgetAssistantPage"),
         statsTodaySpent: document.getElementById("statsTodaySpent"),
         statsWeekSpent: document.getElementById("statsWeekSpent"),
         statsMonthSpent: document.getElementById("statsMonthSpent"),
@@ -2333,10 +2638,18 @@
         selectedSubcategory: "",
         theme: "system",
         pendingExpense: null,
-        impulseTimer: null
+        impulseTimer: null,
+        achievementFilter: "all"
+      };
+
+      /* ---------- 启动过渡动画配置：替换正式图标时只需改 HTML/CSS 占位内容与此处时长 ---------- */
+      var SPLASH_CONFIG = {
+        showMs: 480,
+        fadeMs: 260
       };
 
       var toastTimer = null;
+      var budgetSaveTimer = null;
       var deferredInstallPrompt = null;
 
       /* ---------- 通用工具函数 ---------- */
@@ -2442,6 +2755,11 @@
           dailyDining: parseBudgetValue(
             parsed.dailyDining,
             DEFAULT_BUDGET_SETTINGS.dailyDining,
+            true
+          ),
+          emergencyReserve: parseBudgetValue(
+            parsed.emergencyReserve,
+            DEFAULT_BUDGET_SETTINGS.emergencyReserve,
             true
           )
         };
@@ -2867,13 +3185,25 @@
       }
 
       function loadAchievementData() {
+        var saved = {};
+
         try {
           var raw = window.localStorage.getItem(ACHIEVEMENTS_KEY);
           var parsed = raw ? JSON.parse(raw) : {};
-          return parsed && typeof parsed === "object" ? parsed : {};
-        } catch (error) {
-          return {};
-        }
+          if (parsed && typeof parsed === "object") {
+            saved = parsed;
+            // 老版本成就 ID 迁移：保留已解锁记录，避免重复解锁。
+            Object.keys(ACHIEVEMENT_ID_MIGRATION).forEach(function (oldId) {
+              var newId = ACHIEVEMENT_ID_MIGRATION[oldId];
+              if (saved[oldId] && !saved[newId]) {
+                saved[newId] = saved[oldId];
+              }
+              delete saved[oldId];
+            });
+          }
+        } catch (error) {}
+
+        return saved;
       }
 
       function saveAchievementData(data) {
@@ -2884,42 +3214,84 @@
         }
       }
 
+      function getReviewHistory() {
+        try {
+          var parsed = JSON.parse(window.localStorage.getItem(REVIEW_KEY) || "[]");
+          return Array.isArray(parsed) ? parsed : [];
+        } catch (error) {
+          return [];
+        }
+      }
+
+      function saveReviewHistory(history) {
+        try {
+          window.localStorage.setItem(REVIEW_KEY, JSON.stringify(history));
+        } catch (error) {
+          // 复盘记录写入失败时忽略，不影响主流程。
+        }
+      }
+
+      function loadBudgetCycleSnapshots() {
+        try {
+          var parsed = JSON.parse(window.localStorage.getItem(BUDGET_CYCLE_KEY) || "[]");
+          return Array.isArray(parsed) ? parsed : [];
+        } catch (error) {
+          return [];
+        }
+      }
+
+      function saveBudgetCycleSnapshots(snapshots) {
+        try {
+          window.localStorage.setItem(BUDGET_CYCLE_KEY, JSON.stringify(snapshots));
+        } catch (error) {
+          // 快照写入失败时忽略，不影响主流程。
+        }
+      }
+
+      // 从最近一个有效记账日开始，向前统计连续满足条件的有效记账日。
+      function countConsecutiveConfirmedDays(predicate) {
+        var dates = getUniqueExpenseDates();
+        if (dates.length === 0) {
+          return 0;
+        }
+        var count = 0;
+        var previous = null;
+        for (var index = 0; index < dates.length; index += 1) {
+          var current = dateFromKey(dates[index]);
+          if (previous) {
+            var gap = Math.round((previous - current) / 86400000);
+            if (gap !== 1) {
+              break;
+            }
+          }
+          previous = current;
+          if (!predicate(dates[index])) {
+            break;
+          }
+          count += 1;
+        }
+        return count;
+      }
+
+      // 奶茶克制：只统计有记账确认的日期，未确认记账的日期不视为零消费日。
       function countMilkFreeDays() {
-        var count = 0;
-        var checkDate = new Date();
-
-        for (var offset = 0; offset < 7; offset += 1) {
-          var current = new Date(checkDate.getFullYear(), checkDate.getMonth(), checkDate.getDate() - offset);
-          var key = toDateKey(current);
-          var hasMilkTea = state.expenses.some(function (item) {
-            return item.date === key && (item.subcategory === "奶茶饮料" || item.category === "奶茶饮料" || item.category === "奶茶");
+        return countConsecutiveConfirmedDays(function (dayKey) {
+          return !state.expenses.some(function (item) {
+            return item.date === dayKey && (item.subcategory === "奶茶饮料" || item.category === "奶茶饮料" || item.category === "奶茶");
           });
-          if (hasMilkTea) {
-            break;
-          }
-          count += 1;
-        }
-        return count;
+        });
       }
 
-      function countZenDays() {
-        var count = 0;
-        var checkDate = new Date();
-
-        for (var offset = 0; offset < 3; offset += 1) {
-          var current = new Date(checkDate.getFullYear(), checkDate.getMonth(), checkDate.getDate() - offset);
-          var key = toDateKey(current);
-          var spent = sumExpenses(state.expenses.filter(function (item) {
-            return item.date === key;
-          }));
-          if (spent >= 10) {
-            break;
-          }
-          count += 1;
-        }
-        return count;
+      // 无应急支出连续天数：只统计有记账确认的日期。
+      function countEmergencyFreeDays() {
+        return countConsecutiveConfirmedDays(function (dayKey) {
+          return !state.expenses.some(function (item) {
+            return item.date === dayKey && getExpenseGroup(item) === UNEXPECTED_CATEGORY;
+          });
+        });
       }
 
+      // 本月存在没有任何消费支出的日期。
       function hasZeroSpendDay() {
         var now = new Date();
         var lastDay = now.getDate();
@@ -2935,6 +3307,40 @@
         return false;
       }
 
+      // 完整预算周期快照：仅对已结束的完整月份生成一次，周期未结束时不会解锁。
+      function ensureBudgetCycleSnapshot(settings) {
+        var now = new Date();
+        var previousMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+        var monthKey = toMonthKey(previousMonth);
+        var snapshots = loadBudgetCycleSnapshots();
+        if (snapshots.some(function (snapshot) { return snapshot.month === monthKey; })) {
+          return snapshots;
+        }
+        var monthExpenses = getMonthExpenses(previousMonth);
+        if (monthExpenses.length === 0) {
+          return snapshots;
+        }
+        var snapshot = {
+          month: monthKey,
+          spent: sumExpenses(monthExpenses),
+          settings: {},
+          createdAt: new Date().toISOString()
+        };
+        ["living", "savings", "study", "fixed", "entertainment", "unexpected", "nonmeal", "dailyDining", "emergencyReserve"].forEach(function (key) {
+          snapshot.settings[key] = settings[key];
+        });
+        snapshot.withinBudget =
+          snapshot.spent <= settings.living &&
+          getCategoryBudgetData("学习成长", settings.study, monthExpenses).spent <= settings.study &&
+          getCategoryBudgetData("娱乐消费", settings.entertainment, monthExpenses).spent <= settings.entertainment &&
+          getNonmealBudgetData(settings.nonmeal, monthExpenses).spent <= settings.nonmeal &&
+          getEmergencyBudgetData(settings.unexpected, monthExpenses).spent <= settings.unexpected &&
+          getFixedCategoryBudgetData(settings.fixed, monthExpenses).spent <= settings.fixed;
+        snapshots.push(snapshot);
+        saveBudgetCycleSnapshots(snapshots);
+        return snapshots;
+      }
+
       function getAchievementDefinitions() {
         var monthExpenses = getMonthExpenses(new Date());
         var statistics = calculateStatistics();
@@ -2945,27 +3351,67 @@
         var fixed = getFixedCategoryBudgetData(state.settings.fixed, monthExpenses);
         var streak = calculateStreak();
         var milkFreeDays = countMilkFreeDays();
-        var zenDays = countZenDays();
-        var allBudgetSafe = study.spent <= study.total &&
-          entertainment.spent <= entertainment.total &&
-          nonmeal.spent <= nonmeal.total &&
-          unexpected.spent <= unexpected.total &&
-          fixed.spent <= fixed.total;
+        var emergencyFreeDays = countEmergencyFreeDays();
         var savingsProgress = state.settings.savings > 0
           ? Math.max(0, Math.min(1, (state.settings.living - statistics.monthSpent) / state.settings.savings))
           : 0;
+        var settings = state.settings;
+        var budgetSafeCount = 0;
+        if (statistics.monthSpent <= settings.living) budgetSafeCount += 1;
+        if (study.spent <= study.total) budgetSafeCount += 1;
+        if (entertainment.spent <= entertainment.total) budgetSafeCount += 1;
+        if (nonmeal.spent <= nonmeal.total) budgetSafeCount += 1;
+        if (unexpected.spent <= unexpected.total) budgetSafeCount += 1;
+        if (fixed.spent <= fixed.total) budgetSafeCount += 1;
+        var allBudgetSafe = budgetSafeCount === 6;
+        // 六大分类有效预算（正餐使用每日餐饮预算）。
+        var categoryBudgetValid = {
+          "正餐": settings.dailyDining > 0,
+          "非正餐": settings.nonmeal > 0,
+          "娱乐消费": settings.entertainment > 0,
+          "学习成长": settings.study > 0,
+          "固定支出": settings.fixed > 0,
+          "应急支出": settings.unexpected > 0
+        };
+        var categoryBudgetCount = Object.keys(categoryBudgetValid).filter(function (name) {
+          return categoryBudgetValid[name];
+        }).length;
+        var studyTarget = study.total * 0.3;
+        var studyProgress = study.total > 0
+          ? Math.max(0, Math.min(1, study.spent / Math.max(0.01, studyTarget)))
+          : 0;
+        var cycles = loadBudgetCycleSnapshots();
+        var safeCycles = cycles.filter(function (cycle) {
+          return cycle.withinBudget;
+        }).length;
+        var reviewedMonths = {};
+        getReviewHistory().forEach(function (review) {
+          if (review && review.month) {
+            reviewedMonths[review.month] = true;
+          }
+        });
+        var reviewedCount = Object.keys(reviewedMonths).length;
+        var hasEmergencyReserve = Number(settings.emergencyReserve) > 0;
+        var validBudgetKeys = ["study", "fixed", "entertainment", "unexpected", "nonmeal"].filter(function (key) {
+          return settings[key] > 0;
+        });
 
         return [
-          { id: "first_record", title: "初来乍到", desc: "完成第一笔记账", current: Math.min(1, state.expenses.length), target: 1, unlocked: state.expenses.length > 0 },
-          { id: "week_streak", title: "一周坚持", desc: "连续记账7天", current: Math.min(streak, 7), target: 7, unlocked: streak >= 7 },
-          { id: "streak_30", title: "连续记账达人", desc: "连续记账30天", current: Math.min(streak, 30), target: 30, unlocked: streak >= 30 },
-          { id: "budget_master", title: "预算大师", desc: "所有预算均未超支", current: allBudgetSafe ? 1 : 0, target: 1, unlocked: allBudgetSafe },
-          { id: "no_milk_tea_7", title: "奶茶克制王", desc: "连续7天无奶茶饮料消费", current: Math.min(milkFreeDays, 7), target: 7, unlocked: milkFreeDays >= 7 },
-          { id: "snack_control", title: "零食克制者", desc: "非正餐低于预算50%", current: nonmeal.total > 0 && nonmeal.spent < nonmeal.total * 0.5 ? 1 : 0, target: 1, unlocked: nonmeal.total > 0 && nonmeal.spent < nonmeal.total * 0.5 },
-          { id: "savings_master", title: "储蓄达人", desc: "达成储蓄目标", current: savingsProgress, target: 1, unlocked: savingsProgress >= 1 },
-          { id: "invest_self", title: "成长投资家", desc: "学习成长预算使用率超过50%", current: study.total > 0 ? Math.min(study.spent / study.total, 1) : 0, target: 1, unlocked: study.total > 0 && study.spent / study.total > 0.5 },
-          { id: "penny_pincher", title: "财务自由幼苗", desc: "完成一天0元消费", current: hasZeroSpendDay() ? 1 : 0, target: 1, unlocked: hasZeroSpendDay() },
-          { id: "zen_life", title: "安全管家", desc: "连续3天消费低于10元", current: Math.min(zenDays, 3), target: 3, unlocked: zenDays >= 3 }
+          { id: "accounting_newbie", icon: "🐣", title: "记账新人", desc: "完成第一笔有效账目", current: Math.min(1, state.expenses.length), target: 1, unlocked: state.expenses.length >= 1 },
+          { id: "accounting_master", icon: "📒", title: "记账达人", desc: "连续 7 个有效记账日", current: Math.min(streak, 7), target: 7, unlocked: streak >= 7 },
+          { id: "budget_planner", icon: "📋", title: "预算规划师", desc: "生活费预算有效，且至少 4 个分类预算已设置", current: settings.living > 0 ? Math.min(validBudgetKeys.length, 4) : 0, target: 4, unlocked: settings.living > 0 && validBudgetKeys.length >= 4 },
+          { id: "category_manager", icon: "🗂️", title: "分类管理师", desc: "六大分类均设置有效预算", current: categoryBudgetCount, target: 6, unlocked: categoryBudgetCount === 6 },
+          { id: "monthly_reviewer", icon: "📊", title: "月度复盘官", desc: "在统计页完成一次真实的本月消费复盘", current: Math.min(reviewedCount, 1), target: 1, unlocked: reviewedCount >= 1 },
+          { id: "rational_spender", icon: "🧮", title: "理性消费家", desc: "一个完整预算周期内所有预算未超支", current: Math.min(safeCycles, 1), target: 1, unlocked: safeCycles >= 1 },
+          { id: "savings_master", icon: "💰", title: "储蓄达人", desc: "本月结余达到储蓄目标", current: savingsProgress, target: 1, unlocked: savingsProgress >= 1 },
+          { id: "no_milk_tea_7", icon: "🧋", title: "奶茶克制王", desc: "连续 7 个有效记账日无奶茶饮料消费", current: Math.min(milkFreeDays, 7), target: 7, unlocked: milkFreeDays >= 7 },
+          { id: "budget_master", icon: "🛡️", title: "预算大师", desc: "生活费与全部分类预算均未超支", current: budgetSafeCount, target: 6, unlocked: allBudgetSafe },
+          { id: "zen_life", icon: "🛟", title: "安全管家", desc: "设置应急储备目标，且连续 30 个有效记账日无应急支出", current: hasEmergencyReserve ? Math.min(emergencyFreeDays, 30) : 0, target: 30, unlocked: hasEmergencyReserve && emergencyFreeDays >= 30 },
+          { id: "emergency_newbie", icon: "🧯", title: "应急储备新手", desc: "首次建立并保存有效的应急储备目标", current: hasEmergencyReserve ? 1 : 0, target: 1, unlocked: hasEmergencyReserve },
+          { id: "invest_self", icon: "🎓", title: "成长投资家", desc: "学习成长投入达到预算的 30% 且未超支", current: studyProgress, target: 1, unlocked: study.total > 0 && study.spent >= studyTarget && study.spent <= study.total },
+          { id: "penny_pincher", icon: "🌱", title: "财务自由幼苗", desc: "本月达成储蓄目标，且存在零消费日", current: savingsProgress, target: 1, unlocked: savingsProgress >= 1 && hasZeroSpendDay() },
+          { id: "persistence_star", icon: "⭐", title: "坚持之星", desc: "连续 30 天坚持有效记账", current: Math.min(streak, 30), target: 30, unlocked: streak >= 30 },
+          { id: "snack_control", icon: "🍪", title: "零食克制者", desc: "非正餐消费低于预算的 50%", current: nonmeal.total > 0 && nonmeal.spent < nonmeal.total * 0.5 ? 1 : 0, target: 1, unlocked: nonmeal.total > 0 && nonmeal.spent < nonmeal.total * 0.5 }
         ];
       }
 
@@ -3016,9 +3462,13 @@
         var unlockedDefinitions = definitions.filter(function (achievement) {
           return saved[achievement.id];
         });
-        var next = definitions.filter(function (achievement) {
+        var unowned = definitions.filter(function (achievement) {
           return !saved[achievement.id];
-        })[0];
+        });
+        var inProgress = unowned.filter(function (achievement) {
+          return achievement.target > 0 && achievement.current > 0;
+        });
+        var next = (inProgress.length > 0 ? inProgress : unowned)[0] || null;
         var streak = calculateStreak();
         var latest = unlockedDefinitions.length > 0
           ? unlockedDefinitions[unlockedDefinitions.length - 1]
@@ -3026,9 +3476,9 @@
 
         document.getElementById("currentAchievement").textContent = latest ? latest.title : "尚未解锁";
         document.getElementById("currentStreakText").textContent = streak + " 天";
-        document.getElementById("achievementBadge").textContent = "连续 " + streak + " 天";
+        document.getElementById("achievementBadge").textContent = "已解锁 " + unlockedDefinitions.length + " 项";
         document.getElementById("nextAchievementText").textContent = next
-          ? "下一目标：" + next.desc
+          ? "下一目标：" + next.title + "（" + next.current + "/" + next.target + "）"
           : "全部成就已解锁";
         document.getElementById("achievementProgressText").textContent = next
           ? next.current + "/" + next.target
@@ -3041,27 +3491,70 @@
       function renderAchievementPage() {
         var saved = loadAchievementData();
         var definitions = getAchievementDefinitions();
+        var justUnlocked = checkAchievements();
+        var justUnlockedMap = {};
+        justUnlocked.forEach(function (achievement) {
+          justUnlockedMap[achievement.id] = true;
+        });
         var list = document.getElementById("achievementList");
         if (!list) {
           return;
         }
+
+        var unlockedCount = 0;
+        var inProgressCount = 0;
+        definitions.forEach(function (achievement) {
+          if (saved[achievement.id]) {
+            unlockedCount += 1;
+          } else if (achievement.target > 0 && achievement.current > 0) {
+            inProgressCount += 1;
+          }
+        });
+
+        var unlockedElement = document.getElementById("achievementUnlockedCount");
+        var inProgressElement = document.getElementById("achievementInProgressCount");
+        var rateElement = document.getElementById("achievementRate");
+        if (unlockedElement) unlockedElement.textContent = unlockedCount + " / " + definitions.length;
+        if (inProgressElement) inProgressElement.textContent = String(inProgressCount);
+        if (rateElement) rateElement.textContent = Math.round((unlockedCount / definitions.length) * 100) + "%";
+
+        var filter = state.achievementFilter || "all";
         list.textContent = "";
         var fragment = document.createDocumentFragment();
 
         definitions.forEach(function (achievement) {
           var isUnlocked = Boolean(saved[achievement.id]);
+          var isInProgress = !isUnlocked && achievement.target > 0 && achievement.current > 0;
+          if (filter === "unlocked" && !isUnlocked) return;
+          if (filter === "inprogress" && !isInProgress) return;
+          if (filter === "locked" && (isUnlocked || isInProgress)) return;
+
           var item = document.createElement("article");
           item.className = "achievement-item" + (isUnlocked ? " unlocked" : "");
+          item.setAttribute("data-achievement-id", achievement.id);
+          item.setAttribute("tabindex", "0");
+          item.setAttribute("role", "button");
+          item.setAttribute("aria-expanded", "false");
+          if (justUnlockedMap[achievement.id]) {
+            item.classList.add("just-unlocked");
+          }
 
           var head = document.createElement("div");
           head.className = "achievement-item-head";
+          var titleBlock = document.createElement("div");
+          var icon = document.createElement("span");
+          icon.className = "achievement-item-icon";
+          icon.textContent = achievement.icon || "🏆";
           var title = document.createElement("strong");
           title.className = "achievement-item-title";
           title.textContent = achievement.title;
+          titleBlock.appendChild(icon);
+          titleBlock.appendChild(title);
+
           var status = document.createElement("span");
-          status.className = "badge";
-          status.textContent = isUnlocked ? "已解锁" : "未解锁";
-          head.appendChild(title);
+          status.className = "badge achievement-item-status " + (isUnlocked ? "unlocked-badge" : (isInProgress ? "in-progress" : "locked"));
+          status.textContent = isUnlocked ? "已解锁" : (isInProgress ? "进行中" : "未解锁");
+          head.appendChild(titleBlock);
           head.appendChild(status);
 
           var desc = document.createElement("p");
@@ -3071,22 +3564,132 @@
           var meta = document.createElement("div");
           meta.className = "achievement-item-meta";
           var progress = document.createElement("span");
-          progress.textContent = achievement.current + "/" + achievement.target;
+          var percent = achievement.target > 0
+            ? Math.max(0, Math.min(100, Math.round((achievement.current / achievement.target) * 100)))
+            : 0;
+          progress.textContent = achievement.current + " / " + achievement.target + "（" + percent + "%）";
           var time = document.createElement("span");
-          time.textContent = isUnlocked && saved[achievement.id].unlockedAt
-            ? "解锁于 " + new Date(saved[achievement.id].unlockedAt).toLocaleDateString("zh-CN")
-            : "继续努力";
+          if (isUnlocked && saved[achievement.id] && saved[achievement.id].unlockedAt) {
+            time.textContent = "解锁于 " + new Date(saved[achievement.id].unlockedAt).toLocaleDateString("zh-CN");
+          } else if (isInProgress) {
+            time.textContent = "继续努力";
+          } else {
+            time.textContent = "尚未开始";
+          }
           meta.appendChild(progress);
           meta.appendChild(time);
+
+          var bar = document.createElement("div");
+          bar.className = "achievement-mini-progress";
+          var fill = document.createElement("span");
+          fill.style.width = percent + "%";
+          bar.appendChild(fill);
+
+          var detail = document.createElement("div");
+          detail.className = "achievement-item-detail";
+          detail.textContent = "达成条件：" + achievement.desc + "；当前进度：" + achievement.current + " / " + achievement.target + "（" + percent + "%）。";
 
           item.appendChild(head);
           item.appendChild(desc);
           item.appendChild(meta);
+          item.appendChild(bar);
+          item.appendChild(detail);
           fragment.appendChild(item);
         });
 
+        if (fragment.childElementCount === 0) {
+          var empty = document.createElement("p");
+          empty.className = "empty-records";
+          empty.textContent = "该分类下暂无成就";
+          fragment.appendChild(empty);
+        }
+
         list.appendChild(fragment);
+
+        // 首次解锁的卡片播放一次轻量高亮动画，之后不会重复播放。
+        if (justUnlocked.length > 0) {
+          window.setTimeout(function () {
+            Array.prototype.slice.call(list.querySelectorAll(".achievement-item.just-unlocked")).forEach(function (item) {
+              item.classList.remove("just-unlocked");
+            });
+          }, 1400);
+        }
       }
+
+      /* ---------- 月度复盘 ---------- */
+      function renderReviewEntry() {
+        var button = document.getElementById("openReviewButton");
+        var tip = document.getElementById("reviewEntryTip");
+        if (!button) {
+          return;
+        }
+        var monthKey = toMonthKey(new Date());
+        var reviewed = getReviewHistory().some(function (review) {
+          return review && review.month === monthKey;
+        });
+        button.textContent = reviewed ? "✅ 本月已复盘" : "📋 完成本月复盘";
+        button.disabled = reviewed;
+        if (tip) {
+          tip.textContent = reviewed
+            ? "本月复盘已完成，下月可再次复盘。"
+            : "每月完成一次消费复盘，掌握消费结构并解锁成就。";
+        }
+      }
+
+      function openReviewModal() {
+        var monthKey = toMonthKey(new Date());
+        if (getReviewHistory().some(function (review) { return review && review.month === monthKey; })) {
+          showToast("本月已完成复盘");
+          return;
+        }
+        var statistics = calculateStatistics();
+        var now = new Date();
+        var monthExpenses = getMonthExpenses(now);
+        var keyword = getMonthlyKeyword();
+        document.getElementById("reviewMonthLabel").textContent = now.getFullYear() + " 年 " + (now.getMonth() + 1) + " 月消费复盘";
+        document.getElementById("reviewSummary").innerHTML =
+          "<div><span>本月支出</span><strong>¥" + formatMoney(statistics.monthSpent) + "</strong></div>" +
+          "<div><span>记账笔数</span><strong>" + monthExpenses.length + " 笔</strong></div>" +
+          "<div><span>日均消费</span><strong>¥" + formatMoney(statistics.averageDailySpent) + "</strong></div>" +
+          "<div><span>最高分类</span><strong>" + (statistics.highestCategory ? statistics.highestCategory.name : "暂无") + "</strong></div>";
+        var keywordElement = document.getElementById("reviewKeyword");
+        if (keyword) {
+          keywordElement.textContent = "本月关键词：" + keyword;
+          keywordElement.hidden = false;
+        } else {
+          keywordElement.hidden = true;
+        }
+        document.getElementById("reviewModal").hidden = false;
+      }
+
+      function confirmMonthlyReview() {
+        var monthKey = toMonthKey(new Date());
+        var history = getReviewHistory();
+        var alreadyReviewed = history.some(function (review) {
+          return review && review.month === monthKey;
+        });
+        if (!alreadyReviewed) {
+          history.push({ month: monthKey, reviewedAt: new Date().toISOString() });
+          saveReviewHistory(history);
+          showToast("本月复盘已完成");
+        } else {
+          showToast("本月已完成复盘");
+        }
+        document.getElementById("reviewModal").hidden = true;
+        renderReviewEntry();
+        renderAchievementHome();
+        renderAchievementPage();
+      }
+
+      function closeReviewModal() {
+        document.getElementById("reviewModal").hidden = true;
+      }
+
+      var ACHIEVEMENT_ID_MIGRATION = {
+        first_record: "accounting_newbie",
+        week_streak: "accounting_master",
+        streak_30: "persistence_star"
+      };
 
       function getMonthlyKeyword() {
         var monthExpenses = getMonthExpenses(new Date());
@@ -4226,6 +4829,7 @@
       }
 
       function renderStats() {
+        renderReviewEntry();
         var statistics = calculateStatistics();
 
         elements.statsTodaySpent.textContent = "¥" + formatMoney(statistics.todaySpent);
@@ -4270,13 +4874,30 @@
       }
 
       function render() {
+        ensureBudgetCycleSnapshot(state.settings);
         renderHome();
-        renderBudgetInputs();
-        renderExpenseList();
-        renderStats();
-        renderAchievementPage();
-        renderInsights();
-        renderBudgetAssistant();
+
+        // 按当前激活页面按需渲染，避免无关页面重复计算（各页面数据在 openPage 时刷新）。
+        if (elements.recordPage && elements.recordPage.classList.contains("active")) {
+          renderExpenseList();
+        }
+        if (elements.budgetPage && elements.budgetPage.classList.contains("active")) {
+          renderBudgetInputs();
+        }
+        if (elements.statsPage.classList.contains("active")) {
+          renderStats();
+        }
+        if (elements.achievementPage.classList.contains("active")) {
+          renderAchievementPage();
+        } else {
+          renderAchievementHome();
+        }
+        if (elements.insightPage && elements.insightPage.classList.contains("active")) {
+          renderInsights();
+        }
+        if (elements.budgetAssistantPage && elements.budgetAssistantPage.classList.contains("active")) {
+          renderBudgetAssistant();
+        }
       }
 
       /* ---------- 页面切换 ---------- */
@@ -4297,6 +4918,17 @@
 
         if (pageId === "statsPage") {
           renderStats();
+          renderReviewEntry();
+        } else if (pageId === "recordPage") {
+          renderExpenseList();
+        } else if (pageId === "insightPage") {
+          renderInsights();
+        } else if (pageId === "achievementPage") {
+          renderAchievementPage();
+        } else if (pageId === "budgetPage") {
+          renderBudgetInputs();
+        } else if (pageId === "budgetAssistantPage") {
+          renderBudgetAssistant();
         }
         if (pageId === "achievementPage") {
           renderAchievementPage();
@@ -4449,7 +5081,13 @@
         }
 
         state.settings[settingKey] = value;
-        saveBudgetSettings();
+        if (budgetSaveTimer) {
+          window.clearTimeout(budgetSaveTimer);
+        }
+        budgetSaveTimer = window.setTimeout(function () {
+          budgetSaveTimer = null;
+          saveBudgetSettings();
+        }, 400);
         renderHome();
       }
 
@@ -4557,6 +5195,45 @@
 
       document.getElementById("detailCancel").addEventListener("click", closeExpenseDetail);
       document.getElementById("detailSave").addEventListener("click", saveExpenseDetail);
+
+      var openReviewButton = document.getElementById("openReviewButton");
+      if (openReviewButton) {
+        openReviewButton.addEventListener("click", openReviewModal);
+      }
+      var reviewCancel = document.getElementById("reviewCancel");
+      var reviewConfirm = document.getElementById("reviewConfirm");
+      if (reviewCancel) {
+        reviewCancel.addEventListener("click", closeReviewModal);
+      }
+      if (reviewConfirm) {
+        reviewConfirm.addEventListener("click", confirmMonthlyReview);
+      }
+
+      var achievementFilterButtons = Array.prototype.slice.call(
+        document.querySelectorAll("[data-achievement-filter]")
+      );
+      achievementFilterButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          state.achievementFilter = button.getAttribute("data-achievement-filter");
+          achievementFilterButtons.forEach(function (item) {
+            var isActive = item === button;
+            item.classList.toggle("active", isActive);
+            item.setAttribute("aria-selected", isActive ? "true" : "false");
+          });
+          renderAchievementPage();
+        });
+      });
+
+      if (elements.achievementList) {
+        elements.achievementList.addEventListener("click", function (event) {
+          var item = event.target.closest(".achievement-item");
+          if (!item) {
+            return;
+          }
+          var isOpen = item.classList.toggle("detail-open");
+          item.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        });
+      }
 
       var exportBackupButton = document.getElementById("exportBackupButton");
       var importBackupButton = document.getElementById("importBackupButton");
@@ -4669,15 +5346,24 @@
         });
       });
 
-      // 页面重新获得焦点或跨天时，重新计算剩余天数和今日可花金额。
+      // 页面重新获得焦点时刷新当前页（后台恢复不会重复播放启动动画）。
       document.addEventListener("visibilitychange", function () {
         if (!document.hidden) {
           render();
         }
       });
 
-      // 每分钟检查一次日期，跨月时会自动切换到新月份。
-      window.setInterval(render, 60000);
+      // 每分钟对比日期，仅在跨天时重载数据并渲染，避免无效的全量刷新。
+      var lastRenderDayKey = toDateKey(new Date());
+      window.setInterval(function () {
+        var todayKey = toDateKey(new Date());
+        if (todayKey !== lastRenderDayKey) {
+          lastRenderDayKey = todayKey;
+          state.settings = loadBudgetSettings();
+          state.expenses = loadExpenses();
+          render();
+        }
+      }, 60000);
 
       // 如果同一浏览器打开了多个页面，保持数据同步。
       window.addEventListener("storage", function () {
@@ -4686,7 +5372,14 @@
         render();
       });
 
-      window.addEventListener("resize", renderStats);
+      // 窗口尺寸变化时防抖重绘图表，避免连续 resize 触发重复统计。
+      var statsResizeTimer = null;
+      window.addEventListener("resize", function () {
+        if (statsResizeTimer) {
+          window.clearTimeout(statsResizeTimer);
+        }
+        statsResizeTimer = window.setTimeout(renderStats, 120);
+      });
 
       registerServiceWorker();
       setupInstallPrompt();
@@ -4705,8 +5398,28 @@
       state.expenses = loadExpenses();
       renderQuickNotes();
       renderLastBackupTime();
-      if (!getBudgetAnalysis()) saveBudgetAnalysis(generateBudgetSuggestions());
       render();
+
+      // 启动过渡动画：与首页渲染并行计时，结束后自动移除占位层；系统减少动态效果时直接跳过。
+      if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        var splashFast = document.getElementById("splashScreen");
+        if (splashFast && splashFast.parentNode) {
+          splashFast.parentNode.removeChild(splashFast);
+        }
+      } else {
+        window.setTimeout(function () {
+          var splash = document.getElementById("splashScreen");
+          if (splash) {
+            splash.classList.add("splash-hide");
+          }
+        }, SPLASH_CONFIG.showMs);
+        window.setTimeout(function () {
+          var splash = document.getElementById("splashScreen");
+          if (splash && splash.parentNode) {
+            splash.parentNode.removeChild(splash);
+          }
+        }, SPLASH_CONFIG.showMs + SPLASH_CONFIG.fadeMs + 80);
+      }
     })();
   </script>
 </body>
