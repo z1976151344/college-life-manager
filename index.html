@@ -13,6 +13,22 @@
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
   <title>生活费管家</title>
+  <script>
+    // V6.8：首帧前应用已保存主题，避免深色用户先看到浅色背景再切换。
+    (function () {
+      try {
+        var saved = window.localStorage.getItem("collegeLifeThemeV1");
+        var theme = (saved === "light" || saved === "dark") ? saved : "system";
+        if (theme === "system" && window.matchMedia &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches) {
+          theme = "dark";
+        }
+        if (theme === "dark") {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      } catch (error) {}
+    })();
+  </script>
   <style>
     /* ---------- 基础样式：手机优先、简洁、无动画 ---------- */
     * {
@@ -892,6 +908,12 @@
       line-height: 1.5;
     }
 
+    html[data-theme="dark"] .forecast-alert {
+      border-color: rgba(252, 165, 165, 0.4);
+      background: rgba(185, 28, 28, 0.22);
+      color: #fecaca;
+    }
+
     .budget-current {
       display: flex;
       align-items: baseline;
@@ -1739,11 +1761,23 @@
       height: 96px;
       border-radius: 22px;
       box-shadow: 0 12px 36px rgba(66, 214, 232, 0.16);
-      /* V6.8：静态展示，无入场动画 */
+      transform-origin: center;
+      /* 初始稳定展示，缩小动画由 .splash-exit 触发 */
       opacity: 1;
     }
 
-    /* V6.8：取消启动过渡动画，启动层静态展示后直接移除；首页无浮现动画。 */
+    /* V6.7：图标从 100% 平滑缩小至 65% 并淡出，首页同步显现；
+     * 背景与首页同为 #101820，淡出无跳色。 */
+    .splash-screen.splash-exit {
+      opacity: 0;
+      transition: opacity 640ms cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+    }
+    .splash-screen.splash-exit .splash-logo {
+      transform: scale(0.65);
+      opacity: 0;
+      transition: transform 700ms cubic-bezier(0.65, 0, 0.35, 1), opacity 620ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
     @media (prefers-reduced-motion: reduce) {
       .splash-screen {
@@ -1850,6 +1884,18 @@
       color: #166534;
     }
 
+    html[data-theme="dark"] .achievement-item-status.in-progress {
+      border-color: rgba(251, 191, 36, 0.45);
+      background: rgba(180, 83, 9, 0.18);
+      color: #fcd34d;
+    }
+
+    html[data-theme="dark"] .achievement-item-status.unlocked-badge {
+      border-color: rgba(50, 214, 160, 0.4);
+      background: rgba(50, 214, 160, 0.12);
+      color: #6ee7b7;
+    }
+
     .achievement-item.just-unlocked {
       border-color: #fbbf24;
       background: #fffbeb;
@@ -1889,6 +1935,15 @@
     html[data-theme="dark"] .achievement-item.just-unlocked {
       border-color: #f59e0b;
       background: #451a03;
+    }
+
+    html[data-theme="dark"] .achievement-item.just-unlocked {
+      animation-name: achievementFlashDark;
+    }
+
+    @keyframes achievementFlashDark {
+      0% { background: #5b2c07; }
+      100% { background: #451a03; }
     }
 
     html[data-theme="dark"] .achievement-item-detail {
@@ -3127,6 +3182,18 @@
         "#1d4ed8", "#0ea5e9", "#7dd3fc", "#38bdf8",
         "#6366f1", "#a5b4fc", "#818cf8"
       ];
+      /* V6.8：深色主题下使用更高亮度的分类色，保证深色卡片上数据系列可区分；
+       * 同一主题内各页面颜色保持一致（浅色模式仍使用 CHART_COLORS）。 */
+      var CHART_COLORS_DARK = [
+        "#42d6e8", "#60a5fa", "#34d399", "#fbbf24",
+        "#f472b6", "#a78bfa", "#fb923c", "#4ade80",
+        "#22d3ee", "#f87171", "#c4b5fd"
+      ];
+      function getChartColors() {
+        return document.documentElement.getAttribute("data-theme") === "dark"
+          ? CHART_COLORS_DARK
+          : CHART_COLORS;
+      }
 
       /* ---------- 页面元素 ---------- */
       var elements = {
@@ -3236,8 +3303,11 @@
 
       /* ---------- 启动品牌展示配置：替换正式图标时只需改 HTML/CSS 占位内容与此处停留时长 ---------- */
       var SPLASH_CONFIG = {
-        /* V6.8：静态品牌展示停留时长，结束后直接移除进入首页（无过渡动画）。 */
-        showMs: 450
+        /* V6.7：启动过渡动画时间轴（稳定 -> 图标缩小+首页显现 -> 移除启动层）。 */
+        stableMs: 120,
+        shrinkMs: 700,
+        uiMs: 620,
+        fadeMs: 640
       };
 
       var toastTimer = null;
@@ -6152,7 +6222,7 @@
           var fill = document.createElement("div");
           fill.className = "ranking-bar-fill";
           fill.style.width = Math.max(0, Math.min(100, item.percent)) + "%";
-          fill.style.background = CHART_COLORS[index % CHART_COLORS.length];
+          fill.style.background = getChartColors()[index % CHART_COLORS.length];
 
           bar.appendChild(fill);
           row.appendChild(head);
@@ -6195,6 +6265,7 @@
         var context = chart.context;
 
         var chartTheme = getChartThemeColors();
+        var chartColors = getChartColors();
         if (categoryData.length === 0) {
           context.fillStyle = chartTheme.emptyFill;
           context.beginPath();
@@ -6222,7 +6293,7 @@
           context.moveTo(centerX, centerY);
           context.arc(centerX, centerY, radius, startAngle, startAngle + sliceAngle);
           context.closePath();
-          context.fillStyle = CHART_COLORS[index % CHART_COLORS.length];
+          context.fillStyle = chartColors[index % chartColors.length];
           context.fill();
           context.lineWidth = 2;
           context.strokeStyle = chartTheme.stroke;
@@ -6236,6 +6307,7 @@
         var chart = prepareCanvas(canvas, chartHeight);
         var context = chart.context;
         var chartTheme = getChartThemeColors();
+        var chartColors = getChartColors();
 
         if (categoryData.length === 0) {
           context.fillStyle = chartTheme.emptyText;
@@ -6269,7 +6341,7 @@
           context.fillStyle = chartTheme.grid;
           context.fillRect(chartLeft, barY, chartWidth, 10);
 
-          context.fillStyle = CHART_COLORS[index % CHART_COLORS.length];
+          context.fillStyle = chartColors[index % chartColors.length];
           context.fillRect(chartLeft, barY, barWidth, 10);
 
           context.fillStyle = chartTheme.text;
@@ -7050,6 +7122,7 @@
         if (homeRendered) return;
         homeRendered = true;
         render();
+        maybeStartSplashExit();
       }
       if (window.requestAnimationFrame) {
         window.requestAnimationFrame(function () {
@@ -7058,9 +7131,50 @@
       }
       // 兜底：rAF 被系统节流/暂停时也能完成首页初始化。
       window.setTimeout(bootRenderHome, 300);
-      // V6.8：启动层静态展示品牌图标与深色主题，停留结束后直接移除进入首页，
-      // 无入场/退场/浮现动画；首页渲染已并行完成，背景同色无闪跳。
-      // 系统开启减少动态效果时，不展示品牌画面，直接移除启动层。
+      // V6.7：启动过渡 —— 图标稳定展示后缓慢缩小（100% -> 65%）并淡出，
+      // 首页在同色深色背景上同步淡入显现，形成连续视觉过渡。
+      // 动画开始条件：稳定停留时间到，且首页首屏渲染已完成（避免空壳显现）。
+      var splashStableReached = false;
+      var splashExitStarted = false;
+
+      function maybeStartSplashExit() {
+        if (splashExitStarted || !homeRendered || !splashStableReached) {
+          return;
+        }
+        splashExitStarted = true;
+        var splash = document.getElementById("splashScreen");
+        if (splash) {
+          splash.classList.add("splash-exit");
+        }
+        var home = document.getElementById("homePage");
+        if (home) {
+          // 首页以低透明度+轻微位移起始，与图标缩小同步显现（内联 transition，
+          // 不参与 .page.active 的 pageFadeIn，避免二次淡入）。
+          home.style.opacity = "0.25";
+          home.style.transform = "translateY(12px)";
+          window.requestAnimationFrame(function () {
+            window.requestAnimationFrame(function () {
+              home.style.transition = "opacity " + SPLASH_CONFIG.uiMs + "ms cubic-bezier(0.22, 1, 0.36, 1), transform " + SPLASH_CONFIG.uiMs + "ms cubic-bezier(0.22, 1, 0.36, 1)";
+              home.style.opacity = "1";
+              home.style.transform = "translateY(0)";
+            });
+          });
+          window.setTimeout(function () {
+            home.style.transition = "";
+            home.style.opacity = "";
+            home.style.transform = "";
+          }, SPLASH_CONFIG.uiMs + 80);
+        }
+        // 动画结束后移除启动层，避免残留遮罩。
+        window.setTimeout(function () {
+          var splash = document.getElementById("splashScreen");
+          if (splash && splash.parentNode) {
+            splash.parentNode.removeChild(splash);
+          }
+        }, SPLASH_CONFIG.shrinkMs + 240);
+      }
+
+      // 系统开启减少动态效果时，不播放过渡，直接移除启动层。
       if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         var splashFast = document.getElementById("splashScreen");
         if (splashFast && splashFast.parentNode) {
@@ -7068,11 +7182,14 @@
         }
       } else {
         window.setTimeout(function () {
-          var splash = document.getElementById("splashScreen");
-          if (splash && splash.parentNode) {
-            splash.parentNode.removeChild(splash);
-          }
-        }, SPLASH_CONFIG.showMs);
+          splashStableReached = true;
+          maybeStartSplashExit();
+        }, SPLASH_CONFIG.stableMs);
+        // 兜底：保证即使渲染状态异常也能进入首页。
+        window.setTimeout(function () {
+          splashStableReached = true;
+          maybeStartSplashExit();
+        }, SPLASH_CONFIG.stableMs + SPLASH_CONFIG.shrinkMs);
       }
     })();
   </script>
