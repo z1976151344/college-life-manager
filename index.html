@@ -6387,9 +6387,8 @@
         }
         if (elements.achievementPage.classList.contains("active")) {
           renderAchievementPage();
-        } else {
-          renderAchievementHome();
         }
+        // 首页成就卡已在 renderHome() 末尾渲染，此处无需重复调用。
         if (elements.insightPage && elements.insightPage.classList.contains("active")) {
           renderInsights();
         }
@@ -7065,8 +7064,22 @@
       state.expenses = loadExpenses();
       renderQuickNotes();
       renderLastBackupTime();
-      render();
 
+      // V6.7：首页渲染放到首帧绘制之后执行，
+      // 先让启动画面与 Logo 入场动画获得干净的起始帧（首帧只画启动层）。
+      var homeRendered = false;
+      function bootRenderHome() {
+        if (homeRendered) return;
+        homeRendered = true;
+        render();
+      }
+      if (window.requestAnimationFrame) {
+        window.requestAnimationFrame(function () {
+          window.setTimeout(bootRenderHome, 0);
+        });
+      }
+      // 兜底：rAF 被系统节流/暂停时也能完成首页初始化。
+      window.setTimeout(bootRenderHome, 300);
       // 启动过渡动画：与首页渲染并行计时，结束后自动移除占位层；系统减少动态效果时直接跳过。
       if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         var splashFast = document.getElementById("splashScreen");
