@@ -1746,6 +1746,8 @@
       justify-content: center;
       /* 固定深海军蓝，与图标主视觉一致，不随浅色主题变化 */
       background: #101820;
+      /* V6.9：预提合成层，动画首帧即稳定（跟随设备刷新率 60/90/120Hz） */
+      will-change: opacity;
     }
 
     .splash-content {
@@ -1764,6 +1766,8 @@
       transform-origin: center;
       /* 初始稳定展示，缩小动画由 .splash-exit 触发 */
       opacity: 1;
+      /* V6.9：预提合成层，缩放/淡出不触发布局与重绘，保持高帧率 */
+      will-change: transform, opacity;
     }
 
     /* V6.7：图标从 100% 平滑缩小至 65% 并淡出，首页同步显现；
@@ -7122,6 +7126,12 @@
         if (homeRendered) return;
         homeRendered = true;
         render();
+        // V6.9：渲染完成后即预提首页合成层（静态展示期间完成光栅化），
+        // 使过渡动画开始后无层提升成本，帧率更稳定。
+        var homeEl = document.getElementById("homePage");
+        if (homeEl) {
+          homeEl.style.willChange = "transform, opacity";
+        }
         maybeStartSplashExit();
       }
       if (window.requestAnimationFrame) {
@@ -7152,6 +7162,8 @@
           // 不参与 .page.active 的 pageFadeIn，避免二次淡入）。
           home.style.opacity = "0.25";
           home.style.transform = "translateY(12px)";
+          // V6.9：动画期间提升为合成层，避免首页整层在动画帧中反复光栅化。
+          home.style.willChange = "transform, opacity";
           window.requestAnimationFrame(function () {
             window.requestAnimationFrame(function () {
               home.style.transition = "opacity " + SPLASH_CONFIG.uiMs + "ms cubic-bezier(0.22, 1, 0.36, 1), transform " + SPLASH_CONFIG.uiMs + "ms cubic-bezier(0.22, 1, 0.36, 1)";
@@ -7163,6 +7175,7 @@
             home.style.transition = "";
             home.style.opacity = "";
             home.style.transform = "";
+            home.style.willChange = "";
           }, SPLASH_CONFIG.uiMs + 80);
         }
         // 动画结束后移除启动层，避免残留遮罩。
