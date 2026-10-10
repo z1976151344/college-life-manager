@@ -29,6 +29,17 @@
       --line: #e4e7ec;
       --page: #f3f5f9;
       --card: #ffffff;
+      /* V6.0 品牌设计令牌：以正式 Z+LIFE 图标为基准 */
+      --brand: #42d6e8;
+      --brand-green: #32d6a0;
+      --deep-bg: #101820;
+      --deep-bg2: #151f29;
+      --deep-card: #1b2732;
+      --deep-text: #f2f6f8;
+      --deep-muted: #a7b6c0;
+      --deep-line: rgba(167, 182, 192, 0.18);
+      --deep-brand-soft: rgba(66, 214, 232, 0.12);
+      --deep-green-soft: rgba(50, 214, 160, 0.12);
     }
 
     html {
@@ -1405,12 +1416,15 @@
     }
 
     html[data-theme="dark"] {
-      --page: #0f172a;
-      --card: #1e293b;
-      --text: #f8fafc;
-      --muted: #94a3b8;
-      --line: #334155;
-      --blue-soft: #1e3a8a;
+      --page: #101820;
+      --card: #1b2732;
+      --text: #f2f6f8;
+      --muted: #a7b6c0;
+      --line: rgba(167, 182, 192, 0.18);
+      --blue: #42d6e8;
+      --blue-dark: #42d6e8;
+      --blue-soft: rgba(66, 214, 232, 0.12);
+      --red: #fca5a5;
     }
 
     html[data-theme="dark"] body {
@@ -1418,6 +1432,7 @@
       color: var(--text);
     }
 
+    /* 深色主题：输入、按钮与弹窗统一为品牌深色系 */
     html[data-theme="dark"] .amount-input,
     html[data-theme="dark"] .text-input,
     html[data-theme="dark"] .category-button,
@@ -1425,21 +1440,62 @@
     html[data-theme="dark"] .install-button,
     html[data-theme="dark"] .theme-button,
     html[data-theme="dark"] .secondary-button,
-    html[data-theme="dark"] .modal-card {
-      border-color: #475569;
-      background: #111827;
+    html[data-theme="dark"] .modal-card,
+    html[data-theme="dark"] .quick-note-button,
+    html[data-theme="dark"] .suggestion-action {
+      border-color: rgba(167, 182, 192, 0.24);
+      background: #151f29;
       color: var(--text);
     }
 
+    html[data-theme="dark"] .amount-input:focus-within,
+    html[data-theme="dark"] .text-input:focus-visible {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(66, 214, 232, 0.18);
+      outline: none;
+    }
+
+    html[data-theme="dark"] .category-button.selected {
+      border-color: var(--brand);
+      background: rgba(66, 214, 232, 0.14);
+      color: #7de8f5;
+    }
+
+    html[data-theme="dark"] .amount-input input {
+      color: var(--text);
+    }
+
+    html[data-theme="dark"] .amount-input .currency,
+    html[data-theme="dark"] .form-label,
+    html[data-theme="dark"] legend {
+      color: var(--muted);
+    }
+
+    html[data-theme="dark"] .primary-button {
+      background: #0e7f96;
+      color: #f2f6f8;
+    }
+
+    html[data-theme="dark"] .primary-button:active {
+      background: #0b6d80;
+    }
+
     html[data-theme="dark"] .bottom-nav {
-      border-color: var(--line);
-      background: rgba(15, 23, 42, 0.98);
+      border-color: rgba(167, 182, 192, 0.16);
+      background: rgba(16, 24, 32, 0.97);
+    }
+
+    html[data-theme="dark"] .nav-button.active {
+      background: rgba(66, 214, 232, 0.14);
+      color: var(--brand);
     }
 
     html[data-theme="dark"] .budget-card,
     html[data-theme="dark"] .stat-card,
     html[data-theme="dark"] .card,
-    html[data-theme="dark"] .achievement-item {
+    html[data-theme="dark"] .achievement-item,
+    html[data-theme="dark"] .suggestion-item,
+    html[data-theme="dark"] .history-item {
       border-color: var(--line);
       background: var(--card);
     }
@@ -1448,17 +1504,128 @@
     html[data-theme="dark"] .analysis-item,
     html[data-theme="dark"] .forecast-item,
     html[data-theme="dark"] .health-item {
-      background: #111827;
+      background: #151f29;
     }
 
     html[data-theme="dark"] .theme-button.active {
-      border-color: #60a5fa;
-      background: #1e3a8a;
-      color: #ffffff;
+      border-color: var(--brand);
+      background: rgba(66, 214, 232, 0.14);
+      color: #7de8f5;
     }
 
     html[data-theme="dark"] .smart-reminder {
-      color: #bfdbfe;
+      color: #a7b6c0;
+    }
+
+    html[data-theme="dark"] .monthly-keyword {
+      background: rgba(66, 214, 232, 0.1);
+      color: #9be9f2;
+    }
+
+    html[data-theme="dark"] .monthly-summary {
+      background: rgba(50, 214, 160, 0.1);
+      color: #7fe8c6;
+    }
+
+    /* 深色主题：状态色（警示与成功保持语义化可读性） */
+    html[data-theme="dark"] .budget-alert.yellow,
+    html[data-theme="dark"] .unexpected-alert.yellow,
+    html[data-theme="dark"] .budget-card-status.yellow,
+    html[data-theme="dark"] .health-item.yellow {
+      border-color: rgba(251, 191, 36, 0.4);
+      background: rgba(251, 191, 36, 0.1);
+      color: #fcd34d;
+    }
+
+    html[data-theme="dark"] .budget-alert.orange {
+      border-color: rgba(249, 115, 22, 0.4);
+      background: rgba(249, 115, 22, 0.1);
+      color: #fdba74;
+    }
+
+    html[data-theme="dark"] .budget-alert.red,
+    html[data-theme="dark"] .unexpected-alert.red,
+    html[data-theme="dark"] .budget-card-status.red,
+    html[data-theme="dark"] .health-item.red {
+      border-color: rgba(239, 68, 68, 0.45);
+      background: rgba(239, 68, 68, 0.1);
+      color: #fca5a5;
+    }
+
+    html[data-theme="dark"] .budget-card-status.over,
+    html[data-theme="dark"] .health-item.over {
+      border-color: rgba(185, 28, 28, 0.5);
+      background: rgba(185, 28, 28, 0.16);
+      color: #fecaca;
+    }
+
+    html[data-theme="dark"] .budget-card-status.green,
+    html[data-theme="dark"] .health-item.green {
+      border-color: rgba(50, 214, 160, 0.4);
+      background: rgba(50, 214, 160, 0.1);
+      color: #7fe8c6;
+    }
+
+    /* 深色主题：首页横幅与进度条 */
+    html[data-theme="dark"] .hero {
+      background: linear-gradient(155deg, #0e4d5e 0%, #123140 55%, #182430 100%);
+    }
+
+    html[data-theme="dark"] .hero.negative { background: #4a1d2b; }
+    html[data-theme="dark"] .hero.warning-yellow { background: #5a3d12; }
+    html[data-theme="dark"] .hero.warning-orange { background: #5c3214; }
+    html[data-theme="dark"] .hero.warning-red { background: #591f26; }
+
+    html[data-theme="dark"] .budget-progress,
+    html[data-theme="dark"] .achievement-progress,
+    html[data-theme="dark"] .achievement-mini-progress,
+    html[data-theme="dark"] .ranking-bar {
+      background: #25364a;
+    }
+
+    html[data-theme="dark"] .toast {
+      background: #1b2732;
+      color: #f2f6f8;
+      border: 1px solid rgba(66, 214, 232, 0.35);
+    }
+
+    html[data-theme="dark"] .secondary-button:disabled {
+      background: #1b2732;
+      color: #64748b;
+    }
+
+    html[data-theme="dark"] .achievement-item.unlocked {
+      border-color: rgba(50, 214, 160, 0.4);
+      background: rgba(50, 214, 160, 0.07);
+    }
+
+    html[data-theme="dark"] .achievement-toast {
+      border-color: rgba(50, 214, 160, 0.5);
+      background: #122b26;
+      color: #7fe8c6;
+    }
+
+    html[data-theme="dark"] .record-food { border-left-color: #34d399; }
+    html[data-theme="dark"] .record-study { border-left-color: #42d6e8; }
+    html[data-theme="dark"] .record-fun { border-left-color: #a78bfa; }
+    html[data-theme="dark"] .record-nonmeal { border-left-color: #fb923c; }
+    html[data-theme="dark"] .record-unexpected { border-left-color: #f87171; }
+    html[data-theme="dark"] .record-fixed { border-left-color: #94a3b8; }
+    html[data-theme="dark"] .record-traffic { border-left-color: #22d3ee; }
+    html[data-theme="dark"] .record-other { border-left-color: #64748b; }
+
+    html[data-theme="dark"] .delete-button {
+      border-color: rgba(239, 68, 68, 0.4);
+      background: rgba(239, 68, 68, 0.08);
+      color: #fca5a5;
+    }
+
+    html[data-theme="dark"] .modal-backdrop {
+      background: rgba(4, 8, 12, 0.62);
+    }
+
+    html[data-theme="dark"] .countdown-note {
+      color: #fdba74;
     }
 
     [hidden] {
@@ -1544,10 +1711,10 @@
 
     html[data-theme="dark"] .fund-breakdown div,
     html[data-theme="dark"] .health-score-details div {
-      background: #111827;
+      background: #151f29;
     }
 
-    /* ---------- 启动过渡动画：占位样式，正式品牌确定后只需替换此段与顶部 HTML ---------- */
+    /* ---------- 启动过渡动画：正式 Z+LIFE 图标，品牌迭代时只需替换此段与顶部 HTML ---------- */
     .splash-screen {
       position: fixed;
       inset: 0;
@@ -1555,44 +1722,46 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: var(--page);
+      /* 固定深海军蓝，与图标主视觉一致，不随浅色主题变化 */
+      background: #101820;
     }
 
     .splash-content {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 14px;
+      gap: 16px;
       text-align: center;
     }
 
     .splash-logo {
-      width: 76px;
-      height: 76px;
-      border-radius: 19px;
+      width: 96px;
+      height: 96px;
+      border-radius: 22px;
+      box-shadow: 0 12px 36px rgba(66, 214, 232, 0.16);
       opacity: 0;
-      transform: scale(0.9);
-      animation: splashLogoIn 460ms ease-out forwards;
+      transform: scale(0.92);
+      animation: splashLogoIn 420ms ease-out forwards;
     }
 
     .splash-name {
       margin: 0;
-      color: var(--text);
+      color: #f2f6f8;
       font-size: 16px;
       font-weight: 700;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
       opacity: 0;
-      animation: splashNameIn 380ms ease-out 140ms forwards;
+      animation: splashNameIn 360ms ease-out 160ms forwards;
     }
 
     .splash-screen.splash-hide {
       opacity: 0;
-      transition: opacity 260ms ease;
+      transition: opacity 240ms ease;
       pointer-events: none;
     }
 
     @keyframes splashLogoIn {
-      0% { opacity: 0; transform: scale(0.9); }
+      0% { opacity: 0; transform: scale(0.92); }
       100% { opacity: 1; transform: scale(1); }
     }
 
@@ -1602,7 +1771,20 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .splash-screen { display: none; }
+      .splash-screen {
+        display: none;
+        animation: none;
+        transition: none;
+      }
+      .splash-logo,
+      .splash-name {
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+      .page {
+        animation: none !important;
+      }
     }
 
     /* ---------- 成就中心：概览、筛选、卡片状态与解锁反馈 ---------- */
@@ -1786,12 +1968,418 @@
       color: var(--text);
     }
 
-</style></head>
+    /* ---------- V6.0 成就成长系统：等级、挑战、时间线与收藏展示 ---------- */
+    .page.active {
+      animation: pageFadeIn 240ms ease;
+    }
+
+    @keyframes pageFadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .review-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .achievement-level-card {
+      margin-bottom: 12px;
+    }
+
+    .level-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .level-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .level-icon {
+      font-size: 22px;
+    }
+
+    .level-name {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .level-xp-text {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .level-xp-track {
+      height: 8px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e5e7eb;
+    }
+
+    .level-xp-fill {
+      display: block;
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #42d6e8, #32d6a0);
+      transition: width 300ms ease;
+      width: 0;
+    }
+
+    .level-next {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .level-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .level-stats div {
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: #f8fafc;
+    }
+
+    .level-stats span {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .level-stats strong {
+      font-size: 14px;
+    }
+
+    .achievement-challenge-card {
+      margin-bottom: 12px;
+    }
+
+    .challenge-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .challenge-head h3 {
+      margin: 0;
+      font-size: 15px;
+    }
+
+    .challenge-toggle {
+      min-height: 30px;
+      padding: 0 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--card);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .challenge-note {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .challenge-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .challenge-item {
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #f8fafc;
+    }
+
+    .challenge-item.picked {
+      border-color: var(--blue);
+      background: var(--blue-soft);
+    }
+
+    .challenge-item.done {
+      border-color: #86efac;
+      background: #f0fdf4;
+    }
+
+    .challenge-item-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .challenge-item-head strong {
+      font-size: 13px;
+    }
+
+    .challenge-item p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .challenge-pick {
+      min-height: 28px;
+      padding: 0 10px;
+      border: 1px solid var(--blue);
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--blue-dark);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .challenge-pick:disabled {
+      opacity: 0.45;
+    }
+
+    .challenge-progress {
+      height: 6px;
+      margin-top: 8px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e5e7eb;
+    }
+
+    .challenge-progress span {
+      display: block;
+      height: 100%;
+      border-radius: 999px;
+      background: var(--blue);
+      width: 0;
+    }
+
+    .challenge-swap-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .challenge-swap {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .challenge-empty {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .achievement-timeline-card {
+      margin-bottom: 12px;
+    }
+
+    .timeline-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .timeline-panel {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--line);
+    }
+
+    .timeline-list {
+      display: grid;
+      gap: 6px;
+      max-height: 260px;
+      overflow-y: auto;
+    }
+
+    .timeline-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 6px 8px;
+      border-radius: 8px;
+      background: #f8fafc;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .timeline-item strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .timeline-empty {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .summary-textarea {
+      box-sizing: border-box;
+      width: 100%;
+      min-height: 72px;
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--card);
+      color: var(--text);
+      font-size: 13px;
+      resize: vertical;
+    }
+
+    .summary-save {
+      margin-top: 8px;
+    }
+
+    .ach-category-tag {
+      display: inline-block;
+      margin-right: 6px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: var(--blue-dark);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .ach-xp-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #f0fdf4;
+      color: #166534;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .ach-chain-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #fffbeb;
+      color: #92400e;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .ach-hidden-hint {
+      margin: 0 0 8px;
+      padding: 8px 10px;
+      border: 1px dashed var(--line);
+      border-radius: 9px;
+      background: var(--card);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .ach-favorite {
+      padding: 2px;
+      border: 0;
+      background: transparent;
+      font-size: 18px;
+      cursor: pointer;
+      opacity: 0.55;
+    }
+
+    .ach-favorite.on {
+      opacity: 1;
+    }
+
+    .achievement-item-detail p {
+      margin: 0 0 4px;
+    }
+
+    .home-favorite-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .home-favorite-row span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    html[data-theme="dark"] .level-stats div,
+    html[data-theme="dark"] .challenge-item,
+    html[data-theme="dark"] .timeline-item {
+      background: #151f29;
+    }
+
+    html[data-theme="dark"] .challenge-item.picked {
+      border-color: var(--brand);
+      background: rgba(66, 214, 232, 0.12);
+    }
+
+    html[data-theme="dark"] .challenge-item.done {
+      border-color: rgba(50, 214, 160, 0.45);
+      background: rgba(50, 214, 160, 0.08);
+    }
+
+    html[data-theme="dark"] .challenge-pick {
+      border-color: var(--brand);
+      background: #151f29;
+      color: #7de8f5;
+    }
+
+    html[data-theme="dark"] .level-xp-track,
+    html[data-theme="dark"] .challenge-progress {
+      background: #25364a;
+    }
+
+    html[data-theme="dark"] .challenge-toggle {
+      border-color: var(--line);
+      background: #151f29;
+      color: var(--muted);
+    }
+
+    html[data-theme="dark"] .ach-category-tag {
+      background: rgba(66, 214, 232, 0.12);
+      color: #9be9f2;
+    }
+
+    html[data-theme="dark"] .ach-xp-tag {
+      background: rgba(50, 214, 160, 0.1);
+      color: #7fe8c6;
+    }
+
+    html[data-theme="dark"] .ach-chain-tag {
+      background: rgba(251, 191, 36, 0.1);
+      color: #fcd34d;
+    }
+
+    html[data-theme="dark"] .summary-textarea {
+      border-color: var(--line);
+      background: #151f29;
+      color: var(--text);
+    }
+  </style></head>
 <body>
   <!-- 启动过渡动画（占位结构）：正式图标确定后只需替换图标资源、名称与 SPLASH_CONFIG 参数 -->
   <div class="splash-screen" id="splashScreen" aria-hidden="true">
     <div class="splash-content">
-      <img class="splash-logo" id="splashLogo" src="./icons/icon-192.png" alt="">
+      <img class="splash-logo" id="splashLogo" src="./icons/icon-512.png" width="96" height="96" alt="">
       <p class="splash-name" id="splashName">大学生生活费管家</p>
     </div>
   </div>
@@ -1823,6 +2411,7 @@
             <strong id="achievementProgressText">0/7</strong>
           </div>
           <div class="achievement-progress"><span class="achievement-progress-fill" id="achievementProgressFill"></span></div>
+          <div class="home-favorite-row" id="homeFavoriteRow"></div>
         </section>
 
         <div class="hero" id="heroCard">
@@ -2238,7 +2827,10 @@
 
         <div class="review-entry">
           <p class="review-entry-tip" id="reviewEntryTip">每月完成一次消费复盘，掌握消费结构。</p>
-          <button class="secondary-button" type="button" id="openReviewButton">📋 完成本月复盘</button>
+          <div class="review-actions">
+            <button class="secondary-button" type="button" id="openWeekReviewButton">📅 周复盘</button>
+            <button class="secondary-button" type="button" id="openReviewButton">📋 月复盘</button>
+          </div>
         </div>
 
         <div class="stats-grid">
@@ -2369,11 +2961,17 @@
           </div>
         </section>
 
+        <section class="card achievement-level-card" id="achievementLevelCard" aria-label="成长等级"></section>
+        <section class="card achievement-challenge-card" id="achievementChallengeCard" aria-label="每周挑战"></section>
+        <section class="card achievement-timeline-card" id="achievementTimelineCard" aria-label="成长时间线"></section>
+
         <div class="achievement-filters" role="tablist" aria-label="成就筛选">
           <button type="button" class="achievement-filter active" data-achievement-filter="all" role="tab" aria-selected="true">全部</button>
           <button type="button" class="achievement-filter" data-achievement-filter="unlocked" role="tab" aria-selected="false">已解锁</button>
           <button type="button" class="achievement-filter" data-achievement-filter="inprogress" role="tab" aria-selected="false">进行中</button>
           <button type="button" class="achievement-filter" data-achievement-filter="locked" role="tab" aria-selected="false">未解锁</button>
+          <button type="button" class="achievement-filter" data-achievement-filter="favorites" role="tab" aria-selected="false">收藏</button>
+          <button type="button" class="achievement-filter" data-achievement-filter="hidden" role="tab" aria-selected="false">隐藏</button>
         </div>
 
         <div class="achievement-list" id="achievementList"></div>
@@ -2457,6 +3055,18 @@
     </div>
   </div>
 
+  <div class="modal-backdrop" id="weekReviewModal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="weekReviewTitle">
+      <h2 id="weekReviewTitle">本周消费复盘</h2>
+      <p class="review-month-label" id="weekReviewLabel"></p>
+      <div class="review-summary" id="weekReviewSummary"></div>
+      <div class="modal-actions">
+        <button class="secondary-button" type="button" id="weekReviewCancel">关闭</button>
+        <button class="primary-button" type="button" id="weekReviewConfirm">确认完成复盘</button>
+      </div>
+    </div>
+  </div>
+
   <div class="achievement-toast" id="achievementToast" hidden></div>
 
   <div class="modal-backdrop" id="impulseModal" hidden>
@@ -2509,6 +3119,13 @@
       var ACHIEVEMENTS_KEY = "collegeLifeAchievementsV1";
       var REVIEW_KEY = "collegeLifeReviewHistoryV1";
       var BUDGET_CYCLE_KEY = "collegeLifeBudgetCycleV1";
+      var LEVEL_KEY = "collegeLifeLevelV1";
+      var EVENTS_KEY = "collegeLifeEventsV1";
+      var CHALLENGES_KEY = "collegeLifeChallengesV1";
+      var TIMELINE_KEY = "collegeLifeTimelineV1";
+      var ACHIEVEMENT_PREFS_KEY = "collegeLifeAchievementPrefsV1";
+      var SUMMARY_KEY = "collegeLifeSummaryV1";
+      var SAVINGS_HISTORY_KEY = "collegeLifeSavingsHistoryV1";
       var UNEXPECTED_CATEGORY = "应急支出";
       var LEGACY_EMERGENCY_CATEGORY = "意外支出";
       var FIXED_CATEGORY = "固定支出";
@@ -2639,13 +3256,15 @@
         theme: "system",
         pendingExpense: null,
         impulseTimer: null,
-        achievementFilter: "all"
+        achievementFilter: "all",
+        achievementCategory: "all",
+        budgetEditStart: null
       };
 
       /* ---------- 启动过渡动画配置：替换正式图标时只需改 HTML/CSS 占位内容与此处时长 ---------- */
       var SPLASH_CONFIG = {
-        showMs: 480,
-        fadeMs: 260
+        showMs: 440,
+        fadeMs: 240
       };
 
       var toastTimer = null;
@@ -3214,6 +3833,391 @@
         }
       }
 
+      /* ================= V6.0 成长系统：等级 / 事件 / 时间线 / 收藏 / 挑战 ================= */
+      var LEVELS = [
+        { name: "生活记录新芽", xp: 0 },
+        { name: "生活记录者", xp: 100 },
+        { name: "预算规划者", xp: 260 },
+        { name: "资金管理达人", xp: 520 },
+        { name: "生活费大师", xp: 900 }
+      ];
+
+      // 每项成就首次解锁的经验奖励，配置集中在此便于调整。
+      var XP_REWARDS = {
+        accounting_newbie: 20, accounting_master: 40, persistence_star: 60,
+        records_100: 80, habit_4weeks: 50, cat_explorer: 15, note_taker: 30,
+        budget_planner: 20, category_manager: 30, flex_planner: 15,
+        budget_master: 60, rational_spender: 50, planner_evolved: 40,
+        savings_master: 40, penny_pincher: 50, emergency_newbie: 20,
+        zen_life: 60, savings_3months: 50, goal_done: 70, goal_advanced: 20,
+        monthly_reviewer: 30, week_reviewer: 25, data_familiar: 10,
+        trend_observer: 30, invest_self: 40, no_milk_tea_7: 40,
+        snack_control: 30, detail_finder: 20, custom_master: 30,
+        collector: 10, persona_style: 15, data_guardian: 10
+      };
+      var CHALLENGE_XP = 15;
+
+      /* ---- 成长等级 ---- */
+      function getLevelIndexForXp(xp) {
+        var index = 0;
+        for (var i = 0; i < LEVELS.length; i += 1) {
+          if (xp >= LEVELS[i].xp) index = i;
+        }
+        return index;
+      }
+
+      function loadLevelData() {
+        try {
+          var parsed = JSON.parse(window.localStorage.getItem(LEVEL_KEY) || "null");
+          if (parsed && Number.isFinite(Number(parsed.xp))) {
+            return { xp: Math.max(0, Number(parsed.xp)), best: Number(parsed.best) || 0 };
+          }
+        } catch (error) {}
+        return { xp: 0, best: 0 };
+      }
+
+      function saveLevelData(data) {
+        try {
+          window.localStorage.setItem(LEVEL_KEY, JSON.stringify(data));
+        } catch (error) {}
+      }
+
+      function addXp(amount) {
+        if (!Number.isFinite(Number(amount)) || Number(amount) <= 0) return;
+        var data = loadLevelData();
+        data.xp += Number(amount);
+        data.best = Math.max(data.best, getLevelIndexForXp(data.xp));
+        saveLevelData(data);
+      }
+
+      function getLevelInfo() {
+        var data = loadLevelData();
+        var index = getLevelIndexForXp(data.xp);
+        var current = LEVELS[index];
+        var next = LEVELS[index + 1] || null;
+        var currentXp = data.xp - current.xp;
+        var needed = next ? next.xp - current.xp : 1;
+        return {
+          xp: data.xp,
+          levelIndex: index,
+          levelName: current.name,
+          nextName: next ? next.name : "",
+          progress: next ? Math.max(0, Math.min(100, (currentXp / needed) * 100)) : 100,
+          currentXp: currentXp,
+          neededXp: needed,
+          isMax: !next,
+          best: Math.max(data.best, index)
+        };
+      }
+
+      /* ---- 业务事件记录（幂等去重，防止重复奖励） ---- */
+      function getEventsData() {
+        try {
+          var parsed = JSON.parse(window.localStorage.getItem(EVENTS_KEY) || "{}");
+          return parsed && typeof parsed === "object" ? parsed : {};
+        } catch (error) {
+          return {};
+        }
+      }
+
+      function saveEventsData(data) {
+        try {
+          window.localStorage.setItem(EVENTS_KEY, JSON.stringify(data));
+        } catch (error) {}
+      }
+
+      function getEventRecord(type) {
+        var data = getEventsData();
+        if (!data[type]) data[type] = { count: 0, refs: {}, months: {} };
+        return data[type];
+      }
+
+      function persistEventRecord(type, record) {
+        var data = getEventsData();
+        data[type] = record;
+        saveEventsData(data);
+      }
+
+      function recordEvent(type, refId) {
+        var record = getEventRecord(type);
+        var isFresh = false;
+        var refKey = String(refId === undefined || refId === null ? "" : refId);
+        if (refKey !== "" && !record.refs[refKey]) {
+          record.refs[refKey] = true;
+          isFresh = true;
+        }
+        record.count += 1;
+        var now = new Date();
+        var monthKey = toMonthKey(now);
+        if (!record.months[monthKey]) record.months[monthKey] = 0;
+        record.months[monthKey] += 1;
+        persistEventRecord(type, record);
+        return isFresh;
+      }
+
+      /* ---- 成长时间线（真实事件，全局去重） ---- */
+      function loadTimeline() {
+        try {
+          var parsed = JSON.parse(window.localStorage.getItem(TIMELINE_KEY) || "[]");
+          return Array.isArray(parsed) ? parsed : [];
+        } catch (error) {
+          return [];
+        }
+      }
+
+      function saveTimeline(timeline) {
+        try {
+          window.localStorage.setItem(TIMELINE_KEY, JSON.stringify(timeline));
+        } catch (error) {}
+      }
+
+      function pushTimeline(eventId, type, title) {
+        var timeline = loadTimeline();
+        if (timeline.some(function (item) { return item.id === eventId; })) return;
+        timeline.push({ id: eventId, type: type, title: title, at: new Date().toISOString() });
+        if (timeline.length > 500) timeline = timeline.slice(timeline.length - 500);
+        saveTimeline(timeline);
+      }
+
+      /* ---- 成就展示偏好 ---- */
+      function loadAchievementPrefs() {
+        try {
+          var parsed = JSON.parse(window.localStorage.getItem(ACHIEVEMENT_PREFS_KEY) || "null");
+          if (parsed && typeof parsed === "object") {
+            if (!Array.isArray(parsed.favorites)) parsed.favorites = [];
+            if (parsed.animations === undefined) parsed.animations = true;
+            if (parsed.challengesEnabled === undefined) parsed.challengesEnabled = true;
+            return parsed;
+          }
+        } catch (error) {}
+        return { favorites: [], animations: true, challengesEnabled: true };
+      }
+
+      function saveAchievementPrefs(prefs) {
+        try {
+          window.localStorage.setItem(ACHIEVEMENT_PREFS_KEY, JSON.stringify(prefs));
+        } catch (error) {}
+      }
+
+      /* ---- 阶段总结 ---- */
+      function loadSummary() {
+        try {
+          var parsed = JSON.parse(window.localStorage.getItem(SUMMARY_KEY) || "null");
+          return parsed && typeof parsed === "object" ? parsed : {};
+        } catch (error) {
+          return {};
+        }
+      }
+
+      function saveSummaryData(text) {
+        try {
+          window.localStorage.setItem(SUMMARY_KEY, JSON.stringify({ text: text, savedAt: new Date().toISOString() }));
+        } catch (error) {}
+      }
+
+      /* ---- 储蓄目标调整记录 ---- */
+      function loadSavingsHistory() {
+        try {
+          var parsed = JSON.parse(window.localStorage.getItem(SAVINGS_HISTORY_KEY) || "[]");
+          return Array.isArray(parsed) ? parsed : [];
+        } catch (error) {
+          return [];
+        }
+      }
+
+      function saveSavingsHistory(history) {
+        try {
+          window.localStorage.setItem(SAVINGS_HISTORY_KEY, JSON.stringify(history));
+        } catch (error) {}
+      }
+
+      function recordSavingsChange(before, after) {
+        if (!Number.isFinite(Number(before)) || !Number.isFinite(Number(after))) return;
+        if (Number(before) === Number(after)) return;
+        var history = loadSavingsHistory();
+        history.push({ time: new Date().toISOString(), before: Number(before), after: Number(after) });
+        saveSavingsHistory(history);
+        pushTimeline("savings_adjust:" + history.length, "储蓄", "调整储蓄目标：¥" + formatMoney(before) + " → ¥" + formatMoney(after));
+        recordEvent("personalize", "savings_plan");
+      }
+
+      /* ---- 每周挑战 ---- */
+      function getChallengeWeekKey() {
+        return getWeekStartKey(new Date());
+      }
+
+      function loadChallenges() {
+        try {
+          var parsed = JSON.parse(window.localStorage.getItem(CHALLENGES_KEY) || "null");
+          return parsed && typeof parsed === "object" ? parsed : null;
+        } catch (error) {
+          return null;
+        }
+      }
+
+      function saveChallenges(data) {
+        try {
+          window.localStorage.setItem(CHALLENGES_KEY, JSON.stringify(data));
+        } catch (error) {}
+      }
+
+      function ensureChallenges() {
+        var data = loadChallenges();
+        var weekKey = getChallengeWeekKey();
+        if (!data || data.weekKey !== weekKey) {
+          data = { weekKey: weekKey, pickedId: null, swappedAt: null, completedIds: {} };
+          saveChallenges(data);
+        }
+        return data;
+      }
+
+      function hasWeekReview() {
+        var weekKey = getChallengeWeekKey();
+        return getReviewHistory().some(function (review) {
+          return review && review.week === weekKey;
+        });
+      }
+
+      function getChallengeCandidates() {
+        var weekKey = getChallengeWeekKey();
+        var weekStart = dateFromKey(weekKey);
+        var weekEnd = new Date(weekStart.getFullYear(), weekStart.getMonth(), weekStart.getDate() + 6);
+        var weekEndKey = toDateKey(weekEnd);
+        var weekExpenses = state.expenses.filter(function (item) {
+          return item.date >= weekKey && item.date <= weekEndKey;
+        });
+        var events = getEventsData();
+        return [
+          {
+            id: "challenge_record_3", type: "📝 记录", title: "完整记录本周消费",
+            desc: "本周记录至少 3 笔真实消费，多日多笔均可。",
+            target: 3, progress: Math.min(weekExpenses.length, 3)
+          },
+          {
+            id: "challenge_budget_review", type: "📋 规划", title: "检查本周预算",
+            desc: "打开一次预算调节助手并生成分析。",
+            target: 1, progress: events.view_budget_assistant && events.view_budget_assistant.count > 0 ? 1 : 0
+          },
+          {
+            id: "challenge_review_week", type: "📊 复盘", title: "完成一次周度复盘",
+            desc: "在统计页完成本周复盘，了解消费结构。",
+            target: 1, progress: hasWeekReview() ? 1 : 0
+          },
+          {
+            id: "challenge_check_notes", type: "🗂️ 整理", title: "检查历史账目",
+            desc: "打开一条消费详情，确认或修正记录。",
+            target: 1, progress: (events.open_detail && events.open_detail.count || 0) >= 1 ? 1 : 0
+          }
+        ];
+      }
+
+      function getPickedChallenge() {
+        var data = ensureChallenges();
+        var candidates = getChallengeCandidates();
+        var picked = null;
+        candidates.forEach(function (candidate) {
+          if (candidate.id === data.pickedId) picked = candidate;
+        });
+        return picked;
+      }
+
+      function processChallengeCompletion() {
+        var data = ensureChallenges();
+        var picked = getPickedChallenge();
+        if (!picked || (data.completedIds && data.completedIds[picked.id])) return;
+        if (picked.progress >= picked.target) {
+          data.completedIds = data.completedIds || {};
+          data.completedIds[picked.id] = new Date().toISOString();
+          saveChallenges(data);
+          recordEvent("challenge_done", picked.id + ":" + data.weekKey);
+          pushTimeline("challenge:" + picked.id + ":" + data.weekKey, "挑战", "完成本周挑战：" + picked.title);
+          addXp(CHALLENGE_XP);
+        }
+      }
+
+      /* ---- 成就进度辅助计算（全部来自真实业务数据） ---- */
+      function countRecentActiveWeeks() {
+        var active = {};
+        state.expenses.forEach(function (item) {
+          active[item.date] = true;
+        });
+        var dates = Object.keys(active).sort(function (first, second) {
+          return second.localeCompare(first);
+        });
+        if (dates.length === 0) return 0;
+        var weekSet = {};
+        dates.forEach(function (dateKey) {
+          weekSet[getWeekStartKey(dateFromKey(dateKey))] = true;
+        });
+        var cursor = getWeekStartKey(dateFromKey(dates[0]));
+        var count = 0;
+        while (weekSet[cursor]) {
+          count += 1;
+          var cursorDate = dateFromKey(cursor);
+          cursorDate.setDate(cursorDate.getDate() - 7);
+          cursor = toDateKey(cursorDate);
+        }
+        return count;
+      }
+
+      function hasSavedBudgetSettings() {
+        try {
+          return window.localStorage.getItem(BUDGET_SETTINGS_KEY) !== null ||
+            window.localStorage.getItem(LEGACY_BUDGET_KEY) !== null;
+        } catch (error) {
+          return false;
+        }
+      }
+
+      function getSavingsMonthStats() {
+        var cycles = loadBudgetCycleSnapshots();
+        var monthsWithSavings = 0;
+        var goalsCompleted = 0;
+        cycles.forEach(function (cycle) {
+          var target = Number(cycle.settings && cycle.settings.savings);
+          var living = Number(cycle.settings && cycle.settings.living);
+          if (target > 0 && living > 0 && cycle.spent <= living) {
+            var saved = living - cycle.spent;
+            if (saved > 0) monthsWithSavings += 1;
+            if (saved >= target) goalsCompleted += 1;
+          }
+        });
+        return { monthsWithSavings: monthsWithSavings, goalsCompleted: goalsCompleted };
+      }
+
+      /* ---- 统一的成就计算与解锁入口（幂等：已解锁不重复、经验只发一次） ---- */
+      function processAchievements() {
+        var saved = loadAchievementData();
+        var definitions = getAchievementDefinitions();
+        var unlockedNow = [];
+
+        definitions.forEach(function (achievement) {
+          if (achievement.unlocked && !saved[achievement.id]) {
+            saved[achievement.id] = {
+              title: achievement.title,
+              desc: achievement.desc,
+              unlockedAt: new Date().toISOString()
+            };
+            unlockedNow.push(achievement);
+            pushTimeline("achievement:" + achievement.id, "成就", "解锁成就：" + achievement.title);
+          }
+        });
+
+        if (unlockedNow.length > 0) {
+          saveAchievementData(saved);
+          unlockedNow.forEach(function (achievement) {
+            if (XP_REWARDS[achievement.id] && !saved[achievement.id].xpAwarded) {
+              addXp(XP_REWARDS[achievement.id]);
+              saved[achievement.id].xpAwarded = true;
+            }
+          });
+          saveAchievementData(saved);
+        }
+
+        processChallengeCompletion();
+        return unlockedNow;
+      }
+
       function getReviewHistory() {
         try {
           var parsed = JSON.parse(window.localStorage.getItem(REVIEW_KEY) || "[]");
@@ -3385,76 +4389,155 @@
           return cycle.withinBudget;
         }).length;
         var reviewedMonths = {};
+        var reviewedWeeks = {};
         getReviewHistory().forEach(function (review) {
-          if (review && review.month) {
-            reviewedMonths[review.month] = true;
-          }
+          if (review && review.month) reviewedMonths[review.month] = true;
+          if (review && review.week) reviewedWeeks[review.week] = true;
         });
         var reviewedCount = Object.keys(reviewedMonths).length;
+        var weekReviewCount = Object.keys(reviewedWeeks).length;
         var hasEmergencyReserve = Number(settings.emergencyReserve) > 0;
         var validBudgetKeys = ["study", "fixed", "entertainment", "unexpected", "nonmeal"].filter(function (key) {
           return settings[key] > 0;
         });
 
+        // ==== V6.0 真实业务进度 ====
+        var validExpenses = state.expenses;
+        var totalExpenseCount = validExpenses.length;
+        var categoryUsed = {};
+        validExpenses.forEach(function (item) {
+          categoryUsed[getExpenseGroup(item)] = true;
+        });
+        var categoryUsedCount = Object.keys(categoryUsed).length;
+        var notedCount = validExpenses.filter(function (item) {
+          return String(item.note || "").trim().length >= 2;
+        }).length;
+        var activeWeeks = countRecentActiveWeeks();
+        var savingsHistory = loadSavingsHistory();
+        var savingsStats = getSavingsMonthStats();
+        var budgetHistory = getBudgetHistory();
+        var effectiveAdjustments = budgetHistory.filter(function (record) {
+          return Number(record.before) !== Number(record.after);
+        }).length;
+        var events = getEventsData();
+        var statsViewMonths = events.view_stats ? events.view_stats.months || {} : {};
+        var statsMonthCount = Object.keys(statsViewMonths).length;
+        var personalizeRefs = events.personalize ? events.personalize.refs || {} : {};
+        var personalizeCount = Object.keys(personalizeRefs).length;
+        var backupCount = events.backup_export ? events.backup_export.count || 0 : 0;
+        var detailOpenCount = events.detail_open ? events.detail_open.count || 0 : 0;
+        var prefs = loadAchievementPrefs();
+        var favoriteIds = Array.isArray(prefs.favorites) ? prefs.favorites : [];
+        var statsViewed = totalExpenseCount > 0 && statsMonthCount >= 1;
+        // 预算类成就以“用户真实保存过预算”为前提，避免默认配置被当作有效规划。
+        var budgetsConfirmed = hasSavedBudgetSettings();
+
+        function def(id, icon, title, desc, current, target, unlocked, extra) {
+          var item = {
+            id: id,
+            icon: icon,
+            title: title,
+            desc: desc,
+            current: Math.max(0, Math.min(target, Number(current) || 0)),
+            target: target,
+            unlocked: Boolean(unlocked)
+          };
+          if (extra) {
+            if (extra.category) item.category = extra.category;
+            if (extra.xp) item.xp = extra.xp;
+            if (extra.hidden) item.hidden = true;
+            if (extra.hint) item.hint = extra.hint;
+            if (extra.chain) item.chain = extra.chain;
+            if (extra.tier) item.tier = extra.tier;
+          }
+          return item;
+        }
+
         return [
-          { id: "accounting_newbie", icon: "🐣", title: "记账新人", desc: "完成第一笔有效账目", current: Math.min(1, state.expenses.length), target: 1, unlocked: state.expenses.length >= 1 },
-          { id: "accounting_master", icon: "📒", title: "记账达人", desc: "连续 7 个有效记账日", current: Math.min(streak, 7), target: 7, unlocked: streak >= 7 },
-          { id: "budget_planner", icon: "📋", title: "预算规划师", desc: "生活费预算有效，且至少 4 个分类预算已设置", current: settings.living > 0 ? Math.min(validBudgetKeys.length, 4) : 0, target: 4, unlocked: settings.living > 0 && validBudgetKeys.length >= 4 },
-          { id: "category_manager", icon: "🗂️", title: "分类管理师", desc: "六大分类均设置有效预算", current: categoryBudgetCount, target: 6, unlocked: categoryBudgetCount === 6 },
-          { id: "monthly_reviewer", icon: "📊", title: "月度复盘官", desc: "在统计页完成一次真实的本月消费复盘", current: Math.min(reviewedCount, 1), target: 1, unlocked: reviewedCount >= 1 },
-          { id: "rational_spender", icon: "🧮", title: "理性消费家", desc: "一个完整预算周期内所有预算未超支", current: Math.min(safeCycles, 1), target: 1, unlocked: safeCycles >= 1 },
-          { id: "savings_master", icon: "💰", title: "储蓄达人", desc: "本月结余达到储蓄目标", current: savingsProgress, target: 1, unlocked: savingsProgress >= 1 },
-          { id: "no_milk_tea_7", icon: "🧋", title: "奶茶克制王", desc: "连续 7 个有效记账日无奶茶饮料消费", current: Math.min(milkFreeDays, 7), target: 7, unlocked: milkFreeDays >= 7 },
-          { id: "budget_master", icon: "🛡️", title: "预算大师", desc: "生活费与全部分类预算均未超支", current: budgetSafeCount, target: 6, unlocked: allBudgetSafe },
-          { id: "zen_life", icon: "🛟", title: "安全管家", desc: "设置应急储备目标，且连续 30 个有效记账日无应急支出", current: hasEmergencyReserve ? Math.min(emergencyFreeDays, 30) : 0, target: 30, unlocked: hasEmergencyReserve && emergencyFreeDays >= 30 },
-          { id: "emergency_newbie", icon: "🧯", title: "应急储备新手", desc: "首次建立并保存有效的应急储备目标", current: hasEmergencyReserve ? 1 : 0, target: 1, unlocked: hasEmergencyReserve },
-          { id: "invest_self", icon: "🎓", title: "成长投资家", desc: "学习成长投入达到预算的 30% 且未超支", current: studyProgress, target: 1, unlocked: study.total > 0 && study.spent >= studyTarget && study.spent <= study.total },
-          { id: "penny_pincher", icon: "🌱", title: "财务自由幼苗", desc: "本月达成储蓄目标，且存在零消费日", current: savingsProgress, target: 1, unlocked: savingsProgress >= 1 && hasZeroSpendDay() },
-          { id: "persistence_star", icon: "⭐", title: "坚持之星", desc: "连续 30 天坚持有效记账", current: Math.min(streak, 30), target: 30, unlocked: streak >= 30 },
-          { id: "snack_control", icon: "🍪", title: "零食克制者", desc: "非正餐消费低于预算的 50%", current: nonmeal.total > 0 && nonmeal.spent < nonmeal.total * 0.5 ? 1 : 0, target: 1, unlocked: nonmeal.total > 0 && nonmeal.spent < nonmeal.total * 0.5 }
+          /* ------ 记账习惯 ------ */
+          def("accounting_newbie", "🐣", "记账新人", "完成第一笔有效账目", Math.min(1, totalExpenseCount), 1, totalExpenseCount >= 1, { category: "记账习惯", xp: 20, chain: "记账链", tier: 1 }),
+          def("accounting_master", "📒", "记账达人", "连续 7 个有效记账日完成记录", Math.min(streak, 7), 7, streak >= 7, { category: "记账习惯", xp: 40, chain: "记账链", tier: 2 }),
+          def("records_100", "📚", "记录百事通", "累计完成 100 笔有效账目", Math.min(totalExpenseCount, 100), 100, totalExpenseCount >= 100, { category: "记账习惯", xp: 80, chain: "记账链", tier: 3 }),
+          def("habit_4weeks", "🗓️", "习惯成形", "连续 4 个自然周每周至少 1 个有效记账日", Math.min(activeWeeks, 4), 4, activeWeeks >= 4, { category: "记账习惯", xp: 50 }),
+          def("cat_explorer", "🧭", "分类探索者", "在真实消费中使用至少 3 个不同消费分类", Math.min(categoryUsedCount, 3), 3, categoryUsedCount >= 3, { category: "记账习惯", xp: 15 }),
+          def("note_taker", "✍️", "细致记录者", "为 30 笔有效账目补充有意义的备注（≥2 字）", Math.min(notedCount, 30), 30, notedCount >= 30, { category: "记账习惯", xp: 30 }),
+          def("persistence_star", "⭐", "坚持之星", "连续 30 天坚持有效记账", Math.min(streak, 30), 30, streak >= 30, { category: "记账习惯", xp: 60 }),
+
+          /* ------ 预算管理 ------ */
+          def("budget_planner", "📋", "预算规划师", "首次成功保存有效预算（生活费且至少 4 个分类预算）", budgetsConfirmed && settings.living > 0 ? Math.min(validBudgetKeys.length, 4) : 0, 4, budgetsConfirmed && settings.living > 0 && validBudgetKeys.length >= 4, { category: "预算管理", xp: 20, chain: "预算链", tier: 1 }),
+          def("category_manager", "🗂️", "分类管理师", "保存预算后六大消费分类均设置有效预算", budgetsConfirmed ? categoryBudgetCount : 0, 6, budgetsConfirmed && categoryBudgetCount === 6, { category: "预算管理", xp: 30, chain: "预算链", tier: 2 }),
+          def("budget_master", "🛡️", "预算大师", "保存预算后生活费与全部分类预算均未超支", budgetsConfirmed ? budgetSafeCount : 0, 6, budgetsConfirmed && allBudgetSafe, { category: "预算管理", xp: 60, chain: "预算链", tier: 3 }),
+          def("rational_spender", "🧮", "理性消费家", "一个完整预算周期内所有预算未超支", Math.min(safeCycles, 1), 1, safeCycles >= 1, { category: "预算管理", xp: 50 }),
+          def("flex_planner", "🔄", "弹性规划师", "完成至少一次有效预算调整并保留记录", Math.min(effectiveAdjustments, 1), 1, effectiveAdjustments >= 1, { category: "预算管理", xp: 15 }),
+          def("planner_evolved", "🎯", "规划进阶者", "在至少 2 个不同自然月完成预算配置与消费复盘", Math.min(reviewedCount, 2), 2, reviewedCount >= 2, { category: "预算管理", xp: 40, hidden: true, hint: "某项长期规划正在悄悄成长" }),
+
+          /* ------ 储蓄与资金规划 ------ */
+          def("emergency_newbie", "🧯", "应急储备新手", "首次建立并保存有效的应急储备目标", hasEmergencyReserve ? 1 : 0, 1, hasEmergencyReserve, { category: "储蓄与资金规划", xp: 20, chain: "储蓄链", tier: 1 }),
+          def("savings_master", "💰", "储蓄达人", "保存预算后本月结余达到储蓄目标", budgetsConfirmed ? savingsProgress : 0, 1, budgetsConfirmed && savingsProgress >= 1, { category: "储蓄与资金规划", xp: 40, chain: "储蓄链", tier: 2 }),
+          def("goal_done", "🏆", "目标完成者", "在一个完整自然月真实达成储蓄目标", Math.min(savingsStats.goalsCompleted, 1), 1, savingsStats.goalsCompleted >= 1, { category: "储蓄与资金规划", xp: 70, chain: "储蓄链", tier: 3 }),
+          def("savings_3months", "📈", "稳步积累", "在至少 3 个不同自然月存在真实储蓄记录", Math.min(savingsStats.monthsWithSavings, 3), 3, savingsStats.monthsWithSavings >= 3, { category: "储蓄与资金规划", xp: 50 }),
+          def("goal_advanced", "🚀", "目标进阶", "调整储蓄目标并保留变更记录", Math.min(savingsHistory.length, 1), 1, savingsHistory.length >= 1, { category: "储蓄与资金规划", xp: 20 }),
+          def("penny_pincher", "🌱", "财务自由幼苗", "保存预算后本月达成储蓄目标，且存在零消费日", budgetsConfirmed ? savingsProgress : 0, 1, budgetsConfirmed && savingsProgress >= 1 && hasZeroSpendDay(), { category: "储蓄与资金规划", xp: 50 }),
+          def("zen_life", "🛟", "安全管家", "设置应急储备目标，且连续 30 个有效记账日无应急支出", hasEmergencyReserve ? Math.min(emergencyFreeDays, 30) : 0, 30, hasEmergencyReserve && emergencyFreeDays >= 30, { category: "储蓄与资金规划", xp: 60 }),
+
+          /* ------ 复盘与消费认知 ------ */
+          def("data_familiar", "🔎", "数据初见", "首次查看消费统计（本月已有账目数据）", statsViewed ? 1 : 0, 1, statsViewed, { category: "复盘与消费认知", xp: 10, chain: "复盘链", tier: 1 }),
+          def("week_reviewer", "🗒️", "周度复盘者", "完成一次真实的周度消费复盘", Math.min(weekReviewCount, 1), 1, weekReviewCount >= 1, { category: "复盘与消费认知", xp: 25, chain: "复盘链", tier: 2 }),
+          def("monthly_reviewer", "📊", "月度复盘官", "完成一次真实的本月消费复盘", Math.min(reviewedCount, 1), 1, reviewedCount >= 1, { category: "复盘与消费认知", xp: 30, chain: "复盘链", tier: 3 }),
+          def("trend_observer", "📉", "趋势观察员", "在 2 个不同月份查看过消费统计，形成可比较周期", Math.min(statsMonthCount, 2), 2, statsMonthCount >= 2, { category: "复盘与消费认知", xp: 30 }),
+
+          /* ------ 特色成长 ------ */
+          def("invest_self", "🎓", "成长投资家", "保存预算后学习成长投入达到预算的 30%，且未超支", budgetsConfirmed ? studyProgress : 0, 1, budgetsConfirmed && study.total > 0 && study.spent >= studyTarget && study.spent <= study.total, { category: "特色成长", xp: 40 }),
+          def("no_milk_tea_7", "🧋", "奶茶克制王", "连续 7 个有效记账日无「非正餐 → 奶茶饮料」消费", Math.min(milkFreeDays, 7), 7, milkFreeDays >= 7, { category: "特色成长", xp: 40 }),
+          def("snack_control", "🍪", "零食克制者", "保存预算后非正餐消费低于预算的 50%", budgetsConfirmed && nonmeal.total > 0 && nonmeal.spent < nonmeal.total * 0.5 ? 1 : 0, 1, budgetsConfirmed && nonmeal.total > 0 && nonmeal.spent < nonmeal.total * 0.5, { category: "特色成长", xp: 30 }),
+
+          /* ------ 个性化探索 ------ */
+          def("collector", "⭐", "成就收藏家", "首次收藏一个已解锁徽章用于展示", Math.min(favoriteIds.length, 1), 1, favoriteIds.length >= 1, { category: "个性化探索", xp: 10 }),
+          def("persona_style", "🎨", "个人风格", "收藏 3 个徽章，组成个人展示组合", Math.min(favoriteIds.length, 3), 3, favoriteIds.length >= 3, { category: "个性化探索", xp: 15 }),
+          def("data_guardian", "🛡️", "数据守护者", "成功导出一次可验证的数据备份", Math.min(backupCount, 1), 1, backupCount >= 1, { category: "个性化探索", xp: 10 }),
+          def("detail_finder", "🔍", "细节发现者", "展开成就详情 5 次，发现卡片的更多信息", Math.min(detailOpenCount, 5), 5, detailOpenCount >= 5, { category: "个性化探索", xp: 20, hidden: true, hint: "某个细节功能正在等待你的发现" }),
+          def("custom_master", "🖌️", "自定义大师", "完成 3 项个性化设置（主题、收藏、动画、挑战、总结等）", Math.min(personalizeCount, 3), 3, personalizeCount >= 3, { category: "个性化探索", xp: 30, hidden: true, hint: "更多自定义项目正在悄悄成长" })
         ];
       }
 
       function checkAchievements() {
-        var saved = loadAchievementData();
-        var definitions = getAchievementDefinitions();
-        var unlockedNow = [];
-
-        definitions.forEach(function (achievement) {
-          if (achievement.unlocked && !saved[achievement.id]) {
-            saved[achievement.id] = {
-              title: achievement.title,
-              desc: achievement.desc,
-              unlockedAt: new Date().toISOString()
-            };
-            unlockedNow.push(achievement);
-          }
-        });
-
-        saveAchievementData(saved);
-        return unlockedNow;
+        return processAchievements();
       }
 
-      function showAchievementUnlock(achievement) {
+      function showAchievementUnlock(achievements) {
         var toast = document.getElementById("achievementToast");
-        if (!toast) {
+        if (!toast || !achievements || achievements.length === 0) return;
+        if (!loadAchievementPrefs().animations) {
+          toast.hidden = true;
           return;
         }
-
-        toast.innerHTML = "🎉 恭喜解锁<br><strong>" + achievement.title + "</strong><br>" + achievement.desc;
+        var titles = [];
+        achievements.forEach(function (achievement) {
+          titles.push(achievement.title);
+        });
+        var html = "🎉 恭喜解锁";
+        if (titles.length > 1) {
+          html += "<br><strong>" + titles.join("、") + "</strong><br>共解锁 " + titles.length + " 项成就";
+        } else {
+          html += "<br><strong>" + achievements[0].title + "</strong><br>" + achievements[0].desc;
+          if (XP_REWARDS[achievements[0].id]) {
+            html += "<br>经验 +" + XP_REWARDS[achievements[0].id];
+          }
+        }
+        toast.innerHTML = html;
         toast.hidden = false;
         if (achievementToastTimer) {
           window.clearTimeout(achievementToastTimer);
         }
         achievementToastTimer = window.setTimeout(function () {
           toast.hidden = true;
-        }, 2000);
+        }, 2600);
       }
 
       function renderAchievementHome() {
         var unlockedNow = checkAchievements();
         if (unlockedNow.length > 0) {
-          showAchievementUnlock(unlockedNow[0]);
+          showAchievementUnlock(unlockedNow);
         }
 
         var saved = loadAchievementData();
@@ -3463,7 +4546,7 @@
           return saved[achievement.id];
         });
         var unowned = definitions.filter(function (achievement) {
-          return !saved[achievement.id];
+          return !saved[achievement.id] && !achievement.hidden;
         });
         var inProgress = unowned.filter(function (achievement) {
           return achievement.target > 0 && achievement.current > 0;
@@ -3486,12 +4569,260 @@
         document.getElementById("achievementProgressFill").style.width = next
           ? Math.max(0, Math.min(100, (next.current / next.target) * 100)) + "%"
           : "100%";
+
+        var favoriteRow = document.getElementById("homeFavoriteRow");
+        if (favoriteRow) {
+          favoriteRow.textContent = "";
+          var prefs = loadAchievementPrefs();
+          var favorites = Array.isArray(prefs.favorites) ? prefs.favorites : [];
+          if (favorites.length === 0) {
+            favoriteRow.style.display = "none";
+          } else {
+            favoriteRow.style.display = "";
+            var label = document.createElement("span");
+            label.textContent = "我的收藏：";
+            favoriteRow.appendChild(label);
+            favorites.forEach(function (id) {
+              var match = null;
+              definitions.forEach(function (achievement) {
+                if (achievement.id === id) match = achievement;
+              });
+              if (match && saved[id]) {
+                var badge = document.createElement("span");
+                badge.textContent = match.icon + " " + match.title;
+                favoriteRow.appendChild(badge);
+              }
+            });
+          }
+        }
+      }
+
+      function renderAchievementLevel() {
+        var container = document.getElementById("achievementLevelCard");
+        if (!container) return;
+        var info = getLevelInfo();
+        var saved = loadAchievementData();
+        var definitions = getAchievementDefinitions();
+        var unlockedCount = 0;
+        definitions.forEach(function (achievement) {
+          if (saved[achievement.id]) unlockedCount += 1;
+        });
+        var rate = definitions.length > 0 ? Math.round((unlockedCount / definitions.length) * 100) : 0;
+        var recent = null;
+        definitions.forEach(function (achievement) {
+          if (saved[achievement.id] && (!recent || saved[achievement.id].unlockedAt > recent.unlockedAt)) {
+            recent = { achievement: achievement, unlockedAt: saved[achievement.id].unlockedAt };
+          }
+        });
+        container.textContent = "";
+        var head = document.createElement("div");
+        head.className = "level-head";
+        head.innerHTML =
+          '<div class="level-title"><span class="level-icon">🏅</span><span class="level-name">' + info.levelName + '</span></div>' +
+          '<span class="level-xp-text">经验 ' + info.xp + '</span>';
+        container.appendChild(head);
+        var track = document.createElement("div");
+        track.className = "level-xp-track";
+        var fill = document.createElement("span");
+        fill.className = "level-xp-fill";
+        fill.style.width = Math.round(info.progress) + "%";
+        track.appendChild(fill);
+        container.appendChild(track);
+        var next = document.createElement("p");
+        next.className = "level-next";
+        next.textContent = info.isMax
+          ? "已达最高等级，继续积累经验保持记录。"
+          : "距离「" + info.nextName + "」还需 " + (info.neededXp - info.currentXp) + " 经验";
+        container.appendChild(next);
+        var stats = document.createElement("div");
+        stats.className = "level-stats";
+        stats.innerHTML =
+          "<div><span>已解锁</span><strong>" + unlockedCount + "</strong></div>" +
+          "<div><span>达成率</span><strong>" + rate + "%</strong></div>" +
+          "<div><span>历史最高</span><strong>" + (LEVELS[Math.min(info.best, LEVELS.length - 1)] ? LEVELS[Math.min(info.best, LEVELS.length - 1)].name : info.levelName) + "</strong></div>" +
+          "<div><span>最近解锁</span><strong>" + (recent ? recent.achievement.title : "暂无") + "</strong></div>";
+        container.appendChild(stats);
+      }
+
+      function renderChallengeCard() {
+        var container = document.getElementById("achievementChallengeCard");
+        if (!container) return;
+        var prefs = loadAchievementPrefs();
+        var data = ensureChallenges();
+        container.textContent = "";
+        var head = document.createElement("div");
+        head.className = "challenge-head";
+        head.innerHTML = "<h3>🗓️ 本周挑战</h3>";
+        var toggle = document.createElement("button");
+        toggle.type = "button";
+        toggle.className = "challenge-toggle";
+        toggle.id = "challengeToggleButton";
+        toggle.textContent = prefs.challengesEnabled ? "关闭挑战" : "开启挑战";
+        head.appendChild(toggle);
+        container.appendChild(head);
+        if (!prefs.challengesEnabled) {
+          var offNote = document.createElement("p");
+          offNote.className = "challenge-note";
+          offNote.textContent = "挑战功能已关闭。开启后每周可选 1 个真实目标，完成后获得少量经验，不完成也不影响其他进度。";
+          container.appendChild(offNote);
+          return;
+        }
+        var candidates = getChallengeCandidates();
+        var pickedId = data.pickedId;
+        if (!pickedId) {
+          var pickNote = document.createElement("p");
+          pickNote.className = "challenge-note";
+          pickNote.textContent = "从候选中选择 1 个本周目标，进度由真实记账与操作计算。";
+          container.appendChild(pickNote);
+        }
+        var list = document.createElement("div");
+        list.className = "challenge-list";
+        candidates.forEach(function (candidate) {
+          var item = document.createElement("div");
+          item.className = "challenge-item";
+          if (candidate.id === pickedId) item.className += " picked";
+          var isDone = Boolean(data.completedIds && data.completedIds[candidate.id]);
+          if (isDone) item.className += " done";
+          var headRow = document.createElement("div");
+          headRow.className = "challenge-item-head";
+          headRow.innerHTML = "<strong>" + candidate.type + " " + candidate.title + "</strong>";
+          if (isDone) {
+            var doneLabel = document.createElement("span");
+            doneLabel.textContent = "✅ 已完成";
+            headRow.appendChild(doneLabel);
+          } else if (!pickedId) {
+            var pickButton = document.createElement("button");
+            pickButton.type = "button";
+            pickButton.className = "challenge-pick";
+            pickButton.setAttribute("data-challenge-pick", candidate.id);
+            pickButton.textContent = "选择";
+            headRow.appendChild(pickButton);
+          } else if (candidate.id === pickedId) {
+            var pickedLabel = document.createElement("span");
+            pickedLabel.textContent = "进行中";
+            headRow.appendChild(pickedLabel);
+          }
+          item.appendChild(headRow);
+          var desc = document.createElement("p");
+          desc.textContent = candidate.desc;
+          item.appendChild(desc);
+          var track = document.createElement("div");
+          track.className = "challenge-progress";
+          var progressFill = document.createElement("span");
+          progressFill.style.width = Math.max(0, Math.min(100, (candidate.progress / candidate.target) * 100)) + "%";
+          track.appendChild(progressFill);
+          item.appendChild(track);
+          var meta = document.createElement("p");
+          meta.className = "challenge-swap";
+          meta.textContent = "进度 " + candidate.progress + " / " + candidate.target;
+          item.appendChild(meta);
+          list.appendChild(item);
+        });
+        container.appendChild(list);
+        var swapRow = document.createElement("div");
+        swapRow.className = "challenge-swap-row";
+        var swapNote = document.createElement("span");
+        swapNote.className = "challenge-swap";
+        if (pickedId) {
+          swapNote.textContent = data.swappedAt ? "本周已更换过挑战" : "每周可更换一次挑战";
+        } else {
+          swapNote.textContent = "每周完成 1 个挑战 +" + CHALLENGE_XP + " 经验";
+        }
+        swapRow.appendChild(swapNote);
+        if (pickedId && !data.swappedAt) {
+          var swapButton = document.createElement("button");
+          swapButton.type = "button";
+          swapButton.className = "challenge-swap";
+          swapButton.id = "challengeSwapButton";
+          swapButton.textContent = "更换挑战";
+          swapRow.appendChild(swapButton);
+        }
+        container.appendChild(swapRow);
+      }
+
+      function renderTimelineCard() {
+        var container = document.getElementById("achievementTimelineCard");
+        if (!container) return;
+        container.textContent = "";
+        var row = document.createElement("div");
+        row.className = "timeline-row";
+        row.innerHTML = "<strong>🌱 成长时间线</strong>";
+        var toggle = document.createElement("button");
+        toggle.type = "button";
+        toggle.className = "secondary-button";
+        toggle.id = "timelineToggleButton";
+        toggle.style.minHeight = "34px";
+        toggle.textContent = "展开";
+        row.appendChild(toggle);
+        container.appendChild(row);
+        var panel = document.createElement("div");
+        panel.className = "timeline-panel";
+        panel.hidden = true;
+        panel.id = "timelinePanel";
+        var list = document.createElement("div");
+        list.className = "timeline-list";
+        list.id = "timelineList";
+        var timeline = loadTimeline();
+        if (timeline.length === 0) {
+          var empty = document.createElement("p");
+          empty.className = "timeline-empty";
+          empty.textContent = "还没有成长记录，完成记账、预算与复盘后会出现在这里。";
+          list.appendChild(empty);
+        } else {
+          timeline.slice().reverse().slice(0, 60).forEach(function (item) {
+            var rowItem = document.createElement("div");
+            rowItem.className = "timeline-item";
+            rowItem.innerHTML = "<strong>" + item.title + "</strong><span>" + formatBackupTime(item.at) + "</span>";
+            list.appendChild(rowItem);
+          });
+        }
+        panel.appendChild(list);
+        var summary = loadSummary();
+        var textarea = document.createElement("textarea");
+        textarea.className = "summary-textarea";
+        textarea.id = "summaryInput";
+        textarea.maxLength = 200;
+        textarea.placeholder = "写下本阶段的个人总结（仅保存在本机）。";
+        textarea.value = summary.text || "";
+        panel.appendChild(textarea);
+        var saveButton = document.createElement("button");
+        saveButton.type = "button";
+        saveButton.className = "secondary-button summary-save";
+        saveButton.id = "summarySaveButton";
+        saveButton.textContent = summary.text ? "更新总结" : "保存总结";
+        panel.appendChild(saveButton);
+        container.appendChild(panel);
+      }
+
+      function renderCategoryFilters(container) {
+        container.textContent = "";
+        var categories = [
+          ["all", "全部"],
+          ["记账习惯", "记账习惯"],
+          ["预算管理", "预算管理"],
+          ["储蓄与资金规划", "储蓄"],
+          ["复盘与消费认知", "复盘"],
+          ["特色成长", "特色"],
+          ["个性化探索", "探索"]
+        ];
+        categories.forEach(function (pair) {
+          var key = pair[0];
+          var label = pair[1];
+          var button = document.createElement("button");
+          button.type = "button";
+          button.className = "achievement-filter";
+          button.setAttribute("data-achievement-category", key);
+          if ((state.achievementCategory || "all") === key) button.classList.add("active");
+          button.textContent = label;
+          container.appendChild(button);
+        });
       }
 
       function renderAchievementPage() {
         var saved = loadAchievementData();
         var definitions = getAchievementDefinitions();
         var justUnlocked = checkAchievements();
+        saved = loadAchievementData();
         var justUnlockedMap = {};
         justUnlocked.forEach(function (achievement) {
           justUnlockedMap[achievement.id] = true;
@@ -3501,12 +4832,16 @@
           return;
         }
 
+        renderAchievementLevel();
+        renderChallengeCard();
+        renderTimelineCard();
+
         var unlockedCount = 0;
         var inProgressCount = 0;
         definitions.forEach(function (achievement) {
           if (saved[achievement.id]) {
             unlockedCount += 1;
-          } else if (achievement.target > 0 && achievement.current > 0) {
+          } else if (!achievement.hidden && achievement.target > 0 && achievement.current > 0) {
             inProgressCount += 1;
           }
         });
@@ -3518,96 +4853,144 @@
         if (inProgressElement) inProgressElement.textContent = String(inProgressCount);
         if (rateElement) rateElement.textContent = Math.round((unlockedCount / definitions.length) * 100) + "%";
 
+        var categoryContainer = document.getElementById("achievementCategoryFilters");
+        if (!categoryContainer) {
+          categoryContainer = document.createElement("div");
+          categoryContainer.id = "achievementCategoryFilters";
+          categoryContainer.className = "achievement-filters";
+          categoryContainer.setAttribute("aria-label", "成就类别筛选");
+          list.parentNode.insertBefore(categoryContainer, list);
+        }
+        renderCategoryFilters(categoryContainer);
+
         var filter = state.achievementFilter || "all";
+        var prefs = loadAchievementPrefs();
+        var favoriteIds = Array.isArray(prefs.favorites) ? prefs.favorites : [];
+        var categoryFilter = state.achievementCategory || "all";
         list.textContent = "";
         var fragment = document.createDocumentFragment();
+        var shownCount = 0;
 
         definitions.forEach(function (achievement) {
           var isUnlocked = Boolean(saved[achievement.id]);
-          var isInProgress = !isUnlocked && achievement.target > 0 && achievement.current > 0;
+          var isHidden = Boolean(achievement.hidden);
+          var isInProgress = !isUnlocked && !isHidden && achievement.target > 0 && achievement.current > 0;
           if (filter === "unlocked" && !isUnlocked) return;
           if (filter === "inprogress" && !isInProgress) return;
           if (filter === "locked" && (isUnlocked || isInProgress)) return;
+          if (filter === "favorites" && favoriteIds.indexOf(achievement.id) === -1) return;
+          if (filter === "hidden" && !isHidden) return;
+          if (categoryFilter !== "all" && achievement.category !== categoryFilter) return;
 
           var item = document.createElement("article");
           item.className = "achievement-item" + (isUnlocked ? " unlocked" : "");
+          if (justUnlockedMap[achievement.id]) item.className += " just-unlocked";
           item.setAttribute("data-achievement-id", achievement.id);
           item.setAttribute("tabindex", "0");
           item.setAttribute("role", "button");
           item.setAttribute("aria-expanded", "false");
-          if (justUnlockedMap[achievement.id]) {
-            item.classList.add("just-unlocked");
-          }
+          item.setAttribute("aria-label", achievement.title + "，点击查看详情");
 
           var head = document.createElement("div");
           head.className = "achievement-item-head";
-          var titleBlock = document.createElement("div");
+
           var icon = document.createElement("span");
           icon.className = "achievement-item-icon";
-          icon.textContent = achievement.icon || "🏆";
-          var title = document.createElement("strong");
-          title.className = "achievement-item-title";
-          title.textContent = achievement.title;
-          titleBlock.appendChild(icon);
-          titleBlock.appendChild(title);
+          icon.textContent = isHidden && !isUnlocked ? "❓" : achievement.icon;
+
+          var titleWrap = document.createElement("div");
+          var titleElement = document.createElement("strong");
+          titleElement.className = "achievement-item-title";
+          titleElement.textContent = isHidden && !isUnlocked ? "神秘成就" : achievement.title;
+          titleWrap.appendChild(titleElement);
 
           var status = document.createElement("span");
-          status.className = "badge achievement-item-status " + (isUnlocked ? "unlocked-badge" : (isInProgress ? "in-progress" : "locked"));
+          status.className = "achievement-item-status " + (isUnlocked ? "unlocked-badge" : (isInProgress ? "in-progress" : "locked"));
           status.textContent = isUnlocked ? "已解锁" : (isInProgress ? "进行中" : "未解锁");
-          head.appendChild(titleBlock);
-          head.appendChild(status);
+          titleWrap.appendChild(status);
+          head.appendChild(icon);
+          head.appendChild(titleWrap);
 
-          var desc = document.createElement("p");
-          desc.className = "achievement-item-desc";
-          desc.textContent = achievement.desc;
+          if (isUnlocked) {
+            var favoriteButton = document.createElement("button");
+            favoriteButton.type = "button";
+            favoriteButton.className = "ach-favorite" + (favoriteIds.indexOf(achievement.id) > -1 ? " on" : "");
+            favoriteButton.setAttribute("data-achievement-favorite", achievement.id);
+            favoriteButton.title = "收藏徽章（最多 3 个）";
+            favoriteButton.textContent = favoriteIds.indexOf(achievement.id) > -1 ? "⭐" : "☆";
+            head.appendChild(favoriteButton);
+          }
+          item.appendChild(head);
 
           var meta = document.createElement("div");
           meta.className = "achievement-item-meta";
-          var progress = document.createElement("span");
-          var percent = achievement.target > 0
-            ? Math.max(0, Math.min(100, Math.round((achievement.current / achievement.target) * 100)))
-            : 0;
-          progress.textContent = achievement.current + " / " + achievement.target + "（" + percent + "%）";
-          var time = document.createElement("span");
-          if (isUnlocked && saved[achievement.id] && saved[achievement.id].unlockedAt) {
-            time.textContent = "解锁于 " + new Date(saved[achievement.id].unlockedAt).toLocaleDateString("zh-CN");
-          } else if (isInProgress) {
-            time.textContent = "继续努力";
-          } else {
-            time.textContent = "尚未开始";
-          }
-          meta.appendChild(progress);
-          meta.appendChild(time);
+          meta.innerHTML =
+            '<span class="ach-category-tag">' + achievement.category + "</span>" +
+            (achievement.chain ? '<span class="ach-chain-tag">' + achievement.chain + " Lv." + achievement.tier + "</span>" : "") +
+            (achievement.xp ? '<span class="ach-xp-tag">+' + achievement.xp + " 经验</span>" : "") +
+            (isHidden ? '<span class="ach-chain-tag">隐藏</span>' : "");
+          item.appendChild(meta);
 
-          var bar = document.createElement("div");
-          bar.className = "achievement-mini-progress";
-          var fill = document.createElement("span");
-          fill.style.width = percent + "%";
-          bar.appendChild(fill);
+          if (isHidden && !isUnlocked) {
+            var hint = document.createElement("p");
+            hint.className = "ach-hidden-hint";
+            hint.textContent = achievement.hint || "某项长期目标正在悄悄成长";
+            item.appendChild(hint);
+          } else {
+            var desc = document.createElement("p");
+            desc.className = "achievement-item-desc";
+            desc.textContent = achievement.desc;
+            item.appendChild(desc);
+          }
+
+          if (isInProgress || (isUnlocked && achievement.target > 1)) {
+            var progressRow = document.createElement("div");
+            progressRow.className = "achievement-item-meta";
+            var percent = Math.round((achievement.current / achievement.target) * 100);
+            progressRow.innerHTML = "<span>当前进度 " + achievement.current + " / " + achievement.target + "</span><span>" + percent + "%</span>";
+            item.appendChild(progressRow);
+            var mini = document.createElement("div");
+            mini.className = "achievement-mini-progress";
+            var progressFill = document.createElement("span");
+            progressFill.style.width = Math.max(0, Math.min(100, percent)) + "%";
+            mini.appendChild(progressFill);
+            item.appendChild(mini);
+          }
 
           var detail = document.createElement("div");
           detail.className = "achievement-item-detail";
-          detail.textContent = "达成条件：" + achievement.desc + "；当前进度：" + achievement.current + " / " + achievement.target + "（" + percent + "%）。";
-
-          item.appendChild(head);
-          item.appendChild(desc);
-          item.appendChild(meta);
-          item.appendChild(bar);
+          if (isUnlocked) {
+            detail.innerHTML =
+              "<p>条件：" + achievement.desc + "</p>" +
+              "<p>类别：" + achievement.category + (achievement.chain ? " · " + achievement.chain + " Lv." + achievement.tier : "") + (achievement.chain ? "" : "") + "</p>" +
+              "<p>经验奖励：+" + achievement.xp + "</p>" +
+              "<p>解锁时间：" + formatBackupTime(saved[achievement.id].unlockedAt) + "</p>" +
+              (isHidden ? "<p>隐藏成就：解锁后展示完整条件。</p>" : "");
+          } else if (isHidden) {
+            detail.innerHTML = "<p>" + (achievement.hint || "某项长期目标正在悄悄成长") + "</p>";
+          } else {
+            detail.innerHTML =
+              "<p>解锁条件：" + achievement.desc + "</p>" +
+              "<p>还需完成：" + Math.max(0, achievement.target - achievement.current) + "（当前 " + achievement.current + " / " + achievement.target + "）</p>";
+          }
           item.appendChild(detail);
+
           fragment.appendChild(item);
+          shownCount += 1;
         });
 
-        if (fragment.childElementCount === 0) {
+        if (shownCount === 0) {
           var empty = document.createElement("p");
           empty.className = "empty-records";
-          empty.textContent = "该分类下暂无成就";
+          empty.textContent = "该筛选下暂无成就";
           fragment.appendChild(empty);
         }
 
         list.appendChild(fragment);
 
-        // 首次解锁的卡片播放一次轻量高亮动画，之后不会重复播放。
-        if (justUnlocked.length > 0) {
+        // 首次解锁的卡片播放一次轻量高亮动画（可关闭），之后不会重复播放。
+        var prefsForAnimation = loadAchievementPrefs();
+        if (justUnlocked.length > 0 && prefsForAnimation.animations) {
           window.setTimeout(function () {
             Array.prototype.slice.call(list.querySelectorAll(".achievement-item.just-unlocked")).forEach(function (item) {
               item.classList.remove("just-unlocked");
@@ -3616,23 +4999,32 @@
         }
       }
 
-      /* ---------- 月度复盘 ---------- */
+      /* ---------- 月度与周度复盘 ---------- */
       function renderReviewEntry() {
         var button = document.getElementById("openReviewButton");
+        var weekButton = document.getElementById("openWeekReviewButton");
         var tip = document.getElementById("reviewEntryTip");
-        if (!button) {
-          return;
-        }
         var monthKey = toMonthKey(new Date());
         var reviewed = getReviewHistory().some(function (review) {
           return review && review.month === monthKey;
         });
-        button.textContent = reviewed ? "✅ 本月已复盘" : "📋 完成本月复盘";
-        button.disabled = reviewed;
+        var weekReviewed = hasWeekReview();
+        if (button) {
+          button.textContent = reviewed ? "✅ 本月已复盘" : "📋 月复盘";
+          button.disabled = reviewed;
+        }
+        if (weekButton) {
+          weekButton.textContent = weekReviewed ? "✅ 本周已复盘" : "📅 周复盘";
+          weekButton.disabled = weekReviewed;
+        }
         if (tip) {
-          tip.textContent = reviewed
-            ? "本月复盘已完成，下月可再次复盘。"
-            : "每月完成一次消费复盘，掌握消费结构并解锁成就。";
+          tip.textContent = reviewed && weekReviewed
+            ? "本周与本月复盘均已完成，下个周期可再次复盘。"
+            : reviewed
+              ? "本月复盘已完成，还可完成本周复盘。"
+              : weekReviewed
+                ? "本周复盘已完成，还可完成本月复盘。"
+                : "每月完成一次消费复盘，掌握消费结构并解锁成就。";
         }
       }
 
@@ -3672,17 +5064,74 @@
           history.push({ month: monthKey, reviewedAt: new Date().toISOString() });
           saveReviewHistory(history);
           showToast("本月复盘已完成");
+          pushTimeline("first_review", "复盘", "完成第一次消费复盘");
         } else {
           showToast("本月已完成复盘");
         }
         document.getElementById("reviewModal").hidden = true;
         renderReviewEntry();
+        processAchievements();
         renderAchievementHome();
         renderAchievementPage();
       }
 
       function closeReviewModal() {
         document.getElementById("reviewModal").hidden = true;
+      }
+
+      function getWeekReviewData() {
+        var weekKey = getChallengeWeekKey();
+        var weekStart = dateFromKey(weekKey);
+        var weekEnd = new Date(weekStart.getFullYear(), weekStart.getMonth(), weekStart.getDate() + 6);
+        var weekEndKey = toDateKey(weekEnd);
+        var weekExpenses = state.expenses.filter(function (item) {
+          return item.date >= weekKey && item.date <= weekEndKey;
+        });
+        return {
+          weekExpenses: weekExpenses,
+          weekSpent: sumExpenses(weekExpenses),
+          dailyBudget: Number(state.settings.dailyDining) || 0,
+          weekKey: weekKey
+        };
+      }
+
+      function openWeekReviewModal() {
+        if (hasWeekReview()) {
+          showToast("本周已完成复盘");
+          return;
+        }
+        var data = getWeekReviewData();
+        var weekStart = dateFromKey(data.weekKey);
+        var label = (weekStart.getMonth() + 1) + " 月 " + weekStart.getDate() + " 日起的本周";
+        document.getElementById("weekReviewLabel").textContent = label + "消费复盘";
+        var expected = data.dailyBudget * 7;
+        document.getElementById("weekReviewSummary").innerHTML =
+          "<div><span>本周支出</span><strong>¥" + formatMoney(data.weekSpent) + "</strong></div>" +
+          "<div><span>记账笔数</span><strong>" + data.weekExpenses.length + " 笔</strong></div>" +
+          "<div><span>餐饮基准</span><strong>¥" + formatMoney(expected) + "</strong></div>" +
+          "<div><span>日均消费</span><strong>¥" + formatMoney(roundMoney(data.weekSpent / 7)) + "</strong></div>";
+        document.getElementById("weekReviewModal").hidden = false;
+      }
+
+      function confirmWeekReview() {
+        var history = getReviewHistory();
+        if (!hasWeekReview()) {
+          history.push({ week: getChallengeWeekKey(), reviewedAt: new Date().toISOString() });
+          saveReviewHistory(history);
+          showToast("本周复盘已完成");
+          pushTimeline("first_review", "复盘", "完成第一次消费复盘");
+        } else {
+          showToast("本周已完成复盘");
+        }
+        document.getElementById("weekReviewModal").hidden = true;
+        renderReviewEntry();
+        processAchievements();
+        renderAchievementHome();
+        renderAchievementPage();
+      }
+
+      function closeWeekReviewModal() {
+        document.getElementById("weekReviewModal").hidden = true;
       }
 
       var ACHIEVEMENT_ID_MIGRATION = {
@@ -3902,6 +5351,10 @@
         document.querySelectorAll("[data-theme]").forEach(function (button) {
           button.classList.toggle("active", button.getAttribute("data-theme") === theme);
         });
+        // 主题切换后重绘统计图表，保持图表与主题一致。
+        if (elements.statsPage && elements.statsPage.classList.contains("active")) {
+          renderStats();
+        }
       }
 
       function loadThemeSetting() {
@@ -3921,6 +5374,8 @@
           // 主题保存失败时不阻断使用。
         }
         applyTheme(theme);
+        recordEvent("personalize", "theme");
+        processAchievements();
       }
 
       function shouldAskSatisfaction(expense) {
@@ -4115,6 +5570,10 @@
           // 文件名已生成，时间记录失败不阻断。
         }
         renderLastBackupTime();
+        recordEvent("backup_export", exportedAt);
+        pushTimeline("first_backup", "数据", "完成第一次数据备份");
+        processAchievements();
+        renderAchievementHome();
         showToast("备份文件已生成");
       }
 
@@ -4285,6 +5744,7 @@
         var history = getBudgetHistory();
         history.push({ time: new Date().toISOString(), key: key, label: suggestion.label, before: suggestion.current, after: suggestion.suggested, reason: suggestion.reason });
         saveBudgetHistory(history);
+        pushTimeline("first_budget", "预算", "完成预算规划");
         render(); renderBudgetAssistant(); showToast(suggestion.label + "已调整为 ¥" + formatMoney(suggestion.suggested));
       }
       function applyAllBudgetSuggestions() {
@@ -4696,6 +6156,13 @@
         elements.categoryRanking.appendChild(fragment);
       }
 
+      function getChartThemeColors() {
+        if (document.documentElement.getAttribute("data-theme") === "dark") {
+          return { emptyFill: "#1b2732", emptyText: "#a7b6c0", stroke: "#101820", text: "#a7b6c0", grid: "#25364a" };
+        }
+        return { emptyFill: "#e5e7eb", emptyText: "#667085", stroke: "#ffffff", text: "#344054", grid: "#e5e7eb" };
+      }
+
       function prepareCanvas(canvas, height) {
         var width = Math.max(240, canvas.parentElement.clientWidth || 0);
         var pixelRatio = window.devicePixelRatio || 1;
@@ -4720,12 +6187,13 @@
         var chart = prepareCanvas(canvas, 230);
         var context = chart.context;
 
+        var chartTheme = getChartThemeColors();
         if (categoryData.length === 0) {
-          context.fillStyle = "#e5e7eb";
+          context.fillStyle = chartTheme.emptyFill;
           context.beginPath();
           context.arc(chart.width / 2, chart.height / 2, 72, 0, Math.PI * 2);
           context.fill();
-          context.fillStyle = "#667085";
+          context.fillStyle = chartTheme.emptyText;
           context.font = "14px sans-serif";
           context.textAlign = "center";
           context.textBaseline = "middle";
@@ -4750,7 +6218,7 @@
           context.fillStyle = CHART_COLORS[index % CHART_COLORS.length];
           context.fill();
           context.lineWidth = 2;
-          context.strokeStyle = "#ffffff";
+          context.strokeStyle = chartTheme.stroke;
           context.stroke();
           startAngle += sliceAngle;
         });
@@ -4760,9 +6228,10 @@
         var chartHeight = Math.max(230, categoryData.length * 24 + 20);
         var chart = prepareCanvas(canvas, chartHeight);
         var context = chart.context;
+        var chartTheme = getChartThemeColors();
 
         if (categoryData.length === 0) {
-          context.fillStyle = "#667085";
+          context.fillStyle = chartTheme.emptyText;
           context.font = "14px sans-serif";
           context.textAlign = "center";
           context.textBaseline = "middle";
@@ -4784,19 +6253,19 @@
           var barY = centerY - 5;
           var barWidth = maximum > 0 ? chartWidth * (item.amount / maximum) : 0;
 
-          context.fillStyle = "#344054";
+          context.fillStyle = chartTheme.text;
           context.font = "12px sans-serif";
           context.textAlign = "left";
           context.textBaseline = "middle";
           context.fillText(item.category, 0, centerY);
 
-          context.fillStyle = "#e5e7eb";
+          context.fillStyle = chartTheme.grid;
           context.fillRect(chartLeft, barY, chartWidth, 10);
 
           context.fillStyle = CHART_COLORS[index % CHART_COLORS.length];
           context.fillRect(chartLeft, barY, barWidth, 10);
 
-          context.fillStyle = "#344054";
+          context.fillStyle = chartTheme.text;
           context.textAlign = "right";
           context.fillText("¥" + formatMoney(item.amount), chart.width, centerY);
         });
@@ -4917,6 +6386,8 @@
         });
 
         if (pageId === "statsPage") {
+          recordEvent("view_stats", toMonthKey(new Date()));
+          processAchievements();
           renderStats();
           renderReviewEntry();
         } else if (pageId === "recordPage") {
@@ -4928,6 +6399,8 @@
         } else if (pageId === "budgetPage") {
           renderBudgetInputs();
         } else if (pageId === "budgetAssistantPage") {
+          recordEvent("view_budget_assistant", toMonthKey(new Date()));
+          processAchievements();
           renderBudgetAssistant();
         }
         if (pageId === "achievementPage") {
@@ -5054,9 +6527,12 @@
 
         var row = event.target.closest(".record-item");
         if (row && row.getAttribute("data-record-id")) {
+          recordEvent("open_detail", "tap");
+          processAchievements();
           openExpenseDetail(row.getAttribute("data-record-id"));
         }
       }
+
 
       /* ---------- 预算事件：输入有效值后自动保存 ---------- */
       function getBudgetInputValue(input) {
@@ -5106,10 +6582,46 @@
           return;
         }
 
+        var before = state.settings[settingKey];
         state.settings[settingKey] = value;
         saveBudgetSettings();
+
+        var startValue = state.budgetEditStart && state.budgetEditStart[settingKey];
+        if (startValue !== undefined && Number.isFinite(Number(startValue)) && Number(startValue) !== Number(value)) {
+          var history = getBudgetHistory();
+          history.push({
+            time: new Date().toISOString(),
+            key: settingKey,
+            label: getBudgetSettingLabel(settingKey),
+            before: Number(startValue),
+            after: Number(value),
+            reason: "手动调整"
+          });
+          saveBudgetHistory(history);
+          if (settingKey === "savings") {
+            recordSavingsChange(Number(startValue), Number(value));
+          }
+          if (Number(value) > 0) {
+            pushTimeline("first_budget", "预算", "完成预算规划");
+          }
+        }
         render();
         showToast("预算已自动保存");
+      }
+
+      function getBudgetSettingLabel(key) {
+        var labels = {
+          living: "月生活费",
+          savings: "储蓄目标",
+          study: "学习成长预算",
+          fixed: "固定支出预算",
+          entertainment: "娱乐消费预算",
+          unexpected: "应急支出预算",
+          nonmeal: "非正餐预算",
+          dailyDining: "每日餐饮预算",
+          emergencyReserve: "应急储备目标"
+        };
+        return labels[key] || key;
       }
 
       /* ---------- PWA：注册独立 Service Worker ---------- */
@@ -5226,13 +6738,133 @@
 
       if (elements.achievementList) {
         elements.achievementList.addEventListener("click", function (event) {
+          var favoriteButton = event.target.closest("[data-achievement-favorite]");
+          if (favoriteButton) {
+            var achievementId = favoriteButton.getAttribute("data-achievement-favorite");
+            var savedData = loadAchievementData();
+            if (!savedData[achievementId]) {
+              return;
+            }
+            var prefsData = loadAchievementPrefs();
+            var favoriteIndex = prefsData.favorites.indexOf(achievementId);
+            if (favoriteIndex > -1) {
+              prefsData.favorites.splice(favoriteIndex, 1);
+              showToast("已取消收藏");
+            } else {
+              if (prefsData.favorites.length >= 3) {
+                showToast("最多收藏 3 个徽章");
+                return;
+              }
+              prefsData.favorites.push(achievementId);
+              recordEvent("personalize", "favorites");
+              showToast("已加入收藏展示");
+            }
+            saveAchievementPrefs(prefsData);
+            processAchievements();
+            renderAchievementPage();
+            renderAchievementHome();
+            return;
+          }
+
           var item = event.target.closest(".achievement-item");
           if (!item) {
             return;
           }
           var isOpen = item.classList.toggle("detail-open");
           item.setAttribute("aria-expanded", isOpen ? "true" : "false");
+          if (isOpen) {
+            recordEvent("detail_open", "tap");
+            processAchievements();
+          }
         });
+      }
+
+      var achievementChallengeCard = document.getElementById("achievementChallengeCard");
+      if (achievementChallengeCard) {
+        achievementChallengeCard.addEventListener("click", function (event) {
+          var pickButton = event.target.closest("[data-challenge-pick]");
+          if (pickButton) {
+            var challengeData = ensureChallenges();
+            challengeData.pickedId = pickButton.getAttribute("data-challenge-pick");
+            saveChallenges(challengeData);
+            renderChallengeCard();
+            showToast("本周挑战已选定");
+            processAchievements();
+            return;
+          }
+          var swapButton = event.target.closest("#challengeSwapButton");
+          if (swapButton) {
+            var swapData = ensureChallenges();
+            swapData.pickedId = null;
+            swapData.swappedAt = new Date().toISOString();
+            saveChallenges(swapData);
+            renderChallengeCard();
+            showToast("已更换挑战，请重新选择");
+            return;
+          }
+          var toggleButton = event.target.closest("#challengeToggleButton");
+          if (toggleButton) {
+            var prefsData = loadAchievementPrefs();
+            prefsData.challengesEnabled = !prefsData.challengesEnabled;
+            saveAchievementPrefs(prefsData);
+            if (!prefsData.challengesEnabled) recordEvent("personalize", "challenges");
+            processAchievements();
+            renderAchievementPage();
+          }
+        });
+      }
+
+      var achievementTimelineCard = document.getElementById("achievementTimelineCard");
+      if (achievementTimelineCard) {
+        achievementTimelineCard.addEventListener("click", function (event) {
+          var toggleButton = event.target.closest("#timelineToggleButton");
+          if (toggleButton) {
+            var panel = document.getElementById("timelinePanel");
+            if (panel) {
+              panel.hidden = !panel.hidden;
+              toggleButton.textContent = panel.hidden ? "展开" : "收起";
+            }
+            return;
+          }
+          var saveButton = event.target.closest("#summarySaveButton");
+          if (saveButton) {
+            var input = document.getElementById("summaryInput");
+            var text = input ? input.value.trim() : "";
+            if (text.length < 2) {
+              showToast("总结内容至少 2 个字");
+              return;
+            }
+            saveSummaryData(text);
+            recordEvent("personalize", "summary");
+            processAchievements();
+            showToast("总结已保存");
+            renderTimelineCard();
+          }
+        });
+      }
+
+      var achievementPageElement = document.getElementById("achievementPage");
+      if (achievementPageElement) {
+        achievementPageElement.addEventListener("click", function (event) {
+          var categoryButton = event.target.closest("[data-achievement-category]");
+          if (categoryButton) {
+            state.achievementCategory = categoryButton.getAttribute("data-achievement-category");
+            renderAchievementPage();
+          }
+        });
+      }
+
+      var openWeekReviewButton = document.getElementById("openWeekReviewButton");
+      if (openWeekReviewButton) {
+        openWeekReviewButton.addEventListener("click", openWeekReviewModal);
+      }
+      var weekReviewCancel = document.getElementById("weekReviewCancel");
+      var weekReviewConfirm = document.getElementById("weekReviewConfirm");
+      if (weekReviewCancel) {
+        weekReviewCancel.addEventListener("click", closeWeekReviewModal);
+      }
+      if (weekReviewConfirm) {
+        weekReviewConfirm.addEventListener("click", confirmWeekReview);
       }
 
       var exportBackupButton = document.getElementById("exportBackupButton");
@@ -5338,6 +6970,12 @@
       elements.budgetInputs.forEach(function (input) {
         input.addEventListener("input", handleBudgetInput);
         input.addEventListener("change", handleBudgetChange);
+        input.addEventListener("focus", function () {
+          var settingKey = input.getAttribute("data-setting");
+          if (!settingKey) return;
+          if (!state.budgetEditStart) state.budgetEditStart = {};
+          state.budgetEditStart[settingKey] = Number(state.settings[settingKey]);
+        });
       });
 
       elements.navButtons.forEach(function (button) {
