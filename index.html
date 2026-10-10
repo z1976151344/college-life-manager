@@ -1452,6 +1452,9 @@
     html[data-theme="dark"] body {
       background: var(--page);
       color: var(--text);
+      /* V6.10: smoother font rendering in dark mode */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     /* 深色主题：输入、按钮与弹窗统一为品牌深色系 */
@@ -2329,12 +2332,25 @@
       padding: 2px;
       border: 0;
       background: transparent;
+      /* V6.10: explicit text color to avoid UA black star on dark cards */
+      color: var(--muted);
       font-size: 18px;
       cursor: pointer;
       opacity: 0.55;
     }
 
     .ach-favorite.on {
+      color: #d97706;
+      opacity: 1;
+    }
+
+    html[data-theme="dark"] .ach-favorite {
+      color: var(--muted);
+      opacity: 0.75;
+    }
+
+    html[data-theme="dark"] .ach-favorite.on {
+      color: #fcd34d;
       opacity: 1;
     }
 
@@ -7146,9 +7162,19 @@
       // 动画开始条件：稳定停留时间到，且首页首屏渲染已完成（避免空壳显现）。
       var splashStableReached = false;
       var splashExitStarted = false;
+      // V6.10: wait for the logo image decode before exit to avoid pop-in.
+      var splashImageReady = false;
+
+      function markSplashImageReady() {
+        if (splashImageReady) {
+          return;
+        }
+        splashImageReady = true;
+        maybeStartSplashExit();
+      }
 
       function maybeStartSplashExit() {
-        if (splashExitStarted || !homeRendered || !splashStableReached) {
+        if (splashExitStarted || !homeRendered || !splashStableReached || !splashImageReady) {
           return;
         }
         splashExitStarted = true;
@@ -7184,7 +7210,7 @@
           if (splash && splash.parentNode) {
             splash.parentNode.removeChild(splash);
           }
-        }, SPLASH_CONFIG.shrinkMs + 240);
+        }, Math.max(SPLASH_CONFIG.shrinkMs, SPLASH_CONFIG.fadeMs) + 80);
       }
 
       // 系统开启减少动态效果时，不播放过渡，直接移除启动层。
@@ -7194,6 +7220,14 @@
           splashFast.parentNode.removeChild(splashFast);
         }
       } else {
+        // V6.10: mark ready once the splash logo is actually decoded.
+        var splashImage = document.getElementById("splashLogo");
+        if (splashImage && typeof splashImage.decode === "function" && !(splashImage.complete && splashImage.naturalWidth > 0)) {
+          splashImage.decode().then(markSplashImageReady).catch(markSplashImageReady);
+        } else {
+          markSplashImageReady();
+        }
+        window.setTimeout(markSplashImageReady, 1500);
         window.setTimeout(function () {
           splashStableReached = true;
           maybeStartSplashExit();
