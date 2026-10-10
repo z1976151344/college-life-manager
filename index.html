@@ -1225,7 +1225,14 @@
       font-weight: 700;
       line-height: 1.55;
       box-shadow: 0 14px 35px rgba(15, 23, 42, 0.18);
-      /* V6.8：无过渡动画，静态显示/隐藏 */
+      animation: achievementPop 2s ease;
+    }
+
+    @keyframes achievementPop {
+      0% { opacity: 0; transform: translateY(-12px) scale(0.96); }
+      20% { opacity: 1; transform: translateY(0) scale(1); }
+      80% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-8px) scale(0.98); }
     }
 
     html[data-theme="dark"] .monthly-keyword {
@@ -1805,6 +1812,11 @@
     .achievement-item {
       position: relative;
       cursor: pointer;
+      transition: border-color 160ms ease, background 160ms ease;
+    }
+
+    .achievement-item:active {
+      transform: scale(0.995);
     }
 
     .achievement-item-icon {
@@ -1841,10 +1853,22 @@
     .achievement-item.just-unlocked {
       border-color: #fbbf24;
       background: #fffbeb;
+      animation: achievementFlash 900ms ease;
+    }
+
+    @keyframes achievementFlash {
+      0% { background: #fef3c7; }
+      100% { background: #fffbeb; }
     }
 
     .achievement-item.just-unlocked .achievement-item-icon {
-      /* V6.8：无过渡动画 */
+      animation: achievementIconPop 500ms ease;
+    }
+
+    @keyframes achievementIconPop {
+      0% { transform: scale(0.8); opacity: 0.4; }
+      60% { transform: scale(1.12); }
+      100% { transform: scale(1); opacity: 1; }
     }
 
     .achievement-item-detail {
@@ -1919,7 +1943,14 @@
     }
 
     /* ---------- V6.0 成就成长系统：等级、挑战、时间线与收藏展示 ---------- */
-    /* V6.8：无页面切换过渡动画，页面直接切换。 */
+    .page.active:not(#homePage) {
+      animation: pageFadeIn 240ms ease;
+    }
+
+    @keyframes pageFadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
     .review-actions {
       display: flex;
@@ -1971,6 +2002,7 @@
       height: 100%;
       border-radius: 999px;
       background: linear-gradient(90deg, #42d6e8, #32d6a0);
+      transition: width 300ms ease;
       width: 0;
     }
 
