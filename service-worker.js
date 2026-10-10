@@ -2,12 +2,13 @@
 /* 大学生生活费管家 Service Worker
  * 作用：缓存应用文件，支持离线打开和自动更新缓存。
  */
-var CACHE_NAME = "college-life-manager-v27";
+var CACHE_NAME = "college-life-manager-v28";
 var APP_SHELL = [
   "./index.html",
   "./manifest.json",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
+  "./icons/icon-splash-512.png",
   "./icons/icon-maskable-512.png",
   "./icons/apple-touch-icon.png"
 ];

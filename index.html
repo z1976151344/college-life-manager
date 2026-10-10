@@ -1747,8 +1747,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      /* V6.11：与正式图标背景色（约 #141e27）匹配，消除图标块边缘与启动背景的色差割裂 */
-      background: #141e27;
+      /* V7.1：统一基准 #101820 —— 与主题页/主页/系统启动屏同色；图标底图已由
+       * icon-splash-512.png（透明圆角+背景拍平）承载，方框区域与展开背景无色差。 */
+      background: #101820;
       /* V6.9：预提合成层，动画首帧即稳定（跟随设备刷新率 60/90/120Hz） */
       will-change: opacity;
     }
@@ -2485,7 +2486,8 @@
         <span class="splash-frame" data-frame="2"></span>
         <span class="splash-frame" data-frame="3"></span>
         <span class="splash-frame" data-frame="4"></span>
-        <img class="splash-logo" id="splashLogo" src="./icons/icon-512.png" width="96" height="96" alt="">
+        <!-- V7.1：使用透明圆角适配资源（icons/icon-splash-512.png），背景拍平为 #101820 与启动/主页统一 -->
+      <img class="splash-logo" id="splashLogo" src="./icons/icon-splash-512.png" width="96" height="96" alt="">
       </div>
     </div>
   </div>
