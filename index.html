@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#2563eb">
+  <meta name="theme-color" content="#101820">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -1756,9 +1756,18 @@
 
     .splash-screen.splash-hide {
       opacity: 0;
-      transition: opacity 240ms ease;
+      transition: opacity 260ms ease 160ms;
       pointer-events: none;
     }
+
+    .splash-screen.splash-hide .splash-content {
+      opacity: 0;
+      transform: scale(0.965);
+      transition: opacity 200ms ease-in, transform 200ms ease-in;
+    }
+
+    /* V6.2：首页浮现使用 JS 内联 transition（见启动逻辑），
+     * 避免 CSS 类动画与 .page.active 切换动画冲突导致二次淡入。 */
 
     @keyframes splashLogoIn {
       0% { opacity: 0; transform: scale(0.92); }
@@ -7050,13 +7059,33 @@
           if (splash) {
             splash.classList.add("splash-hide");
           }
+          // V6.2：首页以低透明度+轻位移浮现，与 Logo 退出重叠。
+          // 使用内联 transition 而非 CSS 类动画，避免切换回 .page.active 动画时二次淡入。
+          // 起始状态先渲染一帧（双 rAF），确保 Chrome 记录过渡起点。
+          var home = document.getElementById("homePage");
+          if (home) {
+            home.style.opacity = "0.25";
+            home.style.transform = "translateY(10px)";
+            window.requestAnimationFrame(function () {
+              window.requestAnimationFrame(function () {
+                home.style.transition = "opacity 320ms ease-out 140ms, transform 320ms ease-out 140ms";
+                home.style.opacity = "1";
+                home.style.transform = "translateY(0)";
+              });
+            });
+            window.setTimeout(function () {
+              home.style.transition = "";
+              home.style.opacity = "";
+              home.style.transform = "";
+            }, SPLASH_CONFIG.showMs + 620);
+          }
         }, SPLASH_CONFIG.showMs);
         window.setTimeout(function () {
           var splash = document.getElementById("splashScreen");
           if (splash && splash.parentNode) {
             splash.parentNode.removeChild(splash);
           }
-        }, SPLASH_CONFIG.showMs + SPLASH_CONFIG.fadeMs + 80);
+        }, SPLASH_CONFIG.showMs + SPLASH_CONFIG.fadeMs + 300);
       }
     })();
   </script>
