@@ -1747,7 +1747,7 @@
 
     .splash-screen.splash-hide {
       opacity: 0;
-      transition: opacity 240ms cubic-bezier(0.4, 0, 0.2, 1) 140ms;
+      transition: opacity 240ms cubic-bezier(0.4, 0, 0.2, 1) 120ms;
       pointer-events: none;
     }
 
@@ -3258,7 +3258,7 @@
 
       /* ---------- 启动过渡动画配置：替换正式图标时只需改 HTML/CSS 占位内容与此处时长 ---------- */
       var SPLASH_CONFIG = {
-        showMs: 460,
+        showMs: 420,
         fadeMs: 240
       };
 
@@ -7050,11 +7050,11 @@
           // 起始状态先渲染一帧（双 rAF），确保 Chrome 记录过渡起点。
           var home = document.getElementById("homePage");
           if (home) {
-            home.style.opacity = "0.3";
-            home.style.transform = "translateY(14px) scale(0.985)";
+            home.style.opacity = "0.4";
+            home.style.transform = "translateY(10px) scale(0.985)";
             window.requestAnimationFrame(function () {
               window.requestAnimationFrame(function () {
-                home.style.transition = "opacity 300ms cubic-bezier(0.22, 1, 0.36, 1) 140ms, transform 300ms cubic-bezier(0.22, 1, 0.36, 1) 140ms";
+                home.style.transition = "opacity 300ms cubic-bezier(0.22, 1, 0.36, 1) 120ms, transform 300ms cubic-bezier(0.22, 1, 0.36, 1) 120ms";
                 home.style.opacity = "1";
                 home.style.transform = "translateY(0) scale(1)";
               });
@@ -7063,7 +7063,7 @@
               home.style.transition = "";
               home.style.opacity = "";
               home.style.transform = "";
-            }, SPLASH_CONFIG.showMs + 560);
+            }, SPLASH_CONFIG.showMs + 480);
           }
         }, SPLASH_CONFIG.showMs);
         window.setTimeout(function () {
