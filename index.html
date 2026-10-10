@@ -1747,8 +1747,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      /* 固定深海军蓝，与图标主视觉一致，不随浅色主题变化 */
-      background: #101820;
+      /* V6.11：与正式图标背景色（约 #141e27）匹配，消除图标块边缘与启动背景的色差割裂 */
+      background: #141e27;
       /* V6.9：预提合成层，动画首帧即稳定（跟随设备刷新率 60/90/120Hz） */
       will-change: opacity;
     }
@@ -1873,6 +1873,17 @@
       vertical-align: -9px;
     }
 
+    .achievement-item-status {
+      flex-shrink: 0;
+      padding: 3px 8px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.4;
+      white-space: nowrap;
+    }
+
     .achievement-item-status.in-progress {
       border-color: #fbbf24;
       background: #fffbeb;
@@ -1886,9 +1897,9 @@
     }
 
     .achievement-item-status.unlocked-badge {
-      border-color: #86efac;
-      background: #f0fdf4;
-      color: #166534;
+      border-color: #6ee7b7;
+      background: #ecfdf5;
+      color: #15803d;
     }
 
     html[data-theme="dark"] .achievement-item-status.in-progress {
@@ -1898,9 +1909,11 @@
     }
 
     html[data-theme="dark"] .achievement-item-status.unlocked-badge {
-      border-color: rgba(50, 214, 160, 0.4);
-      background: rgba(50, 214, 160, 0.12);
-      color: #6ee7b7;
+      border-color: rgba(50, 214, 160, 0.45);
+      background: rgba(50, 214, 160, 0.14);
+      color: #7fe8c6;
+      /* 轻微光晕：突出已解锁状态，区别于普通文字标签 */
+      box-shadow: 0 0 0 3px rgba(50, 214, 160, 0.08);
     }
 
     .achievement-item.just-unlocked {
@@ -7177,40 +7190,94 @@
         if (splashExitStarted || !homeRendered || !splashStableReached || !splashImageReady) {
           return;
         }
+        startSplashExit();
+      }
+
+      // V6.11：统一插帧时间轴 —— 图标缩放/淡出、启动层淡出与首页显现由同一帧循环
+      // 驱动，所有属性逐帧插值且相位一致：即使某帧被丢弃，各元素仍保持同步，
+      // 消除阶段错位造成的边缘割裂感；结束后同帧释放启动层。
+      function startSplashExit() {
         splashExitStarted = true;
         var splash = document.getElementById("splashScreen");
-        if (splash) {
-          splash.classList.add("splash-exit");
-        }
+        var logo = document.getElementById("splashLogo");
         var home = document.getElementById("homePage");
+        if (!splash || !logo) {
+          finishSplash();
+          return;
+        }
+        // 动画期间禁止点击穿透遮罩。
+        splash.style.pointerEvents = "none";
         if (home) {
-          // 首页以低透明度+轻微位移起始，与图标缩小同步显现（内联 transition，
-          // 不参与 .page.active 的 pageFadeIn，避免二次淡入）。
+          // 首页以低透明度+轻微位移起始，与图标缩小同步显现（不参与 .page.active 淡入）。
           home.style.opacity = "0.25";
           home.style.transform = "translateY(12px)";
           // V6.9：动画期间提升为合成层，避免首页整层在动画帧中反复光栅化。
           home.style.willChange = "transform, opacity";
-          window.requestAnimationFrame(function () {
-            window.requestAnimationFrame(function () {
-              home.style.transition = "opacity " + SPLASH_CONFIG.uiMs + "ms cubic-bezier(0.22, 1, 0.36, 1), transform " + SPLASH_CONFIG.uiMs + "ms cubic-bezier(0.22, 1, 0.36, 1)";
-              home.style.opacity = "1";
-              home.style.transform = "translateY(0)";
-            });
-          });
-          window.setTimeout(function () {
+        }
+        // 极旧环境兜底：退回 CSS 过渡实现（保留原有 .splash-exit 类动画）。
+        if (typeof window.requestAnimationFrame !== "function") {
+          splash.classList.add("splash-exit");
+          window.setTimeout(finishSplash, Math.max(SPLASH_CONFIG.shrinkMs, SPLASH_CONFIG.fadeMs) + 80);
+          return;
+        }
+        var totalMs = SPLASH_CONFIG.shrinkMs;
+        var startTime = null;
+
+        function easeInOut(t) {
+          return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        }
+
+        function easeOut(t) {
+          return 1 - Math.pow(1 - t, 3);
+        }
+
+        function finishSplash() {
+          if (finishSplash.done) {
+            return;
+          }
+          finishSplash.done = true;
+          if (logo) {
+            logo.style.transform = "";
+            logo.style.opacity = "";
+          }
+          if (splash && splash.parentNode) {
+            splash.parentNode.removeChild(splash);
+          }
+          if (home) {
             home.style.transition = "";
             home.style.opacity = "";
             home.style.transform = "";
             home.style.willChange = "";
-          }, SPLASH_CONFIG.uiMs + 80);
-        }
-        // 动画结束后移除启动层，避免残留遮罩。
-        window.setTimeout(function () {
-          var splash = document.getElementById("splashScreen");
-          if (splash && splash.parentNode) {
-            splash.parentNode.removeChild(splash);
           }
-        }, Math.max(SPLASH_CONFIG.shrinkMs, SPLASH_CONFIG.fadeMs) + 80);
+        }
+
+        function frame(now) {
+          if (startTime === null) {
+            startTime = now;
+          }
+          var t = Math.min((now - startTime) / totalMs, 1);
+          var ei = easeInOut(t);
+          var eo = easeOut(t);
+          // 图标：100% -> 65%（缓入缓出），透明度同步淡出（缓出收尾更柔和）。
+          logo.style.transform = "scale(" + (1 - 0.35 * ei).toFixed(4) + ")";
+          logo.style.opacity = (1 - eo).toFixed(4);
+          // 启动层与图标同轴淡出，结束帧自然归零。
+          splash.style.opacity = (1 - ei).toFixed(4);
+          if (home) {
+            // 首页与图标淡出同轴浮现：0.25 -> 1，位移 12px -> 0。
+            home.style.opacity = (0.25 + 0.75 * eo).toFixed(4);
+            home.style.transform = "translateY(" + (12 * (1 - eo)).toFixed(2) + "px)";
+          }
+          if (t < 1) {
+            window.requestAnimationFrame(frame);
+          } else {
+            finishSplash();
+          }
+        }
+
+        // 兜底：rAF 被系统节流（后台/省电）时也保证完成并释放启动层。
+        window.setTimeout(finishSplash, totalMs + 300);
+        window.requestAnimationFrame(frame);
       }
 
       // 系统开启减少动态效果时，不播放过渡，直接移除启动层。

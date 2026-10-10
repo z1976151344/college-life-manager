@@ -65,7 +65,7 @@ async function runE2e(mode) {
         if (snapshot.splashGone) {
           check('A_splash_visible_early', false, 'splash already removed when inspected');
         } else {
-          check('A_splash_bg_deep_navy', snapshot.bg === 'rgb(16, 24, 32)', 'bg=' + snapshot.bg);
+          check('A_splash_bg_deep_navy', snapshot.bg === 'rgb(20, 30, 39)', 'bg=' + snapshot.bg);
           check('A_splash_logo_512', snapshot.logoSrc === './icons/icon-512.png', snapshot.logoSrc);
         }
         await page.waitForSelector('#splashScreen', { state: 'detached', timeout: 8000 }).catch(() => {});
