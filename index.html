@@ -4181,9 +4181,9 @@
       }
 
       /* ---- 统一的成就计算与解锁入口（幂等：已解锁不重复、经验只发一次） ---- */
-      function processAchievements() {
+      function processAchievements(providedDefinitions) {
         var saved = loadAchievementData();
-        var definitions = getAchievementDefinitions();
+        var definitions = providedDefinitions || getAchievementDefinitions();
         var unlockedNow = [];
 
         definitions.forEach(function (achievement) {
@@ -4340,7 +4340,16 @@
         return snapshots;
       }
 
+      /* 成就定义缓存：同宏任务内多次调用复用结果，任务结束自动失效。 */
+      var achievementDefsCache = null;
+      var achievementDefsCacheActive = false;
+      var achievementDefsCacheTimer = null;
+
       function getAchievementDefinitions() {
+        if (achievementDefsCacheActive && achievementDefsCache) {
+          return achievementDefsCache;
+        }
+        achievementDefsCacheActive = true;
         var monthExpenses = getMonthExpenses(new Date());
         var statistics = calculateStatistics();
         var study = getCategoryBudgetData("学习成长", state.settings.study, monthExpenses);
@@ -4448,7 +4457,7 @@
           return item;
         }
 
-        return [
+        achievementDefsCache = [
           /* ------ 记账习惯 ------ */
           def("accounting_newbie", "🐣", "记账新人", "完成第一笔有效账目", Math.min(1, totalExpenseCount), 1, totalExpenseCount >= 1, { category: "记账习惯", xp: 20, chain: "记账链", tier: 1 }),
           def("accounting_master", "📒", "记账达人", "连续 7 个有效记账日完成记录", Math.min(streak, 7), 7, streak >= 7, { category: "记账习惯", xp: 40, chain: "记账链", tier: 2 }),
@@ -4493,10 +4502,18 @@
           def("detail_finder", "🔍", "细节发现者", "展开成就详情 5 次，发现卡片的更多信息", Math.min(detailOpenCount, 5), 5, detailOpenCount >= 5, { category: "个性化探索", xp: 20, hidden: true, hint: "某个细节功能正在等待你的发现" }),
           def("custom_master", "🖌️", "自定义大师", "完成 3 项个性化设置（主题、收藏、动画、挑战、总结等）", Math.min(personalizeCount, 3), 3, personalizeCount >= 3, { category: "个性化探索", xp: 30, hidden: true, hint: "更多自定义项目正在悄悄成长" })
         ];
+        if (!achievementDefsCacheTimer) {
+          achievementDefsCacheTimer = window.setTimeout(function () {
+            achievementDefsCache = null;
+            achievementDefsCacheActive = false;
+            achievementDefsCacheTimer = null;
+          }, 0);
+        }
+        return achievementDefsCache;
       }
 
-      function checkAchievements() {
-        return processAchievements();
+      function checkAchievements(providedDefinitions) {
+        return processAchievements(providedDefinitions);
       }
 
       function showAchievementUnlock(achievements) {
@@ -4530,13 +4547,13 @@
       }
 
       function renderAchievementHome() {
-        var unlockedNow = checkAchievements();
+        var definitions = getAchievementDefinitions();
+        var unlockedNow = checkAchievements(definitions);
         if (unlockedNow.length > 0) {
           showAchievementUnlock(unlockedNow);
         }
 
         var saved = loadAchievementData();
-        var definitions = getAchievementDefinitions();
         var unlockedDefinitions = definitions.filter(function (achievement) {
           return saved[achievement.id];
         });
@@ -4816,7 +4833,7 @@
       function renderAchievementPage() {
         var saved = loadAchievementData();
         var definitions = getAchievementDefinitions();
-        var justUnlocked = checkAchievements();
+        var justUnlocked = checkAchievements(definitions);
         saved = loadAchievementData();
         var justUnlockedMap = {};
         justUnlocked.forEach(function (achievement) {
@@ -6044,7 +6061,16 @@
         return null;
       }
 
+      /* 统计缓存：同宏任务内多次调用复用结果，任务结束自动失效，保证数据变更后准确。 */
+      var statsCache = null;
+      var statsCacheActive = false;
+      var statsCacheTimer = null;
+
       function calculateStatistics() {
+        if (statsCacheActive && statsCache) {
+          return statsCache;
+        }
+        statsCacheActive = true;
         var now = new Date();
         var todayKey = toDateKey(now);
         var weekStartKey = getWeekStartKey(now);
@@ -6086,7 +6112,7 @@
           }
         });
 
-        return {
+        statsCache = {
           todaySpent: todaySpent,
           weekSpent: weekSpent,
           monthSpent: monthSpent,
@@ -6101,6 +6127,14 @@
           forecastRemaining: forecastRemaining,
           willExceed: forecastTotal > consumableBudget
         };
+        if (!statsCacheTimer) {
+          statsCacheTimer = window.setTimeout(function () {
+            statsCache = null;
+            statsCacheActive = false;
+            statsCacheTimer = null;
+          }, 0);
+        }
+        return statsCache;
       }
 
       function renderCategoryRanking(categoryData) {
