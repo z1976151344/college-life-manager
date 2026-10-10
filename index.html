@@ -1773,6 +1773,45 @@
       will-change: transform, opacity;
     }
 
+    /* V7.0：多层柔化方框 —— 与图标同一视觉中心，随关键帧逐层收敛；
+     * 仅为低对比度细线，无阴影/霓虹/厚重底色，动画结束随启动层一并移除。 */
+    .splash-stage {
+      position: relative;
+      width: 96px;
+      height: 96px;
+    }
+
+    .splash-frame {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      box-sizing: border-box;
+      border: 1px solid rgba(167, 182, 192, 0.16);
+      background: transparent;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      will-change: transform, opacity;
+    }
+
+    .splash-frame[data-frame="1"] { width: 128px; height: 128px; border-radius: 26px; border-color: rgba(167, 182, 192, 0.14); }
+    .splash-frame[data-frame="2"] { width: 164px; height: 164px; border-radius: 30px; border-color: rgba(167, 182, 192, 0.16); }
+    .splash-frame[data-frame="3"] { width: 204px; height: 204px; border-radius: 34px; border-color: rgba(167, 182, 192, 0.15); }
+    .splash-frame[data-frame="4"] { width: 248px; height: 248px; border-radius: 38px; border-color: rgba(167, 182, 192, 0.12); }
+
+    /* V7.0 兜底路径（无 rAF 的极旧环境）：CSS 关键帧实现方框收敛，
+     * 与 .splash-exit 的图标/启动层过渡同刻开始。 */
+    @keyframes splashFrameShrink {
+      from { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+      to { transform: translate(-50%, -50%) scale(0.76); opacity: 0; }
+    }
+
+    .splash-screen.splash-exit .splash-frame {
+      animation: splashFrameShrink 700ms ease-in-out forwards;
+    }
+    .splash-screen.splash-exit .splash-frame[data-frame="2"] { animation-delay: 70ms; }
+    .splash-screen.splash-exit .splash-frame[data-frame="3"] { animation-delay: 140ms; }
+    .splash-screen.splash-exit .splash-frame[data-frame="4"] { animation-delay: 210ms; }
+
     /* V6.7：图标从 100% 平滑缩小至 65% 并淡出，首页同步显现；
      * 背景与首页同为 #101820，淡出无跳色。 */
     .splash-screen.splash-exit {
@@ -2441,7 +2480,13 @@
   <!-- 启动品牌展示（静态，无过渡动画）：正式图标确定后只需替换此图标资源与 SPLASH_CONFIG 停留时长 -->
   <div class="splash-screen" id="splashScreen" aria-hidden="true">
     <div class="splash-content">
-      <img class="splash-logo" id="splashLogo" src="./icons/icon-512.png" width="96" height="96" alt="">
+      <div class="splash-stage">
+        <span class="splash-frame" data-frame="1"></span>
+        <span class="splash-frame" data-frame="2"></span>
+        <span class="splash-frame" data-frame="3"></span>
+        <span class="splash-frame" data-frame="4"></span>
+        <img class="splash-logo" id="splashLogo" src="./icons/icon-512.png" width="96" height="96" alt="">
+      </div>
     </div>
   </div>
   <div class="app">
@@ -3336,11 +3381,21 @@
 
       /* ---------- 启动品牌展示配置：替换正式图标时只需改 HTML/CSS 占位内容与此处停留时长 ---------- */
       var SPLASH_CONFIG = {
-        /* V6.7：启动过渡动画时间轴（稳定 -> 图标缩小+首页显现 -> 移除启动层）。 */
+        /* V7.0：启动过渡动画时间轴（稳定 -> 多层方框收敛 + 图标缩小 + 首页显现 -> 移除启动层）。 */
         stableMs: 120,
-        shrinkMs: 700,
+        /* rAF 主时间轴总时长 */
+        shrinkMs: 1000,
         uiMs: 620,
-        fadeMs: 640
+        fadeMs: 640,
+        /* 多层方框：单层收敛时长与逐层启动时间差 */
+        frameMs: 700,
+        frameGapMs: 70,
+        /* 中央图标开始缩小与首页开始显现的时机/时长 */
+        logoStartMs: 380,
+        logoDurMs: 620,
+        /* 启动层整体淡出（收尾阶段），结束点与总时长对齐 */
+        slideStartMs: 640,
+        slideDurMs: 360
       };
 
       var toastTimer = null;
@@ -7221,6 +7276,13 @@
           return;
         }
         var totalMs = SPLASH_CONFIG.shrinkMs;
+        var frameMs = SPLASH_CONFIG.frameMs;
+        var frameGapMs = SPLASH_CONFIG.frameGapMs;
+        var logoStartMs = SPLASH_CONFIG.logoStartMs;
+        var logoDurMs = SPLASH_CONFIG.logoDurMs;
+        var slideStartMs = SPLASH_CONFIG.slideStartMs;
+        var slideDurMs = SPLASH_CONFIG.slideDurMs;
+        var frameEls = Array.prototype.slice.call(document.querySelectorAll(".splash-frame"));
         var startTime = null;
 
         function easeInOut(t) {
@@ -7229,6 +7291,10 @@
 
         function easeOut(t) {
           return 1 - Math.pow(1 - t, 3);
+        }
+
+        function clamp01(v) {
+          return v < 0 ? 0 : (v > 1 ? 1 : v);
         }
 
         function finishSplash() {
@@ -7251,23 +7317,35 @@
           }
         }
 
+        // V7.0：多层方框收敛 + 图标缩小 + 首页浮现，全部由同一帧循环逐帧插值，
+        // 任一帧被丢弃时各元素仍同相位，保证收敛过程连续无跳变。
         function frame(now) {
           if (startTime === null) {
             startTime = now;
           }
-          var t = Math.min((now - startTime) / totalMs, 1);
-          var ei = easeInOut(t);
-          var eo = easeOut(t);
-          // 图标：100% -> 65%（缓入缓出），透明度同步淡出（缓出收尾更柔和）。
-          logo.style.transform = "scale(" + (1 - 0.35 * ei).toFixed(4) + ")";
-          logo.style.opacity = (1 - eo).toFixed(4);
-          // 启动层与图标同轴淡出，结束帧自然归零。
-          splash.style.opacity = (1 - ei).toFixed(4);
-          if (home) {
-            // 首页与图标淡出同轴浮现：0.25 -> 1，位移 12px -> 0。
-            home.style.opacity = (0.25 + 0.75 * eo).toFixed(4);
-            home.style.transform = "translateY(" + (12 * (1 - eo)).toFixed(2) + "px)";
+          var ms = now - startTime;
+          var t = Math.min(ms / totalMs, 1);
+          // 方框：逐层启动（间隔 frameGapMs），100% -> 76% 缓入缓出收敛并淡出。
+          for (var i = 0; i < frameEls.length; i++) {
+            var fp = clamp01((ms - i * frameGapMs) / frameMs);
+            var fe = easeInOut(fp);
+            frameEls[i].style.transform = "translate(-50%, -50%) scale(" + (1 - 0.24 * fe).toFixed(4) + ")";
+            frameEls[i].style.opacity = (1 - fe).toFixed(4);
           }
+          // 中央图标：前半段保持稳定清晰，后半段轻微缩小（100% -> 65%）并淡出。
+          var lp = clamp01((ms - logoStartMs) / logoDurMs);
+          var le = easeInOut(lp);
+          logo.style.transform = "scale(" + (1 - 0.35 * le).toFixed(4) + ")";
+          logo.style.opacity = (1 - easeOut(lp)).toFixed(4);
+          if (home) {
+            // 首页与图标同轴浮现：0.25 -> 1，位移 12px -> 0。
+            var he = easeOut(lp);
+            home.style.opacity = (0.25 + 0.75 * he).toFixed(4);
+            home.style.transform = "translateY(" + (12 * (1 - he)).toFixed(2) + "px)";
+          }
+          // 启动层收尾淡出：最后几层方框淡出时主页已基本显现。
+          var sp = clamp01((ms - slideStartMs) / slideDurMs);
+          splash.style.opacity = (1 - easeInOut(sp)).toFixed(4);
           if (t < 1) {
             window.requestAnimationFrame(frame);
           } else {
