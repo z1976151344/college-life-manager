@@ -1225,14 +1225,7 @@
       font-weight: 700;
       line-height: 1.55;
       box-shadow: 0 14px 35px rgba(15, 23, 42, 0.18);
-      animation: achievementPop 2s ease;
-    }
-
-    @keyframes achievementPop {
-      0% { opacity: 0; transform: translateY(-12px) scale(0.96); }
-      20% { opacity: 1; transform: translateY(0) scale(1); }
-      80% { opacity: 1; transform: translateY(0) scale(1); }
-      100% { opacity: 0; transform: translateY(-8px) scale(0.98); }
+      /* V6.8：无过渡动画，静态显示/隐藏 */
     }
 
     html[data-theme="dark"] .monthly-keyword {
@@ -1739,31 +1732,11 @@
       height: 96px;
       border-radius: 22px;
       box-shadow: 0 12px 36px rgba(66, 214, 232, 0.16);
-      opacity: 0;
-      transform: scale(0.96);
-      will-change: opacity, transform;
-      animation: splashLogoIn 330ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      /* V6.8：静态展示，无入场动画 */
+      opacity: 1;
     }
 
-    .splash-screen.splash-hide {
-      opacity: 0;
-      transition: opacity 240ms cubic-bezier(0.4, 0, 0.2, 1) 120ms;
-      pointer-events: none;
-    }
-
-    .splash-screen.splash-hide .splash-content {
-      opacity: 0;
-      transform: translateY(-4px) scale(0.975);
-      transition: opacity 280ms cubic-bezier(0.4, 0, 0.2, 1), transform 280ms cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    /* V6.2：首页浮现使用 JS 内联 transition（见启动逻辑），
-     * 避免 CSS 类动画与 .page.active 切换动画冲突导致二次淡入。 */
-
-    @keyframes splashLogoIn {
-      0% { opacity: 0; transform: scale(0.96); }
-      100% { opacity: 1; transform: scale(1); }
-    }
+    /* V6.8：取消启动过渡动画，启动层静态展示后直接移除；首页无浮现动画。 */
 
     @media (prefers-reduced-motion: reduce) {
       .splash-screen {
@@ -1832,11 +1805,6 @@
     .achievement-item {
       position: relative;
       cursor: pointer;
-      transition: border-color 160ms ease, background 160ms ease;
-    }
-
-    .achievement-item:active {
-      transform: scale(0.995);
     }
 
     .achievement-item-icon {
@@ -1873,22 +1841,10 @@
     .achievement-item.just-unlocked {
       border-color: #fbbf24;
       background: #fffbeb;
-      animation: achievementFlash 900ms ease;
-    }
-
-    @keyframes achievementFlash {
-      0% { background: #fef3c7; }
-      100% { background: #fffbeb; }
     }
 
     .achievement-item.just-unlocked .achievement-item-icon {
-      animation: achievementIconPop 500ms ease;
-    }
-
-    @keyframes achievementIconPop {
-      0% { transform: scale(0.8); opacity: 0.4; }
-      60% { transform: scale(1.12); }
-      100% { transform: scale(1); opacity: 1; }
+      /* V6.8：无过渡动画 */
     }
 
     .achievement-item-detail {
@@ -1963,16 +1919,7 @@
     }
 
     /* ---------- V6.0 成就成长系统：等级、挑战、时间线与收藏展示 ---------- */
-    /* 首页初始呈现由启动过渡（内联 transition）控制，不参与 pageFadeIn，
-     * 否则页面切换动画会覆盖启动浮现效果；其余页面切换动画保持不变。 */
-    .page.active:not(#homePage) {
-      animation: pageFadeIn 240ms ease;
-    }
-
-    @keyframes pageFadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    /* V6.8：无页面切换过渡动画，页面直接切换。 */
 
     .review-actions {
       display: flex;
@@ -2024,7 +1971,6 @@
       height: 100%;
       border-radius: 999px;
       background: linear-gradient(90deg, #42d6e8, #32d6a0);
-      transition: width 300ms ease;
       width: 0;
     }
 
@@ -2372,7 +2318,7 @@
     }
   </style></head>
 <body>
-  <!-- 启动过渡动画（占位结构）：正式图标确定后只需替换图标资源、名称与 SPLASH_CONFIG 参数 -->
+  <!-- 启动品牌展示（静态，无过渡动画）：正式图标确定后只需替换此图标资源与 SPLASH_CONFIG 停留时长 -->
   <div class="splash-screen" id="splashScreen" aria-hidden="true">
     <div class="splash-content">
       <img class="splash-logo" id="splashLogo" src="./icons/icon-512.png" width="96" height="96" alt="">
@@ -3256,10 +3202,10 @@
         budgetEditStart: null
       };
 
-      /* ---------- 启动过渡动画配置：替换正式图标时只需改 HTML/CSS 占位内容与此处时长 ---------- */
+      /* ---------- 启动品牌展示配置：替换正式图标时只需改 HTML/CSS 占位内容与此处停留时长 ---------- */
       var SPLASH_CONFIG = {
-        showMs: 420,
-        fadeMs: 240
+        /* V6.8：静态品牌展示停留时长，结束后直接移除进入首页（无过渡动画）。 */
+        showMs: 450
       };
 
       var toastTimer = null;
@@ -7080,7 +7026,9 @@
       }
       // 兜底：rAF 被系统节流/暂停时也能完成首页初始化。
       window.setTimeout(bootRenderHome, 300);
-      // 启动过渡动画：与首页渲染并行计时，结束后自动移除占位层；系统减少动态效果时直接跳过。
+      // V6.8：启动层静态展示品牌图标与深色主题，停留结束后直接移除进入首页，
+      // 无入场/退场/浮现动画；首页渲染已并行完成，背景同色无闪跳。
+      // 系统开启减少动态效果时，不展示品牌画面，直接移除启动层。
       if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         var splashFast = document.getElementById("splashScreen");
         if (splashFast && splashFast.parentNode) {
@@ -7089,36 +7037,10 @@
       } else {
         window.setTimeout(function () {
           var splash = document.getElementById("splashScreen");
-          if (splash) {
-            splash.classList.add("splash-hide");
-          }
-          // V6.2：首页以低透明度+轻位移浮现，与 Logo 退出重叠。
-          // 使用内联 transition 而非 CSS 类动画，避免切换回 .page.active 动画时二次淡入。
-          // 起始状态先渲染一帧（双 rAF），确保 Chrome 记录过渡起点。
-          var home = document.getElementById("homePage");
-          if (home) {
-            home.style.opacity = "0.4";
-            home.style.transform = "translateY(10px) scale(0.985)";
-            window.requestAnimationFrame(function () {
-              window.requestAnimationFrame(function () {
-                home.style.transition = "opacity 300ms cubic-bezier(0.22, 1, 0.36, 1) 100ms, transform 300ms cubic-bezier(0.22, 1, 0.36, 1) 100ms";
-                home.style.opacity = "1";
-                home.style.transform = "translateY(0) scale(1)";
-              });
-            });
-            window.setTimeout(function () {
-              home.style.transition = "";
-              home.style.opacity = "";
-              home.style.transform = "";
-            }, SPLASH_CONFIG.showMs + 480);
-          }
-        }, SPLASH_CONFIG.showMs);
-        window.setTimeout(function () {
-          var splash = document.getElementById("splashScreen");
           if (splash && splash.parentNode) {
             splash.parentNode.removeChild(splash);
           }
-        }, SPLASH_CONFIG.showMs + SPLASH_CONFIG.fadeMs + 260);
+        }, SPLASH_CONFIG.showMs);
       }
     })();
   </script>
